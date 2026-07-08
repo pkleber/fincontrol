@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FinControl — Dashboard</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/variaveis.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/componentes.css" />
+  </head>
+  <body>
+    <div class="app">
+      <!-- Menu lateral -->
+      <aside class="sidebar">
+        <h1 class="sidebar__logo">Fin<span>Control</span></h1>
+        <nav class="sidebar__nav" aria-label="Menu principal">
+          <ul>
+            <li><a href="index.html" class="ativo">Dashboard</a></li>
+            <li><a href="pages/transacoes.html">Transações</a></li>
+            <li><a href="pages/contas.html">Contas &amp; Cartões</a></li>
+            <li><a href="pages/metas.html">Metas &amp; Orçamento</a></li>
+            <li><a href="pages/investimentos.html">Investimentos</a></li>
+            <li><a href="pages/relatorios.html">Relatórios</a></li>
+            <li><a href="pages/configuracoes.html">Configurações</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- Conteúdo principal -->
+      <main class="conteudo">
+        <header class="conteudo__header">
+          <h2>Dashboard</h2>
+          <p class="conteudo__mes" id="mes-atual"><!-- preenchido via JS --></p>
+        </header>
+
+        <!-- Resumo do mês -->
+        <section class="resumo" aria-label="Resumo do mês">
+          <article class="card card--receita">
+            <h3>Receitas</h3>
+            <p class="card__valor" id="total-receitas">R$ 0,00</p>
+          </article>
+          <article class="card card--despesa">
+            <h3>Despesas</h3>
+            <p class="card__valor" id="total-despesas">R$ 0,00</p>
+          </article>
+          <article class="card card--saldo">
+            <h3>Saldo</h3>
+            <p class="card__valor" id="saldo-mes">R$ 0,00</p>
+          </article>
+        </section>
+
+        <!-- Últimas transações -->
+        <section class="ultimas" aria-label="Últimas transações">
+          <h3>Últimas transações</h3>
+          <ul id="lista-ultimas" class="ultimas__lista">
+            <li class="ultimas__vazio">
+              Nenhuma transação registrada ainda. Comece adicionando a primeira!
+            </li>
+          </ul>
+        </section>
+      </main>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

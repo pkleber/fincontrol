@@ -1,0 +1,62 @@
+/* =========================================================
+   Componentes — cards, listas, botões
+   ========================================================= */
+
+/* ---------- Cards de resumo ---------- */
+.resumo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--esp-2);
+  margin-bottom: var(--esp-4);
+}
+
+.card {
+  background-color: var(--cor-superficie);
+  border-radius: var(--raio);
+  padding: var(--esp-3);
+  box-shadow: var(--sombra);
+  border-top: 4px solid var(--cor-borda);
+}
+
+.card h3 {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--cor-texto-suave);
+  margin-bottom: var(--esp-1);
+}
+
+.card__valor {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.card--receita { border-top-color: var(--cor-receita); }
+.card--despesa { border-top-color: var(--cor-despesa); }
+.card--saldo   { border-top-color: var(--cor-primaria); }
+
+/* ---------- Últimas transações ---------- */
+.ultimas h3 {
+  margin-bottom: var(--esp-2);
+}
+
+.ultimas__lista {
+  background-color: var(--cor-superficie);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra);
+  overflow: hidden;
+}
+
+.ultimas__lista li {
+  padding: var(--esp-2) var(--esp-3);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.ultimas__lista li:last-child {
+  border-bottom: none;
+}
+
+.ultimas__vazio {
+  color: var(--cor-texto-suave);
+  text-align: center;
+}

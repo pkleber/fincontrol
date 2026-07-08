@@ -1,0 +1,74 @@
+/* =========================================================
+   Layout geral — sidebar fixa + área de conteúdo
+   ========================================================= */
+.app {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  min-height: 100vh;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  background-color: var(--cor-primaria);
+  color: #ffffff;
+  padding: var(--esp-3) var(--esp-2);
+}
+
+.sidebar__logo {
+  font-size: 1.4rem;
+  margin-bottom: var(--esp-4);
+  font-weight: 700;
+}
+
+.sidebar__logo span {
+  font-weight: 300;
+  opacity: 0.85;
+}
+
+.sidebar__nav a {
+  display: block;
+  padding: var(--esp-1) var(--esp-2);
+  border-radius: var(--raio);
+  margin-bottom: 4px;
+  opacity: 0.8;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.sidebar__nav a:hover,
+.sidebar__nav a.ativo {
+  background-color: rgba(255, 255, 255, 0.12);
+  opacity: 1;
+}
+
+/* ---------- Conteúdo ---------- */
+.conteudo {
+  padding: var(--esp-4);
+}
+
+.conteudo__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: var(--esp-3);
+}
+
+.conteudo__mes {
+  color: var(--cor-texto-suave);
+}
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 720px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    padding: var(--esp-2);
+  }
+
+  .sidebar__nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+}

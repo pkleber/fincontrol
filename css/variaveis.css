@@ -1,0 +1,34 @@
+/* =========================================================
+   FinControl — Design Tokens
+   Paleta: verde-petróleo profundo (confiança/finanças),
+   fundo claro neutro frio e semânticas de receita/despesa.
+   ========================================================= */
+:root {
+  /* Cores base */
+  --cor-primaria: #0f4c5c;        /* verde-petróleo — identidade do app */
+  --cor-primaria-escura: #0a3641;  /* hover e detalhes da sidebar */
+  --cor-fundo: #f2f5f7;           /* cinza-azulado bem claro */
+  --cor-superficie: #ffffff;      /* cards e painéis */
+  --cor-texto: #1c2b33;
+  --cor-texto-suave: #5c6f7a;
+  --cor-borda: #dde5e9;
+
+  /* Semânticas */
+  --cor-receita: #1f7a5c;         /* verde receita */
+  --cor-despesa: #b3403f;         /* vermelho despesa */
+  --cor-alerta: #c98a1b;          /* âmbar — orçamento perto do limite */
+
+  /* Tipografia */
+  --fonte-corpo: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --fonte-titulo: "Segoe UI Semibold", system-ui, sans-serif;
+
+  /* Espaçamentos */
+  --esp-1: 0.5rem;   /*  8px */
+  --esp-2: 1rem;     /* 16px */
+  --esp-3: 1.5rem;   /* 24px */
+  --esp-4: 2rem;     /* 32px */
+
+  /* Outros */
+  --raio: 10px;
+  --sombra: 0 1px 4px rgba(15, 76, 92, 0.10);
+}

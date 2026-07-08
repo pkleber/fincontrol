@@ -1,0 +1,14 @@
+# Sistema operacional
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Editor
+.vscode/
+
+# Dependências (caso use npm no futuro)
+node_modules/
+
+# Arquivos temporários
+*.log
+*.tmp
