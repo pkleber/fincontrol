@@ -60,3 +60,120 @@
   color: var(--cor-texto-suave);
   text-align: center;
 }
+
+/* ---------- Painel genérico ---------- */
+.painel {
+  background-color: var(--cor-superficie);
+  border-radius: var(--raio);
+  padding: var(--esp-3);
+  box-shadow: var(--sombra);
+  margin-bottom: var(--esp-3);
+}
+
+.painel h3 {
+  margin-bottom: var(--esp-2);
+}
+
+.painel__cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--esp-2);
+  margin-bottom: var(--esp-2);
+}
+
+/* ---------- Formulário ---------- */
+.formulario {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--esp-2);
+  align-items: end;
+}
+
+.formulario__grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.formulario__grupo--largo {
+  grid-column: span 2;
+}
+
+.formulario label {
+  font-size: 0.85rem;
+  color: var(--cor-texto-suave);
+}
+
+.formulario input,
+.formulario select {
+  padding: var(--esp-1);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  background-color: var(--cor-fundo);
+}
+
+.formulario input:focus,
+.formulario select:focus {
+  outline: 2px solid var(--cor-primaria);
+  outline-offset: 1px;
+}
+
+/* ---------- Botões ---------- */
+.botao {
+  padding: var(--esp-1) var(--esp-2);
+  border: none;
+  border-radius: var(--raio);
+  background-color: var(--cor-primaria);
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.botao:hover {
+  background-color: var(--cor-primaria-escura);
+}
+
+.botao--excluir {
+  background-color: transparent;
+  color: var(--cor-texto-suave);
+  padding: 4px 8px;
+}
+
+.botao--excluir:hover {
+  background-color: var(--cor-despesa);
+  color: #ffffff;
+}
+
+/* ---------- Tabela ---------- */
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabela th,
+.tabela td {
+  padding: var(--esp-1) var(--esp-2);
+  text-align: left;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.tabela th {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--cor-texto-suave);
+}
+
+.tabela__valor {
+  text-align: right;
+}
+
+.valor--receita { color: var(--cor-receita); font-weight: 600; }
+.valor--despesa { color: var(--cor-despesa); font-weight: 600; }
+
+/* ---------- Itens de últimas transações ---------- */
+.ultimas__item {
+  display: flex;
+  justify-content: space-between;
+}

@@ -3,16 +3,100 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FinControl — transacoes</title>
+  <title>FinControl — Transações</title>
   <link rel="stylesheet" href="../css/reset.css" />
   <link rel="stylesheet" href="../css/variaveis.css" />
   <link rel="stylesheet" href="../css/layout.css" />
   <link rel="stylesheet" href="../css/componentes.css" />
 </head>
 <body>
-  <main class="conteudo">
-    <h2>Página em construção: transacoes</h2>
-    <p><a href="../index.html">← Voltar ao Dashboard</a></p>
-  </main>
+  <div class="app">
+
+    <aside class="sidebar">
+      <h1 class="sidebar__logo">Fin<span>Control</span></h1>
+      <nav class="sidebar__nav" aria-label="Menu principal">
+        <ul>
+          <li><a href="../index.html">Dashboard</a></li>
+          <li><a href="transacoes.html" class="ativo">Transações</a></li>
+          <li><a href="contas.html">Contas &amp; Cartões</a></li>
+          <li><a href="metas.html">Metas &amp; Orçamento</a></li>
+          <li><a href="investimentos.html">Investimentos</a></li>
+          <li><a href="relatorios.html">Relatórios</a></li>
+          <li><a href="configuracoes.html">Configurações</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="conteudo">
+      <header class="conteudo__header">
+        <h2>Transações</h2>
+      </header>
+
+      <!-- Formulário de nova transação -->
+      <section class="painel" aria-label="Nova transação">
+        <h3>Nova transação</h3>
+        <form id="form-transacao" class="formulario">
+          <div class="formulario__grupo">
+            <label for="campo-tipo">Tipo</label>
+            <select id="campo-tipo" required>
+              <option value="despesa">Despesa</option>
+              <option value="receita">Receita</option>
+            </select>
+          </div>
+
+          <div class="formulario__grupo formulario__grupo--largo">
+            <label for="campo-descricao">Descrição</label>
+            <input type="text" id="campo-descricao" placeholder="Ex.: Supermercado" required />
+          </div>
+
+          <div class="formulario__grupo">
+            <label for="campo-valor">Valor (R$)</label>
+            <input type="number" id="campo-valor" min="0.01" step="0.01" placeholder="0,00" required />
+          </div>
+
+          <div class="formulario__grupo">
+            <label for="campo-data">Data</label>
+            <input type="date" id="campo-data" required />
+          </div>
+
+          <div class="formulario__grupo">
+            <label for="campo-categoria">Categoria</label>
+            <select id="campo-categoria" required></select>
+          </div>
+
+          <button type="submit" class="botao">Adicionar transação</button>
+        </form>
+      </section>
+
+      <!-- Lista de transações do mês -->
+      <section class="painel" aria-label="Transações do mês">
+        <div class="painel__cabecalho">
+          <h3>Transações do mês</h3>
+          <input type="month" id="filtro-mes" aria-label="Filtrar por mês" />
+        </div>
+
+        <table class="tabela">
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Descrição</th>
+              <th>Categoria</th>
+              <th class="tabela__valor">Valor</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="corpo-tabela">
+            <!-- preenchido via JS -->
+          </tbody>
+        </table>
+        <p id="tabela-vazia" class="ultimas__vazio" hidden>Nenhuma transação neste mês.</p>
+      </section>
+    </main>
+
+  </div>
+
+  <script src="../js/utils.js"></script>
+  <script src="../js/storage.js"></script>
+  <script src="../js/transacoes.js"></script>
 </body>
 </html>
