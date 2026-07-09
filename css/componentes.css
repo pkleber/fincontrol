@@ -177,3 +177,37 @@
   display: flex;
   justify-content: space-between;
 }
+
+/* ---------- Ações do formulário (salvar/cancelar) ---------- */
+.formulario__acoes {
+  display: flex;
+  gap: var(--esp-1);
+}
+
+.botao--secundario {
+  background-color: transparent;
+  color: var(--cor-texto-suave);
+  border: 1px solid var(--cor-borda);
+}
+
+.botao--secundario:hover {
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+}
+
+/* ---------- Botão de editar na tabela ---------- */
+.tabela__acoes {
+  white-space: nowrap;
+  text-align: right;
+}
+
+.botao--editar {
+  background-color: transparent;
+  color: var(--cor-texto-suave);
+  padding: 4px 8px;
+}
+
+.botao--editar:hover {
+  background-color: var(--cor-primaria);
+  color: #ffffff;
+}

@@ -1,5 +1,6 @@
 /* =========================================================
    transacoes.js — CRUD de transações (Fase 1)
+   Criar, listar, editar e excluir transações.
    ========================================================= */
 
 // Categorias pré-definidas (Fase 1 — depois virão das Configurações)
@@ -25,6 +26,11 @@ const campoCategoria = document.getElementById("campo-categoria");
 const corpoTabela = document.getElementById("corpo-tabela");
 const tabelaVazia = document.getElementById("tabela-vazia");
 const filtroMes = document.getElementById("filtro-mes");
+const botaoSalvar = document.getElementById("botao-salvar");
+const botaoCancelar = document.getElementById("botao-cancelar");
+
+// Guarda o id da transação em edição (null = modo "adicionar")
+let idEmEdicao = null;
 
 // ---------- Funções ----------
 
@@ -68,35 +74,75 @@ function renderizarTabela() {
       <td>${t.descricao}</td>
       <td>${nomeCategoria(t.categoriaId)}</td>
       <td class="tabela__valor ${classeValor}">${sinal} ${formatarMoeda(t.valor)}</td>
-      <td><button class="botao botao--excluir" data-id="${t.id}" aria-label="Excluir ${t.descricao}">✕</button></td>
+      <td class="tabela__acoes">
+        <button class="botao botao--editar" data-id="${t.id}" aria-label="Editar ${t.descricao}">✎</button>
+        <button class="botao botao--excluir" data-id="${t.id}" aria-label="Excluir ${t.descricao}">✕</button>
+      </td>
     `;
     corpoTabela.appendChild(linha);
   });
 }
 
-/** Adiciona uma nova transação a partir do formulário */
-function adicionarTransacao(evento) {
+/** Coloca o formulário em modo de edição, preenchendo com a transação */
+function iniciarEdicao(id) {
+  const transacao = lerLista(STORAGE_CHAVES.transacoes).find((t) => t.id === id);
+  if (!transacao) return;
+
+  idEmEdicao = id;
+  campoTipo.value = transacao.tipo;
+  atualizarCategorias(); // recarrega as categorias do tipo antes de selecionar
+  campoDescricao.value = transacao.descricao;
+  campoValor.value = transacao.valor;
+  campoData.value = transacao.data;
+  campoCategoria.value = transacao.categoriaId;
+
+  botaoSalvar.textContent = "Salvar alterações";
+  botaoCancelar.hidden = false;
+  campoDescricao.focus();
+}
+
+/** Sai do modo de edição e volta ao modo "adicionar" */
+function cancelarEdicao() {
+  idEmEdicao = null;
+  form.reset();
+  definirDatasPadrao();
+  atualizarCategorias();
+  botaoSalvar.textContent = "Adicionar transação";
+  botaoCancelar.hidden = true;
+}
+
+/** Salva o formulário: adiciona nova transação ou atualiza a em edição */
+function salvarTransacao(evento) {
   evento.preventDefault();
 
-  const nova = {
-    id: gerarId(),
+  const dados = {
     tipo: campoTipo.value,
     descricao: campoDescricao.value.trim(),
     valor: parseFloat(campoValor.value),
     data: campoData.value,
     categoriaId: campoCategoria.value,
-    contaId: null,
-    cartaoId: null,
-    recorrente: false,
   };
 
   const transacoes = lerLista(STORAGE_CHAVES.transacoes);
-  transacoes.push(nova);
-  salvarLista(STORAGE_CHAVES.transacoes, transacoes);
 
-  form.reset();
-  definirDatasPadrao();
-  atualizarCategorias();
+  if (idEmEdicao) {
+    // Atualiza a transação existente, preservando os demais campos
+    const indice = transacoes.findIndex((t) => t.id === idEmEdicao);
+    if (indice !== -1) {
+      transacoes[indice] = { ...transacoes[indice], ...dados };
+    }
+  } else {
+    transacoes.push({
+      id: gerarId(),
+      ...dados,
+      contaId: null,
+      cartaoId: null,
+      recorrente: false,
+    });
+  }
+
+  salvarLista(STORAGE_CHAVES.transacoes, transacoes);
+  cancelarEdicao(); // limpa o formulário e volta ao modo padrão
   renderizarTabela();
 }
 
@@ -104,25 +150,33 @@ function adicionarTransacao(evento) {
 function excluirTransacao(id) {
   const transacoes = lerLista(STORAGE_CHAVES.transacoes).filter((t) => t.id !== id);
   salvarLista(STORAGE_CHAVES.transacoes, transacoes);
+  if (id === idEmEdicao) cancelarEdicao(); // evita editar algo que não existe mais
   renderizarTabela();
 }
 
 /** Define a data de hoje no formulário e o mês atual no filtro */
 function definirDatasPadrao() {
-  const hoje = new Date().toISOString().slice(0, 10); // "2026-07-07"
+  const hoje = new Date().toISOString().slice(0, 10); // "2026-07-08"
   campoData.value = hoje;
   if (!filtroMes.value) filtroMes.value = hoje.slice(0, 7); // "2026-07"
 }
 
 // ---------- Eventos ----------
 campoTipo.addEventListener("change", atualizarCategorias);
-form.addEventListener("submit", adicionarTransacao);
+form.addEventListener("submit", salvarTransacao);
+botaoCancelar.addEventListener("click", cancelarEdicao);
 filtroMes.addEventListener("change", renderizarTabela);
 
 corpoTabela.addEventListener("click", (evento) => {
-  const botao = evento.target.closest(".botao--excluir");
-  if (botao && confirm("Excluir esta transação?")) {
-    excluirTransacao(botao.dataset.id);
+  const editar = evento.target.closest(".botao--editar");
+  if (editar) {
+    iniciarEdicao(editar.dataset.id);
+    return;
+  }
+
+  const excluir = evento.target.closest(".botao--excluir");
+  if (excluir && confirm("Excluir esta transação?")) {
+    excluirTransacao(excluir.dataset.id);
   }
 });
 
