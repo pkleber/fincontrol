@@ -1,69 +1,128 @@
 <!doctype html>
 <html lang="pt-BR">
+  <!-- O atributo lang="pt-BR" indica que o conteúdo da página está em português do Brasil. -->
   <head>
+    <!-- O elemento <head> contém metadados sobre o documento, como título, links para arquivos CSS e scripts. -->
     <meta charset="UTF-8" />
+    <!-- O atributo charset="UTF-8" define a codificação de caracteres do documento como UTF-8, que suporta uma ampla gama de caracteres. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- O atributo name="viewport" e content="width=device-width, initial-scale=1.0" garantem que a página seja responsiva, ajustando-se à largura da tela do dispositivo. -->
     <title>FinControl — Dashboard</title>
+    <!-- O elemento <title> define o título da página, que aparece na aba do navegador. -->
     <link rel="stylesheet" href="css/reset.css" />
+    <!-- O link para o arquivo reset.css é usado para redefinir estilos padrão do navegador, garantindo consistência visual entre diferentes navegadores. -->
     <link rel="stylesheet" href="css/variaveis.css" />
+    <!-- O link para o arquivo variaveis.css contém variáveis CSS que podem ser reutilizadas em todo o projeto, facilitando a manutenção e consistência do design. -->
     <link rel="stylesheet" href="css/layout.css" />
+    <!-- O link para o arquivo layout.css define a estrutura e o layout geral da página, incluindo posicionamento de elementos e espaçamento. -->
     <link rel="stylesheet" href="css/componentes.css" />
+    <!-- O link para o arquivo componentes.css contém estilos específicos para componentes individuais da interface, como botões, cards e menus. -->
   </head>
+  <!-- O elemento <head> é fechado aqui, e o conteúdo visível da página começa no elemento <body>. -->
   <body>
+    <!-- O elemento <body> contém todo o conteúdo visível da página, incluindo texto, imagens, links e outros elementos interativos. -->
     <div class="app">
+      <!-- O elemento <div> com a classe "app" serve como contêiner principal para toda a aplicação, agrupando o menu lateral e o conteúdo principal. -->
       <!-- Menu lateral -->
       <aside class="sidebar">
+        <!-- O elemento <aside> com a classe "sidebar" representa o menu lateral da aplicação, que contém links de navegação para diferentes seções. -->
         <h1 class="sidebar__logo">Fin<span>Control</span></h1>
+        <!-- O elemento <h1> com a classe "sidebar__logo" exibe o nome da aplicação, com a palavra "Control" destacada dentro de uma tag <span>. -->
         <nav class="sidebar__nav" aria-label="Menu principal">
+          <!-- O elemento <nav> com a classe "sidebar__nav" contém os links de navegação do menu lateral, e o atributo aria-label="Menu principal" fornece uma descrição acessível para leitores de tela. -->
           <ul>
+            <!-- O elemento <ul> representa uma lista não ordenada de links de navegação. -->
             <li><a href="index.html" class="ativo">Dashboard</a></li>
+            <!-- O elemento <li> representa um item da lista, e o link <a> com a classe "ativo" indica que a página atual é o Dashboard. -->
             <li><a href="pages/transacoes.html">Transações</a></li>
+            <!-- O elemento <li> representa outro item da lista, e o link <a> leva à página de transações. -->
             <li><a href="pages/contas.html">Contas &amp; Cartões</a></li>
+            <!-- O elemento <li> representa outro item da lista, e o link <a> leva à página de contas e cartões. -->
             <li><a href="pages/metas.html">Metas &amp; Orçamento</a></li>
+            <!-- O elemento <li> representa outro item da lista, e o link <a> leva à página de metas e orçamento. -->
             <li><a href="pages/investimentos.html">Investimentos</a></li>
+            <!-- O elemento <li> representa outro item da lista, e o link <a> leva à página de investimentos. -->
             <li><a href="pages/relatorios.html">Relatórios</a></li>
+            <!-- O elemento <li> representa outro item da lista, e o link <a> leva à página de relatórios. -->
             <li><a href="pages/configuracoes.html">Configurações</a></li>
+            <!-- O elemento <li> representa outro item da lista, e o link <a> leva à página de configurações. -->
           </ul>
+          <!-- O elemento <ul> é fechado aqui, encerrando a lista de links de navegação. -->
         </nav>
+        <!-- O elemento <nav> é fechado aqui, encerrando a seção de navegação do menu lateral. -->
       </aside>
+      <!-- O elemento <aside> é fechado aqui, encerrando o menu lateral da aplicação. -->
 
       <!-- Conteúdo principal -->
       <main class="conteudo">
+        <!-- O elemento <main> com a classe "conteudo" representa a área principal da aplicação, onde o conteúdo dinâmico é exibido. -->
         <header class="conteudo__header">
+          <!-- O elemento <header> com a classe "conteudo__header" contém o cabeçalho da área principal, incluindo o título e informações do mês atual. -->
           <h2>Dashboard</h2>
+          <!-- O elemento <h2> exibe o título da página, indicando que o usuário está na seção de Dashboard. -->
           <p class="conteudo__mes" id="mes-atual"><!-- preenchido via JS --></p>
+          <!-- O elemento <p> com a classe "conteudo__mes" e o id "mes-atual" será preenchido dinamicamente via JavaScript para exibir o mês atual. -->
         </header>
+        <!-- O elemento <header> é fechado aqui, encerrando o cabeçalho da área principal. -->
 
         <!-- Resumo do mês -->
         <section class="resumo" aria-label="Resumo do mês">
+          <!-- O elemento <section> com a classe "resumo" representa uma seção da página que exibe um resumo financeiro do mês, e o atributo aria-label="Resumo do mês" fornece uma descrição acessível para leitores de tela. -->
           <article class="card card--receita">
+            <!-- O elemento <article> com a classe "card card--receita" representa um cartão que exibe o total de receitas do mês. -->
             <h3>Receitas</h3>
+            <!-- O elemento <h3> exibe o título do cartão, indicando que ele mostra informações sobre receitas. -->
             <p class="card__valor" id="total-receitas">R$ 0,00</p>
+            <!-- O elemento <p> com a classe "card__valor" e o id "total-receitas" será preenchido dinamicamente via JavaScript para exibir o valor total de receitas do mês. -->
           </article>
+          <!-- O elemento <article> é fechado aqui, encerrando o cartão de receitas. -->
           <article class="card card--despesa">
+            <!-- O elemento <article> com a classe "card card--despesa" representa um cartão que exibe o total de despesas do mês. -->
             <h3>Despesas</h3>
+            <!-- O elemento <h3> exibe o título do cartão, indicando que ele mostra informações sobre despesas. -->
             <p class="card__valor" id="total-despesas">R$ 0,00</p>
+            <!-- O elemento <p> com a classe "card__valor" e o id "total-despesas" será preenchido dinamicamente via JavaScript para exibir o valor total de despesas do mês. -->
           </article>
+          <!-- O elemento <article> é fechado aqui, encerrando o cartão de despesas. -->
           <article class="card card--saldo">
+            <!-- O elemento <article> com a classe "card card--saldo" representa um cartão que exibe o saldo do mês, calculado como a diferença entre receitas e despesas. -->
             <h3>Saldo</h3>
+            <!-- O elemento <h3> exibe o título do cartão, indicando que ele mostra informações sobre o saldo do mês. -->
             <p class="card__valor" id="saldo-mes">R$ 0,00</p>
+            <!-- O elemento <p> com a classe "card__valor" e o id "saldo-mes" será preenchido dinamicamente via JavaScript para exibir o saldo do mês. -->
           </article>
+          <!-- O elemento <article> é fechado aqui, encerrando o cartão de saldo. -->
         </section>
+        <!-- O elemento <section> é fechado aqui, encerrando a seção de resumo do mês. -->
 
         <!-- Últimas transações -->
         <section class="ultimas" aria-label="Últimas transações">
+          <!-- O elemento <section> com a classe "ultimas" representa uma seção da página que exibe as últimas transações registradas, e o atributo aria-label="Últimas transações" fornece uma descrição acessível para leitores de tela. -->
           <h3>Últimas transações</h3>
+          <!-- O elemento <h3> exibe o título da seção, indicando que ela mostra as últimas transações registradas. -->
           <ul id="lista-ultimas" class="ultimas__lista">
+            <!-- O elemento <ul> com o id "lista-ultimas" e a classe "ultimas__lista" representa uma lista não ordenada que será preenchida dinamicamente via JavaScript com as últimas transações registradas. -->
             <li class="ultimas__vazio">
+              <!-- O elemento <li> com a classe "ultimas__vazio" é exibido quando não há transações registradas, informando ao usuário que ele pode começar a adicionar transações. -->
               Nenhuma transação registrada ainda. Comece adicionando a primeira!
             </li>
+            <!-- O elemento <li> é fechado aqui, encerrando a mensagem de ausência de transações. -->
           </ul>
+          <!-- O elemento <ul> é fechado aqui, encerrando a lista de últimas transações. -->
         </section>
+        <!-- O elemento <section> é fechado aqui, encerrando a seção de últimas transações. -->
       </main>
+      <!-- O elemento <main> é fechado aqui, encerrando a área principal da aplicação. -->
     </div>
+    <!-- O elemento <div> com a classe "app" é fechado aqui, encerrando o contêiner principal da aplicação. -->
 
     <script src="js/utils.js"></script>
+    <!-- O script utils.js contém funções utilitárias que podem ser usadas em diferentes partes da aplicação, como formatação de valores e datas. -->
     <script src="js/storage.js"></script>
+    <!-- O script storage.js gerencia o armazenamento de dados da aplicação, como transações, receitas e despesas, utilizando o localStorage do navegador. -->
     <script src="js/app.js"></script>
+    <!-- O script app.js contém a lógica principal da aplicação, incluindo a manipulação do DOM, eventos de usuário e atualização dos dados exibidos na interface. -->
   </body>
+  <!-- O elemento <body> é fechado aqui, encerrando todo o conteúdo visível da página. -->
 </html>
+<!-- O elemento <html> é fechado aqui, encerrando o documento HTML. -->
