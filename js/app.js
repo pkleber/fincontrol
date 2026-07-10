@@ -27,6 +27,18 @@ document.addEventListener("DOMContentLoaded", () => {
   saldoEl.textContent = formatarMoeda(saldo);
   saldoEl.classList.toggle("negativo", saldo < 0);
 
+  // Gráfico de despesas por categoria (Fase 2)
+  const temDespesas = doMes.some((t) => t.tipo === "despesa");
+  const graficoVazio = document.getElementById("grafico-vazio");
+  if (typeof Chart !== "undefined" && document.getElementById("grafico-categorias")) {
+    if (temDespesas) {
+      graficoDespesasPorCategoria("grafico-categorias", doMes);
+    } else {
+      document.querySelector(".grafico-container").hidden = true;
+      graficoVazio.hidden = false;
+    }
+  }
+
   // Últimas 5 transações
   const lista = document.getElementById("lista-ultimas");
   const ultimas = [...transacoes]

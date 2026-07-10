@@ -293,3 +293,39 @@
     animation: none !important;
   }
 }
+
+/* =========================================================
+   Fase 2 — gráficos e relatórios
+   ========================================================= */
+
+/* Container do canvas: altura fixa para o Chart.js responsivo */
+.grafico-container {
+  position: relative;
+  height: 300px;
+}
+
+/* Filtro de período dos relatórios */
+.filtro-periodo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2);
+  align-items: end;
+}
+
+.filtro-periodo input {
+  padding: var(--esp-1);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  background-color: var(--cor-fundo);
+}
+
+@media (max-width: 720px) {
+  .grafico-container {
+    height: 240px;
+  }
+
+  .filtro-periodo {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

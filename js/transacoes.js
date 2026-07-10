@@ -3,19 +3,6 @@
    Criar, listar, editar e excluir transações.
    ========================================================= */
 
-// Categorias pré-definidas (Fase 1 — depois virão das Configurações)
-const CATEGORIAS = [
-  { id: "cat-alimentacao", nome: "Alimentação", tipo: "despesa" },
-  { id: "cat-moradia",     nome: "Moradia",     tipo: "despesa" },
-  { id: "cat-transporte",  nome: "Transporte",  tipo: "despesa" },
-  { id: "cat-lazer",       nome: "Lazer",       tipo: "despesa" },
-  { id: "cat-saude",       nome: "Saúde",       tipo: "despesa" },
-  { id: "cat-outros-desp", nome: "Outros",      tipo: "despesa" },
-  { id: "cat-salario",     nome: "Salário",     tipo: "receita" },
-  { id: "cat-freela",      nome: "Freelance",   tipo: "receita" },
-  { id: "cat-outros-rec",  nome: "Outros",      tipo: "receita" },
-];
-
 // ---------- Elementos da página ----------
 const form = document.getElementById("form-transacao");
 const campoTipo = document.getElementById("campo-tipo");
@@ -44,12 +31,6 @@ function atualizarCategorias() {
     opcao.textContent = c.nome;
     campoCategoria.appendChild(opcao);
   });
-}
-
-/** Retorna o nome de uma categoria pelo id */
-function nomeCategoria(id) {
-  const cat = CATEGORIAS.find((c) => c.id === id);
-  return cat ? cat.nome : "—";
 }
 
 /** Renderiza a tabela com as transações do mês selecionado */
