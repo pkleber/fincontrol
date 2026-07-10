@@ -22,7 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("total-receitas").textContent = formatarMoeda(receitas);
   document.getElementById("total-despesas").textContent = formatarMoeda(despesas);
-  document.getElementById("saldo-mes").textContent = formatarMoeda(receitas - despesas);
+  const saldo = receitas - despesas;
+  const saldoEl = document.getElementById("saldo-mes");
+  saldoEl.textContent = formatarMoeda(saldo);
+  saldoEl.classList.toggle("negativo", saldo < 0);
 
   // Últimas 5 transações
   const lista = document.getElementById("lista-ultimas");

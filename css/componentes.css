@@ -211,3 +211,85 @@
   background-color: var(--cor-primaria);
   color: #ffffff;
 }
+
+/* =========================================================
+   Refinamentos da Fase 1
+   ========================================================= */
+
+/* ---------- Container de tabela com scroll horizontal ---------- */
+/* Em telas estreitas a tabela rola para o lado em vez de quebrar */
+.tabela-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tabela {
+  min-width: 560px; /* garante colunas legíveis; abaixo disso, rola */
+}
+
+/* ---------- Card com transição sutil ---------- */
+.card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(15, 76, 92, 0.15);
+}
+
+/* Saldo negativo fica em vermelho (aplicado via JS) */
+.card__valor.negativo {
+  color: var(--cor-despesa);
+}
+
+/* ---------- Página em construção ---------- */
+.painel--construcao {
+  text-align: center;
+  padding: var(--esp-4);
+  color: var(--cor-texto-suave);
+}
+
+.construcao__icone {
+  font-size: 2.5rem;
+  margin-bottom: var(--esp-1);
+}
+
+.painel--construcao h3 {
+  color: var(--cor-texto);
+}
+
+/* ---------- Formulário no mobile ---------- */
+@media (max-width: 720px) {
+  .formulario {
+    grid-template-columns: 1fr; /* um campo por linha */
+  }
+
+  .formulario__grupo--largo {
+    grid-column: auto; /* desfaz o span 2 do desktop */
+  }
+
+  .formulario__acoes {
+    flex-direction: column;
+  }
+
+  .botao {
+    width: 100%;
+    padding: var(--esp-2); /* área de toque maior */
+  }
+
+  .botao--excluir,
+  .botao--editar {
+    width: auto;
+    padding: 4px 8px;
+  }
+}
+
+/* ---------- Acessibilidade: menos animação se o usuário preferir ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

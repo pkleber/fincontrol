@@ -1,5 +1,7 @@
 /* =========================================================
    Layout geral — sidebar fixa + área de conteúdo
+   Mobile: sidebar vira barra superior com navegação
+   em rolagem horizontal.
    ========================================================= */
 .app {
   display: grid;
@@ -34,41 +36,75 @@
   transition: background-color 0.15s ease, opacity 0.15s ease;
 }
 
-.sidebar__nav a:hover,
-.sidebar__nav a.ativo {
+.sidebar__nav a:hover {
   background-color: rgba(255, 255, 255, 0.12);
   opacity: 1;
+}
+
+.sidebar__nav a.ativo {
+  background-color: var(--cor-primaria-escura);
+  opacity: 1;
+  font-weight: 600;
+}
+
+.sidebar__nav a:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
 }
 
 /* ---------- Conteúdo ---------- */
 .conteudo {
   padding: var(--esp-4);
+  max-width: 1100px; /* evita linhas longas demais em telas largas */
 }
 
 .conteudo__header {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--esp-1);
   margin-bottom: var(--esp-3);
 }
 
 .conteudo__mes {
   color: var(--cor-texto-suave);
+  text-transform: capitalize;
 }
 
-/* ---------- Responsivo ---------- */
+/* ---------- Responsivo (mobile) ---------- */
 @media (max-width: 720px) {
   .app {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* sidebar deixa de ser coluna lateral */
   }
 
   .sidebar {
     padding: var(--esp-2);
+    position: sticky; /* barra fica visível ao rolar */
+    top: 0;
+    z-index: 10;
   }
 
+  .sidebar__logo {
+    margin-bottom: var(--esp-2);
+    font-size: 1.2rem;
+  }
+
+  /* Navegação horizontal com rolagem — overflow na prática! */
   .sidebar__nav ul {
     display: flex;
-    flex-wrap: wrap;
     gap: 4px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px; /* respiro para a barra de rolagem */
+  }
+
+  .sidebar__nav a {
+    white-space: nowrap; /* impede quebra do texto do link */
+    margin-bottom: 0;
+  }
+
+  .conteudo {
+    padding: var(--esp-2);
   }
 }
