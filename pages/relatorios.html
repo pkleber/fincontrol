@@ -32,13 +32,51 @@
         <h2>Relatórios</h2>
       </header>
 
-      <section class="painel painel--construcao" aria-label="Página em construção">
-        <p class="construcao__icone" aria-hidden="true">🚧</p>
-        <h3>Em construção</h3>
-        <p>Esta tela faz parte da <strong>Fase 2</strong> do roadmap e será desenvolvida em breve.</p>
+      <!-- Filtro de período -->
+      <section class="painel" aria-label="Filtro de período">
+        <div class="filtro-periodo">
+          <div class="formulario__grupo">
+            <label for="periodo-inicio">De</label>
+            <input type="month" id="periodo-inicio" />
+          </div>
+          <div class="formulario__grupo">
+            <label for="periodo-fim">Até</label>
+            <input type="month" id="periodo-fim" />
+          </div>
+          <button type="button" id="botao-exportar" class="botao botao--secundario">
+            ⬇ Exportar CSV
+          </button>
+        </div>
       </section>
+
+      <!-- Receitas x Despesas -->
+      <section class="painel" aria-label="Receitas e despesas por mês">
+        <h3>Receitas × Despesas por mês</h3>
+        <div class="grafico-container">
+          <canvas id="grafico-barras"></canvas>
+        </div>
+      </section>
+
+      <!-- Evolução do saldo -->
+      <section class="painel" aria-label="Evolução do saldo">
+        <h3>Evolução do saldo no período</h3>
+        <div class="grafico-container">
+          <canvas id="grafico-linha"></canvas>
+        </div>
+      </section>
+
+      <p id="relatorio-vazio" class="ultimas__vazio" hidden>
+        Nenhuma transação no período selecionado.
+      </p>
     </main>
 
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/storage.js"></script>
+  <script src="../js/categorias.js"></script>
+  <script src="../js/graficos.js"></script>
+  <script src="../js/relatorios.js"></script>
 </body>
 </html>
