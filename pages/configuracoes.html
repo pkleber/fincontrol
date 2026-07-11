@@ -1,126 +1,252 @@
-<!DOCTYPE html>
+<!doctype html>
+<!-- Página de configurações do FinControl. Permite ao usuário alterar o tema, definir a taxa do CDI, gerenciar categorias, exportar/importar backup e apagar todos os dados. -->
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FinControl — Configurações</title>
-  <script src="../js/tema.js"></script>
-  <link rel="stylesheet" href="../css/reset.css" />
-  <link rel="stylesheet" href="../css/variaveis.css" />
-  <link rel="stylesheet" href="../css/layout.css" />
-  <link rel="stylesheet" href="../css/componentes.css" />
-</head>
-<body>
-  <div class="app">
+  <!-- Atributo lang definido como "pt-BR" para indicar que o conteúdo da página está em português do Brasil. -->
+  <head>
+    <!-- Cabeçalho da página, contendo metadados, título e links para scripts e estilos. -->
+    <meta charset="UTF-8" />
+    <!-- Define a codificação de caracteres como UTF-8 para suportar caracteres especiais. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Define a viewport para tornar a página responsiva em dispositivos móveis. -->
+    <title>FinControl — Configurações</title>
+    <!-- Define o título da página como "FinControl — Configurações". -->
+    <script src="../js/tema.js"></script>
+    <!-- Inclui o script "tema.js" para gerenciar a aparência do tema da aplicação. -->
+    <link rel="stylesheet" href="../css/reset.css" />
+    <!-- Inclui o arquivo de estilo "reset.css" para redefinir estilos padrão do navegador. -->
+    <link rel="stylesheet" href="../css/variaveis.css" />
+    <!-- Inclui o arquivo de estilo "variaveis.css" para definir variáveis CSS reutilizáveis. -->
+    <link rel="stylesheet" href="../css/layout.css" />
+    <!-- Inclui o arquivo de estilo "layout.css" para definir a estrutura e layout da página. -->
+    <link rel="stylesheet" href="../css/componentes.css" />
+    <!-- Inclui o arquivo de estilo "componentes.css" para definir estilos de componentes reutilizáveis. -->
+  </head>
+  <!-- Fim do cabeçalho da página. -->
+  <body>
+    <!-- Corpo da página, contendo o conteúdo visível e interativo. -->
+    <div class="app">
+      <!-- Contêiner principal da aplicação, englobando a barra lateral e o conteúdo principal. -->
 
-    <aside class="sidebar">
-      <h1 class="sidebar__logo">Fin<span>Control</span></h1>
-      <nav class="sidebar__nav" aria-label="Menu principal">
-        <ul>
-          <li><a href="../index.html">Dashboard</a></li>
-          <li><a href="transacoes.html">Transações</a></li>
-          <li><a href="contas.html">Contas &amp; Cartões</a></li>
-          <li><a href="metas.html">Metas &amp; Orçamento</a></li>
-          <li><a href="investimentos.html">Investimentos</a></li>
-          <li><a href="relatorios.html">Relatórios</a></li>
-          <li><a href="configuracoes.html" class="ativo">Configurações</a></li>
-        </ul>
-      </nav>
-    </aside>
+      <aside class="sidebar">
+        <!-- Barra lateral da aplicação, contendo o logotipo e o menu de navegação. -->
+        <h1 class="sidebar__logo">Fin<span>Control</span></h1>
+        <!-- Logotipo da aplicação, com destaque para a palavra "Control". -->
+        <nav class="sidebar__nav" aria-label="Menu principal">
+          <!-- Menu de navegação principal, com links para diferentes seções da aplicação. -->
+          <ul>
+            <!-- Lista de links de navegação, cada item representando uma seção da aplicação. -->
+            <li><a href="../index.html">Dashboard</a></li>
+            <!-- Link para a página principal (Dashboard) da aplicação. -->
+            <li><a href="transacoes.html">Transações</a></li>
+            <!-- Link para a página de transações, onde o usuário pode visualizar e gerenciar suas transações financeiras. -->
+            <li><a href="contas.html">Contas &amp; Cartões</a></li>
+            <!-- Link para a página de contas e cartões, onde o usuário pode gerenciar suas contas bancárias e cartões de crédito/débito. -->
+            <li><a href="metas.html">Metas &amp; Orçamento</a></li>
+            <!-- Link para a página de metas e orçamento, onde o usuário pode definir objetivos financeiros e acompanhar seu progresso. -->
+            <li><a href="investimentos.html">Investimentos</a></li>
+            <!-- Link para a página de investimentos, onde o usuário pode gerenciar seus investimentos e acompanhar seu desempenho. -->
+            <li><a href="relatorios.html">Relatórios</a></li>
+            <!-- Link para a página de relatórios, onde o usuário pode gerar e visualizar relatórios financeiros detalhados. -->
+            <li>
+              <a href="configuracoes.html" class="ativo">Configurações</a>
+            </li>
+            <!-- Link para a página de configurações, onde o usuário pode ajustar preferências e gerenciar categorias, backup e restauração de dados. A classe "ativo" indica que esta é a página atualmente ativa. -->
+          </ul>
+          <!-- Fim da lista de links de navegação. -->
+        </nav>
+        <!-- Fim do menu de navegação principal. -->
+      </aside>
+      <!-- Fim da barra lateral da aplicação. -->
 
-    <main class="conteudo">
-      <header class="conteudo__header">
-        <h2>Configurações</h2>
-      </header>
+      <main class="conteudo">
+        <!-- Conteúdo principal da página, onde o usuário pode interagir com as configurações da aplicação. -->
+        <header class="conteudo__header">
+          <!-- Cabeçalho do conteúdo principal, contendo o título da seção. -->
+          <h2>Configurações</h2>
+          <!-- Título da seção de configurações, indicando que o usuário está na página de configurações da aplicação. -->
+        </header>
+        <!-- Fim do cabeçalho do conteúdo principal. -->
 
-      <!-- Aparência -->
-      <section class="painel" aria-label="Aparência">
-        <h3>Aparência</h3>
-        <div class="formulario">
-          <div class="formulario__grupo">
-            <label for="config-tema">Tema</label>
-            <select id="config-tema">
-              <option value="claro">Claro</option>
-              <option value="escuro">Escuro</option>
-              <option value="sistema">Seguir o sistema</option>
-            </select>
+        <!-- Aparência -->
+        <section class="painel" aria-label="Aparência">
+          <!-- Seção de configurações relacionadas à aparência da aplicação, permitindo ao usuário escolher o tema. -->
+          <h3>Aparência</h3>
+          <!-- Título da seção de aparência, indicando que o usuário pode ajustar as preferências visuais da aplicação. -->
+          <div class="formulario">
+            <!-- Formulário para selecionar o tema da aplicação, com um rótulo e um menu suspenso. -->
+            <div class="formulario__grupo">
+              <!-- Grupo de formulário contendo o rótulo e o menu suspenso para selecionar o tema da aplicação. -->
+              <label for="config-tema">Tema</label>
+              <!-- Rótulo para o menu suspenso de seleção de tema, associando-o ao elemento com o ID "config-tema". -->
+              <select id="config-tema">
+                <!-- Menu suspenso para selecionar o tema da aplicação, com opções para tema claro, escuro e seguir o sistema. -->
+                <option value="claro">Claro</option>
+                <!-- Opção para selecionar o tema claro da aplicação. -->
+                <option value="escuro">Escuro</option>
+                <!-- Opção para selecionar o tema escuro da aplicação. -->
+                <option value="sistema">Seguir o sistema</option>
+                <!-- Opção para seguir o tema do sistema operacional do usuário, ajustando automaticamente a aparência da aplicação. -->
+              </select>
+              <!-- Fim do menu suspenso de seleção de tema. -->
+            </div>
+            <!-- Fim do grupo de formulário para seleção de tema. -->
           </div>
-        </div>
-      </section>
+          <!-- Fim do formulário de aparência, permitindo ao usuário escolher o tema da aplicação. -->
+        </section>
+        <!-- Fim da seção de configurações de aparência, onde o usuário pode ajustar as preferências visuais da aplicação. -->
 
-      <!-- Investimentos -->
-      <section class="painel" aria-label="Investimentos">
-        <h3>Investimentos</h3>
-        <div class="formulario">
-          <div class="formulario__grupo">
-            <label for="config-cdi-geral">Taxa do CDI (% ao ano)</label>
-            <input type="number" id="config-cdi-geral" min="0" step="0.01" />
+        <!-- Investimentos -->
+        <section class="painel" aria-label="Investimentos">
+          <!-- Seção de configurações relacionadas a investimentos, permitindo ao usuário definir a taxa do CDI usada no cálculo de rendimento das caixinhas. -->
+          <h3>Investimentos</h3>
+          <!-- Título da seção de investimentos, indicando que o usuário pode ajustar configurações relacionadas a investimentos na aplicação. -->
+          <div class="formulario">
+            <!-- Formulário para definir a taxa do CDI usada no cálculo de rendimento das caixinhas, com um rótulo e um campo de entrada numérica. -->
+            <div class="formulario__grupo">
+              <!-- Grupo de formulário contendo o rótulo e o campo de entrada numérica para definir a taxa do CDI usada no cálculo de rendimento das caixinhas. -->
+              <label for="config-cdi-geral">Taxa do CDI (% ao ano)</label>
+              <!-- Rótulo para o campo de entrada numérica, associando-o ao elemento com o ID "config-cdi-geral" e indicando que o valor deve ser inserido em porcentagem ao ano. -->
+              <input type="number" id="config-cdi-geral" min="0" step="0.01" />
+              <!-- Campo de entrada numérica para definir a taxa do CDI usada no cálculo de rendimento das caixinhas, com um valor mínimo de 0 e incrementos de 0,01. -->
+            </div>
+            <!-- Fim do grupo de formulário para definir a taxa do CDI usada no cálculo de rendimento das caixinhas. -->
           </div>
-        </div>
-        <p class="card__detalhe">Usada no cálculo de rendimento das caixinhas.</p>
-      </section>
+          <!-- Fim do formulário de investimentos, permitindo ao usuário definir a taxa do CDI usada no cálculo de rendimento das caixinhas. -->
+          <p class="card__detalhe">
+            Usada no cálculo de rendimento das caixinhas.
+          </p>
+          <!-- Parágrafo explicativo indicando que a taxa do CDI definida pelo usuário será usada no cálculo de rendimento das caixinhas. -->
+        </section>
+        <!-- Fim da seção de configurações de investimentos, onde o usuário pode ajustar a taxa do CDI usada no cálculo de rendimento das caixinhas. -->
 
-      <!-- Categorias -->
-      <section class="painel" aria-label="Categorias">
-        <h3>Categorias</h3>
-        <form id="form-categoria" class="formulario">
-          <div class="formulario__grupo formulario__grupo--largo">
-            <label for="cat-nome">Nome</label>
-            <input type="text" id="cat-nome" placeholder="Ex.: Educação" required />
+        <!-- Categorias -->
+        <section class="painel" aria-label="Categorias">
+          <!-- Seção de configurações relacionadas a categorias, permitindo ao usuário gerenciar categorias de despesas e receitas. -->
+          <h3>Categorias</h3>
+          <!-- Título da seção de categorias, indicando que o usuário pode gerenciar categorias de despesas e receitas na aplicação. -->
+          <form id="form-categoria" class="formulario">
+            <!-- Formulário para adicionar novas categorias de despesas e receitas, com campos de entrada para o nome e tipo da categoria. -->
+            <div class="formulario__grupo formulario__grupo--largo">
+              <!-- Grupo de formulário contendo o rótulo e o campo de entrada para o nome da categoria, com uma largura maior para acomodar nomes mais longos. -->
+              <label for="cat-nome">Nome</label>
+              <!-- Rótulo para o campo de entrada de nome da categoria, associando-o ao elemento com o ID "cat-nome". -->
+              <input
+                type="text"
+                id="cat-nome"
+                placeholder="Ex.: Educação"
+                required
+              />
+              <!-- Campo de entrada de texto para o nome da categoria, com um espaço reservado (placeholder) sugerindo um exemplo de categoria ("Educação") e marcado como obrigatório (required). -->
+            </div>
+            <!-- Fim do grupo de formulário para o nome da categoria. -->
+            <div class="formulario__grupo">
+              <!-- Grupo de formulário contendo o rótulo e o menu suspenso para selecionar o tipo da categoria (despesa ou receita). -->
+              <label for="cat-tipo">Tipo</label>
+              <!-- Rótulo para o menu suspenso de seleção do tipo da categoria, associando-o ao elemento com o ID "cat-tipo". -->
+              <select id="cat-tipo" required>
+                <!-- Menu suspenso para selecionar o tipo da categoria, com opções para despesa e receita, marcado como obrigatório (required). -->
+                <option value="despesa">Despesa</option>
+                <!-- Opção para selecionar o tipo de categoria como despesa. -->
+                <option value="receita">Receita</option>
+                <!-- Opção para selecionar o tipo de categoria como receita. -->
+              </select>
+              <!-- Fim do menu suspenso de seleção do tipo da categoria. -->
+            </div>
+            <!-- Fim do grupo de formulário para o tipo da categoria. -->
+            <div class="formulario__acoes">
+              <!-- Grupo de ações do formulário, contendo o botão para adicionar a nova categoria. -->
+              <button type="submit" class="botao">Adicionar categoria</button>
+              <!-- Botão para enviar o formulário e adicionar a nova categoria, com o texto "Adicionar categoria". -->
+            </div>
+            <!-- Fim do grupo de ações do formulário. -->
+          </form>
+          <!-- Fim do formulário para adicionar novas categorias de despesas e receitas. -->
+
+          <div class="categorias-listas">
+            <!-- Contêiner para as listas de categorias de despesas e receitas, permitindo ao usuário visualizar e gerenciar suas categorias existentes. -->
+            <div>
+              <!-- Contêiner para a lista de categorias de despesas, contendo um título e uma lista não ordenada (ul) para exibir as categorias. -->
+              <h4 class="secao__subtitulo">Despesas</h4>
+              <!-- Título da lista de categorias de despesas, indicando que as categorias exibidas abaixo são do tipo despesa. -->
+              <ul id="lista-cat-despesa" class="lista-categorias"></ul>
+              <!-- Lista não ordenada (ul) para exibir as categorias de despesas, com o ID "lista-cat-despesa" e a classe "lista-categorias" para estilização. -->
+            </div>
+            <!-- Fim do contêiner para a lista de categorias de despesas. -->
+            <div>
+              <!-- Contêiner para a lista de categorias de receitas, contendo um título e uma lista não ordenada (ul) para exibir as categorias. -->
+              <h4 class="secao__subtitulo">Receitas</h4>
+              <!-- Título da lista de categorias de receitas, indicando que as categorias exibidas abaixo são do tipo receita. -->
+              <ul id="lista-cat-receita" class="lista-categorias"></ul>
+              <!-- Lista não ordenada (ul) para exibir as categorias de receitas, com o ID "lista-cat-receita" e a classe "lista-categorias" para estilização. -->
+            </div>
+            <!-- Fim do contêiner para a lista de categorias de receitas. -->
           </div>
-          <div class="formulario__grupo">
-            <label for="cat-tipo">Tipo</label>
-            <select id="cat-tipo" required>
-              <option value="despesa">Despesa</option>
-              <option value="receita">Receita</option>
-            </select>
+          <!-- Fim do contêiner para as listas de categorias de despesas e receitas, permitindo ao usuário visualizar e gerenciar suas categorias existentes. -->
+        </section>
+        <!-- Fim da seção de configurações de categorias, onde o usuário pode gerenciar categorias de despesas e receitas na aplicação. -->
+
+        <!-- Backup -->
+        <section class="painel" aria-label="Backup e restauração">
+          <!-- Seção de configurações relacionadas a backup e restauração de dados, permitindo ao usuário exportar e importar backups de suas informações financeiras. -->
+          <h3>Backup &amp; restauração</h3>
+          <!-- Título da seção de backup e restauração, indicando que o usuário pode gerenciar backups de suas informações financeiras na aplicação. -->
+          <p class="card__detalhe">
+            <!-- Parágrafo explicativo indicando que os dados do usuário são armazenados apenas no navegador e recomendando a exportação regular de backups para evitar perda de dados. -->
+            Seus dados vivem apenas neste navegador. Exporte um backup
+            regularmente para não perdê-los ao limpar o navegador ou trocar de
+            máquina.
+          </p>
+          <!-- Fim do parágrafo explicativo sobre a importância de exportar backups regularmente. -->
+          <div class="backup-acoes">
+            <!-- Contêiner para as ações de backup, contendo botões para exportar e importar backups de dados. -->
+            <!-- Contêiner para as ações de backup, contendo botões para exportar e importar backups de dados. -->
+            <label class="botao botao--secundario backup-importar">
+              <!-- Rótulo estilizado como botão para importar backup, associado ao campo de entrada de arquivo oculto. -->
+              ⬆ Importar backup
+              <input
+                type="file"
+                id="input-importar"
+                accept="application/json,.json"
+                hidden
+              />
+              <!-- Campo de entrada de arquivo oculto para importar backup, aceitando apenas arquivos JSON. -->
+            </label>
+            <!-- Fim do rótulo estilizado como botão para importar backup. -->
           </div>
-          <div class="formulario__acoes">
-            <button type="submit" class="botao">Adicionar categoria</button>
-          </div>
-        </form>
+          <!-- Fim do contêiner para as ações de backup, permitindo ao usuário exportar e importar backups de dados. -->
+        </section>
+        <!-- Fim da seção de configurações de backup e restauração, onde o usuário pode gerenciar backups de suas informações financeiras na aplicação. -->
 
-        <div class="categorias-listas">
-          <div>
-            <h4 class="secao__subtitulo">Despesas</h4>
-            <ul id="lista-cat-despesa" class="lista-categorias"></ul>
-          </div>
-          <div>
-            <h4 class="secao__subtitulo">Receitas</h4>
-            <ul id="lista-cat-receita" class="lista-categorias"></ul>
-          </div>
-        </div>
-      </section>
+        <!-- Zona de perigo -->
+        <section class="painel painel--perigo" aria-label="Zona de perigo">
+          <!-- Seção de configurações relacionadas à exclusão de dados, permitindo ao usuário apagar todos os dados armazenados no navegador. -->
+          <h3>Zona de perigo</h3>
+          <!-- Título da seção de zona de perigo, indicando que o usuário pode realizar ações irreversíveis, como apagar todos os dados armazenados no navegador. -->
+          <p class="card__detalhe">
+            Apaga todas as transações, contas, cartões, metas, orçamentos e
+            caixinhas deste navegador.
+          </p>
+          <!-- Parágrafo explicativo indicando que a ação de apagar todos os dados resultará na exclusão de todas as transações, contas, cartões, metas, orçamentos e caixinhas armazenadas no navegador. -->
+          <button type="button" id="botao-limpar" class="botao botao--perigo">
+            Apagar todos os dados
+          </button>
+          <!-- Botão para apagar todos os dados armazenados no navegador, com a classe "botao--perigo" para indicar que é uma ação irreversível e perigosa. -->
+        </section>
+        <!-- Fim da seção de configurações de zona de perigo, onde o usuário pode apagar todos os dados armazenados no navegador. -->
+      </main>
+      <!-- Fim do conteúdo principal da página, onde o usuário pode interagir com as configurações da aplicação. -->
+    </div>
+    <!-- Fim do contêiner principal da aplicação, englobando a barra lateral e o conteúdo principal. -->
 
-      <!-- Backup -->
-      <section class="painel" aria-label="Backup e restauração">
-        <h3>Backup &amp; restauração</h3>
-        <p class="card__detalhe">
-          Seus dados vivem apenas neste navegador. Exporte um backup regularmente
-          para não perdê-los ao limpar o navegador ou trocar de máquina.
-        </p>
-        <div class="backup-acoes">
-          <button type="button" id="botao-backup" class="botao">⬇ Exportar backup (JSON)</button>
-          <label class="botao botao--secundario backup-importar">
-            ⬆ Importar backup
-            <input type="file" id="input-importar" accept="application/json,.json" hidden />
-          </label>
-        </div>
-      </section>
-
-      <!-- Zona de perigo -->
-      <section class="painel painel--perigo" aria-label="Zona de perigo">
-        <h3>Zona de perigo</h3>
-        <p class="card__detalhe">Apaga todas as transações, contas, cartões, metas, orçamentos e caixinhas deste navegador.</p>
-        <button type="button" id="botao-limpar" class="botao botao--perigo">Apagar todos os dados</button>
-      </section>
-    </main>
-
-  </div>
-
-  <script src="../js/utils.js"></script>
-  <script src="../js/storage.js"></script>
-  <script src="../js/categorias.js"></script>
-  <script src="../js/configuracoes.js"></script>
-</body>
+    <script src="../js/utils.js"></script>
+    <!-- Inclui o script "utils.js" para fornecer funções utilitárias que podem ser usadas em toda a aplicação. -->
+    <script src="../js/storage.js"></script>
+    <!-- Inclui o script "storage.js" para gerenciar o armazenamento de dados no navegador, permitindo salvar e recuperar informações do usuário. -->
+    <script src="../js/categorias.js"></script>
+    <!-- Inclui o script "categorias.js" para gerenciar as categorias de despesas e receitas, permitindo adicionar, remover e listar categorias. -->
+    <script src="../js/configuracoes.js"></script>
+    <!-- Inclui o script "configuracoes.js" para gerenciar as configurações da aplicação, incluindo aparência, investimentos, categorias, backup e restauração de dados. -->
+  </body>
+  <!-- Fim do corpo da página, contendo o conteúdo visível e interativo. -->
 </html>
+<!-- Fim do documento HTML da página de configurações do FinControl, permitindo ao usuário ajustar preferências e gerenciar categorias, backup e restauração de dados. -->

@@ -1,123 +1,179 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FinControl — Contas &amp; Cartões</title>
-  <script src="../js/tema.js"></script>
-  <link rel="stylesheet" href="../css/reset.css" />
-  <link rel="stylesheet" href="../css/variaveis.css" />
-  <link rel="stylesheet" href="../css/layout.css" />
-  <link rel="stylesheet" href="../css/componentes.css" />
-</head>
-<body>
-  <div class="app">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FinControl — Contas &amp; Cartões</title>
+    <script src="../js/tema.js"></script>
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/variaveis.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/componentes.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <h1 class="sidebar__logo">Fin<span>Control</span></h1>
+        <nav class="sidebar__nav" aria-label="Menu principal">
+          <ul>
+            <li><a href="../index.html">Dashboard</a></li>
+            <li><a href="transacoes.html">Transações</a></li>
+            <li>
+              <a href="contas.html" class="ativo">Contas &amp; Cartões</a>
+            </li>
+            <li><a href="metas.html">Metas &amp; Orçamento</a></li>
+            <li><a href="investimentos.html">Investimentos</a></li>
+            <li><a href="relatorios.html">Relatórios</a></li>
+            <li><a href="configuracoes.html">Configurações</a></li>
+          </ul>
+        </nav>
+      </aside>
 
-    <aside class="sidebar">
-      <h1 class="sidebar__logo">Fin<span>Control</span></h1>
-      <nav class="sidebar__nav" aria-label="Menu principal">
-        <ul>
-          <li><a href="../index.html">Dashboard</a></li>
-          <li><a href="transacoes.html">Transações</a></li>
-          <li><a href="contas.html" class="ativo">Contas &amp; Cartões</a></li>
-          <li><a href="metas.html">Metas &amp; Orçamento</a></li>
-          <li><a href="investimentos.html">Investimentos</a></li>
-          <li><a href="relatorios.html">Relatórios</a></li>
-          <li><a href="configuracoes.html">Configurações</a></li>
-        </ul>
-      </nav>
-    </aside>
+      <main class="conteudo">
+        <header class="conteudo__header">
+          <h2>Contas &amp; Cartões</h2>
+        </header>
 
-    <main class="conteudo">
-      <header class="conteudo__header">
-        <h2>Contas &amp; Cartões</h2>
-      </header>
+        <!-- ===================== CONTAS ===================== -->
+        <section class="painel" aria-label="Nova conta">
+          <h3>Nova conta</h3>
+          <form id="form-conta" class="formulario">
+            <div class="formulario__grupo formulario__grupo--largo">
+              <label for="conta-nome">Nome</label>
+              <input
+                type="text"
+                id="conta-nome"
+                placeholder="Ex.: Nubank"
+                required
+              />
+            </div>
 
-      <!-- ===================== CONTAS ===================== -->
-      <section class="painel" aria-label="Nova conta">
-        <h3>Nova conta</h3>
-        <form id="form-conta" class="formulario">
-          <div class="formulario__grupo formulario__grupo--largo">
-            <label for="conta-nome">Nome</label>
-            <input type="text" id="conta-nome" placeholder="Ex.: Nubank" required />
-          </div>
+            <div class="formulario__grupo">
+              <label for="conta-tipo">Tipo</label>
+              <select id="conta-tipo" required>
+                <option value="corrente">Conta corrente</option>
+                <option value="poupanca">Poupança</option>
+                <option value="carteira">Carteira (dinheiro)</option>
+              </select>
+            </div>
 
-          <div class="formulario__grupo">
-            <label for="conta-tipo">Tipo</label>
-            <select id="conta-tipo" required>
-              <option value="corrente">Conta corrente</option>
-              <option value="poupanca">Poupança</option>
-              <option value="carteira">Carteira (dinheiro)</option>
-            </select>
-          </div>
+            <div class="formulario__grupo">
+              <label for="conta-saldo">Saldo inicial (R$)</label>
+              <input
+                type="number"
+                id="conta-saldo"
+                step="0.01"
+                value="0"
+                required
+              />
+            </div>
 
-          <div class="formulario__grupo">
-            <label for="conta-saldo">Saldo inicial (R$)</label>
-            <input type="number" id="conta-saldo" step="0.01" value="0" required />
-          </div>
+            <div class="formulario__acoes">
+              <button type="submit" id="conta-salvar" class="botao">
+                Adicionar conta
+              </button>
+              <button
+                type="button"
+                id="conta-cancelar"
+                class="botao botao--secundario"
+                hidden
+              >
+                Cancelar
+              </button>
+            </div>
+          </form>
+        </section>
 
-          <div class="formulario__acoes">
-            <button type="submit" id="conta-salvar" class="botao">Adicionar conta</button>
-            <button type="button" id="conta-cancelar" class="botao botao--secundario" hidden>Cancelar</button>
-          </div>
-        </form>
-      </section>
+        <section aria-label="Minhas contas">
+          <h3 class="secao__titulo">Minhas contas</h3>
+          <div id="lista-contas" class="cartoes-grid"></div>
+          <p id="contas-vazio" class="ultimas__vazio" hidden>
+            Nenhuma conta cadastrada ainda.
+          </p>
+        </section>
 
-      <section aria-label="Minhas contas">
-        <h3 class="secao__titulo">Minhas contas</h3>
-        <div id="lista-contas" class="cartoes-grid"></div>
-        <p id="contas-vazio" class="ultimas__vazio" hidden>Nenhuma conta cadastrada ainda.</p>
-      </section>
+        <!-- ===================== CARTÕES ===================== -->
+        <section class="painel" aria-label="Novo cartão">
+          <h3>Novo cartão de crédito</h3>
+          <form id="form-cartao" class="formulario">
+            <div class="formulario__grupo formulario__grupo--largo">
+              <label for="cartao-nome">Nome</label>
+              <input
+                type="text"
+                id="cartao-nome"
+                placeholder="Ex.: Nubank Crédito"
+                required
+              />
+            </div>
 
-      <!-- ===================== CARTÕES ===================== -->
-      <section class="painel" aria-label="Novo cartão">
-        <h3>Novo cartão de crédito</h3>
-        <form id="form-cartao" class="formulario">
-          <div class="formulario__grupo formulario__grupo--largo">
-            <label for="cartao-nome">Nome</label>
-            <input type="text" id="cartao-nome" placeholder="Ex.: Nubank Crédito" required />
-          </div>
+            <div class="formulario__grupo">
+              <label for="cartao-limite">Limite (R$)</label>
+              <input
+                type="number"
+                id="cartao-limite"
+                min="0"
+                step="0.01"
+                required
+              />
+            </div>
 
-          <div class="formulario__grupo">
-            <label for="cartao-limite">Limite (R$)</label>
-            <input type="number" id="cartao-limite" min="0" step="0.01" required />
-          </div>
+            <div class="formulario__grupo">
+              <label for="cartao-fechamento">Dia do fechamento</label>
+              <input
+                type="number"
+                id="cartao-fechamento"
+                min="1"
+                max="31"
+                required
+              />
+            </div>
 
-          <div class="formulario__grupo">
-            <label for="cartao-fechamento">Dia do fechamento</label>
-            <input type="number" id="cartao-fechamento" min="1" max="31" required />
-          </div>
+            <div class="formulario__grupo">
+              <label for="cartao-vencimento">Dia do vencimento</label>
+              <input
+                type="number"
+                id="cartao-vencimento"
+                min="1"
+                max="31"
+                required
+              />
+            </div>
 
-          <div class="formulario__grupo">
-            <label for="cartao-vencimento">Dia do vencimento</label>
-            <input type="number" id="cartao-vencimento" min="1" max="31" required />
-          </div>
+            <div class="formulario__grupo">
+              <label for="cartao-conta">Conta de pagamento</label>
+              <select id="cartao-conta">
+                <option value="">— Nenhuma —</option>
+              </select>
+            </div>
 
-          <div class="formulario__grupo">
-            <label for="cartao-conta">Conta de pagamento</label>
-            <select id="cartao-conta">
-              <option value="">— Nenhuma —</option>
-            </select>
-          </div>
+            <div class="formulario__acoes">
+              <button type="submit" id="cartao-salvar" class="botao">
+                Adicionar cartão
+              </button>
+              <button
+                type="button"
+                id="cartao-cancelar"
+                class="botao botao--secundario"
+                hidden
+              >
+                Cancelar
+              </button>
+            </div>
+          </form>
+        </section>
 
-          <div class="formulario__acoes">
-            <button type="submit" id="cartao-salvar" class="botao">Adicionar cartão</button>
-            <button type="button" id="cartao-cancelar" class="botao botao--secundario" hidden>Cancelar</button>
-          </div>
-        </form>
-      </section>
+        <section aria-label="Meus cartões">
+          <h3 class="secao__titulo">Meus cartões</h3>
+          <div id="lista-cartoes" class="cartoes-grid"></div>
+          <p id="cartoes-vazio" class="ultimas__vazio" hidden>
+            Nenhum cartão cadastrado ainda.
+          </p>
+        </section>
+      </main>
+    </div>
 
-      <section aria-label="Meus cartões">
-        <h3 class="secao__titulo">Meus cartões</h3>
-        <div id="lista-cartoes" class="cartoes-grid"></div>
-        <p id="cartoes-vazio" class="ultimas__vazio" hidden>Nenhum cartão cadastrado ainda.</p>
-      </section>
-    </main>
-
-  </div>
-
-  <script src="../js/utils.js"></script>
-  <script src="../js/storage.js"></script>
-  <script src="../js/contas.js"></script>
-</body>
+    <script src="../js/utils.js"></script>
+    <script src="../js/storage.js"></script>
+    <script src="../js/contas.js"></script>
+  </body>
 </html>

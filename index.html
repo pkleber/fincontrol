@@ -1,88 +1,323 @@
-<!DOCTYPE html>
+<!doctype html>
+<!--
+  FinControl — Dashboard
+  Desenvolvido por: [Kleber]
+  Data: [2026/06/01]
+  Descrição: Página principal do dashboard do FinControl, exibindo resumo financeiro, gráficos e últimas transações.
+-->
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FinControl — Dashboard</title>
-  <script src="js/tema.js"></script>
-  <link rel="stylesheet" href="css/reset.css" />
-  <link rel="stylesheet" href="css/variaveis.css" />
-  <link rel="stylesheet" href="css/layout.css" />
-  <link rel="stylesheet" href="css/componentes.css" />
-</head>
-<body>
-  <div class="app">
+  <!--
+  Atributo lang definido como "pt-BR" para indicar que o conteúdo da página está em português do Brasil, melhorando a acessibilidade e SEO.
+-->
+  <head>
+    <!--
+    Cabeçalho do documento HTML, contendo metadados, título e links para arquivos CSS e scripts JavaScript.
+  -->
+    <meta charset="UTF-8" />
+    <!--
+      Define a codificação de caracteres como UTF-8, garantindo que caracteres especiais e acentos sejam exibidos corretamente.
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      Configura a viewport para dispositivos móveis, garantindo que a página seja responsiva e se ajuste corretamente a diferentes tamanhos de tela.
+    -->
+    <title>FinControl — Dashboard</title>
+    <!--
+      Define o título da página, que aparece na aba do navegador e nos resultados de busca.
+    -->
+    <script src="js/tema.js"></script>
+    <!--
+      Inclui o script "tema.js" que provavelmente gerencia o tema da aplicação (claro/escuro) e outras funcionalidades relacionadas à interface do usuário.
+    -->
+    <link rel="stylesheet" href="css/reset.css" />
+    <!--
+      Inclui o arquivo CSS "reset.css" para redefinir estilos padrão do navegador, garantindo consistência visual em diferentes navegadores.
+    -->
+    <link rel="stylesheet" href="css/variaveis.css" />
+    <!--
+      Inclui o arquivo CSS "variaveis.css" que provavelmente define variáveis CSS para cores, fontes e outros estilos reutilizáveis em toda a aplicação.
+    -->
+    <link rel="stylesheet" href="css/layout.css" />
+    <!--
+      Inclui o arquivo CSS "layout.css" que define a estrutura e o layout geral da página, incluindo posicionamento de elementos e responsividade.
+    -->
+    <link rel="stylesheet" href="css/componentes.css" />
+    <!--
+      Inclui o arquivo CSS "componentes.css" que define estilos específicos para componentes individuais da interface, como botões, cards e formulários.
+    -->
+  </head>
+  <!--
+    Fim do cabeçalho do documento HTML.
+  -->
+  <body>
+    <!--
+    Corpo do documento HTML, onde o conteúdo visível da página é definido.
+  -->
+    <div class="app">
+      <!--
+      Contêiner principal da aplicação, englobando o menu lateral e o conteúdo principal.
+    -->
+      <!-- Menu lateral -->
+      <aside class="sidebar">
+        <!--
+        Barra lateral de navegação, contendo o logotipo e links para diferentes seções do dashboard.
+      -->
+        <h1 class="sidebar__logo">Fin<span>Control</span></h1>
+        <!--
+          Logotipo da aplicação, com destaque para a palavra "Control" usando a tag <span>.
+        -->
+        <nav class="sidebar__nav" aria-label="Menu principal">
+          <!--
+          Navegação principal da barra lateral, com links para diferentes páginas do dashboard. O atributo aria-label melhora a acessibilidade, descrevendo o propósito do elemento de navegação.
+        -->
+          <ul>
+            <li><a href="index.html" class="ativo">Dashboard</a></li>
+            <!--
+              Link para a página principal do dashboard, com a classe "ativo" indicando que esta é a página atualmente visualizada.
+            -->
+            <li><a href="pages/transacoes.html">Transações</a></li>
+            <!--
+              Link para a página de transações, onde o usuário pode visualizar e gerenciar suas transações financeiras.
+            -->
+            <li><a href="pages/contas.html">Contas &amp; Cartões</a></li>
+            <!--
+              Link para a página de contas e cartões, permitindo ao usuário gerenciar suas contas bancárias e cartões de crédito/débito.
+            -->
+            <li><a href="pages/metas.html">Metas &amp; Orçamento</a></li>
+            <!--
+              Link para a página de metas e orçamento, onde o usuário pode definir objetivos financeiros e acompanhar seu progresso.
+            -->
+            <li><a href="pages/investimentos.html">Investimentos</a></li>
+            <!--
+              Link para a página de investimentos, permitindo ao usuário acompanhar e gerenciar seus investimentos financeiros.
+            -->
+            <li><a href="pages/relatorios.html">Relatórios</a></li>
+            <!--
+              Link para a página de relatórios, onde o usuário pode gerar e visualizar relatórios detalhados sobre suas finanças.
+            -->
+            <li><a href="pages/configuracoes.html">Configurações</a></li>
+            <!--
+              Link para a página de configurações, permitindo ao usuário ajustar preferências e configurações da aplicação.
+            -->
+          </ul>
+          <!--
+            Lista de links de navegação, cada item representando uma seção diferente do dashboard.
+          -->
+        </nav>
+        <!--
+          Fim da navegação principal da barra lateral.
+        -->
+      </aside>
+      <!--
+        Fim da barra lateral de navegação.
+      -->
 
-    <!-- Menu lateral -->
-    <aside class="sidebar">
-      <h1 class="sidebar__logo">Fin<span>Control</span></h1>
-      <nav class="sidebar__nav" aria-label="Menu principal">
-        <ul>
-          <li><a href="index.html" class="ativo">Dashboard</a></li>
-          <li><a href="pages/transacoes.html">Transações</a></li>
-          <li><a href="pages/contas.html">Contas &amp; Cartões</a></li>
-          <li><a href="pages/metas.html">Metas &amp; Orçamento</a></li>
-          <li><a href="pages/investimentos.html">Investimentos</a></li>
-          <li><a href="pages/relatorios.html">Relatórios</a></li>
-          <li><a href="pages/configuracoes.html">Configurações</a></li>
-        </ul>
-      </nav>
-    </aside>
+      <!-- Conteúdo principal -->
+      <main class="conteudo">
+        <!--
+        Área principal do dashboard, onde são exibidos os resumos financeiros, gráficos e últimas transações do usuário.
+      -->
+        <header class="conteudo__header">
+          <!--
+          Cabeçalho do conteúdo principal, exibindo o título da página e o mês atual.
+        -->
+          <h2>Dashboard</h2>
+          <!--
+            Título da página, indicando que o usuário está visualizando o dashboard principal.
+          -->
+          <p class="conteudo__mes" id="mes-atual"><!-- preenchido via JS --></p>
+          <!--
+            Parágrafo que exibirá o mês atual, preenchido dinamicamente via JavaScript.
+          -->
+        </header>
+        <!--
+          Fim do cabeçalho do conteúdo principal.
+        -->
 
-    <!-- Conteúdo principal -->
-    <main class="conteudo">
-      <header class="conteudo__header">
-        <h2>Dashboard</h2>
-        <p class="conteudo__mes" id="mes-atual"><!-- preenchido via JS --></p>
-      </header>
+        <!-- Resumo do mês -->
+        <section class="resumo" aria-label="Resumo do mês">
+          <!--
+          Seção que apresenta um resumo financeiro do mês, incluindo receitas, despesas e saldo.
+        -->
+          <article class="card card--receita">
+            <!--
+            Card que exibe o total de receitas do mês, com estilo específico para diferenciar visualmente das despesas e do saldo.
+          -->
+            <h3>Receitas</h3>
+            <!--
+              Título do card, indicando que ele exibe informações sobre receitas.
+            -->
+            <p class="card__valor" id="total-receitas">R$ 0,00</p>
+            <!--
+              Parágrafo que exibirá o valor total de receitas do mês, preenchido dinamicamente via JavaScript.
+            -->
+          </article>
+          <!--
+            Fim do card de receitas.
+          -->
+          <article class="card card--despesa">
+            <!--
+            Card que exibe o total de despesas do mês, com estilo específico para diferenciar visualmente das receitas e do saldo.
+          -->
+            <h3>Despesas</h3>
+            <!--
+              Título do card, indicando que ele exibe informações sobre despesas.
+            -->
+            <p class="card__valor" id="total-despesas">R$ 0,00</p>
+            <!--
+              Parágrafo que exibirá o valor total de despesas do mês, preenchido dinamicamente via JavaScript.
+            -->
+          </article>
+          <!--
+            Fim do card de despesas.
+          -->
+          <article class="card card--saldo">
+            <!--
+            Card que exibe o saldo do mês, com estilo específico para diferenciar visualmente das receitas e das despesas.
+          -->
+            <h3>Saldo</h3>
+            <!--
+              Título do card, indicando que ele exibe informações sobre o saldo do mês.
+            -->
+            <p class="card__valor" id="saldo-mes">R$ 0,00</p>
+            <!--
+              Parágrafo que exibirá o saldo do mês, calculado como a diferença entre receitas e despesas, preenchido dinamicamente via JavaScript.
+            -->
+          </article>
+          <!--
+            Fim do card de saldo.
+          -->
+        </section>
+        <!--
+          Fim da seção de resumo do mês.
+        -->
 
-      <!-- Resumo do mês -->
-      <section class="resumo" aria-label="Resumo do mês">
-        <article class="card card--receita">
-          <h3>Receitas</h3>
-          <p class="card__valor" id="total-receitas">R$ 0,00</p>
-        </article>
-        <article class="card card--despesa">
-          <h3>Despesas</h3>
-          <p class="card__valor" id="total-despesas">R$ 0,00</p>
-        </article>
-        <article class="card card--saldo">
-          <h3>Saldo</h3>
-          <p class="card__valor" id="saldo-mes">R$ 0,00</p>
-        </article>
-      </section>
+        <!-- Despesas por categoria -->
+        <section class="painel" aria-label="Despesas por categoria">
+          <!--
+          Seção que apresenta um gráfico de despesas do mês, categorizadas por tipo, permitindo ao usuário visualizar onde está gastando seu dinheiro.
+        -->
+          <h3>Despesas do mês por categoria</h3>
+          <!--
+            Título da seção, indicando que o gráfico exibirá as despesas do mês divididas por categoria.
+          -->
+          <div class="grafico-container">
+            <!--
+            Contêiner para o gráfico de despesas por categoria, garantindo que ele seja exibido corretamente e responsivamente na página.
+          -->
+            <canvas id="grafico-categorias"></canvas>
+            <!--
+              Elemento <canvas> onde o gráfico de despesas por categoria será renderizado, utilizando a biblioteca Chart.js.
+            -->
+          </div>
+          <!--
+            Fim do contêiner do gráfico de despesas por categoria.
+          -->
+          <p id="grafico-vazio" class="ultimas__vazio" hidden>
+            <!--
+            Parágrafo que será exibido caso não haja despesas registradas no mês, informando ao usuário que não há dados para exibir no gráfico.
+          -->
+            Sem despesas neste mês para exibir.
+          </p>
+          <!--
+            Fim do parágrafo de aviso de gráfico vazio.
+          -->
+        </section>
+        <!--
+          Fim da seção de despesas por categoria.
+        -->
 
-      <!-- Despesas por categoria -->
-      <section class="painel" aria-label="Despesas por categoria">
-        <h3>Despesas do mês por categoria</h3>
-        <div class="grafico-container">
-          <canvas id="grafico-categorias"></canvas>
-        </div>
-        <p id="grafico-vazio" class="ultimas__vazio" hidden>Sem despesas neste mês para exibir.</p>
-      </section>
+        <!-- Progresso das metas -->
+        <section
+          class="painel"
+          aria-label="Progresso das metas"
+          id="painel-metas"
+          hidden
+        >
+          <!--
+          Seção que apresenta o progresso das metas financeiras do usuário, permitindo acompanhar o quanto falta para atingir cada objetivo. A seção está inicialmente oculta e será exibida dinamicamente via JavaScript quando houver metas registradas.
+        -->
+          <h3>Progresso das metas</h3>
+          <!--
+            Título da seção, indicando que ela exibirá o progresso das metas financeiras do usuário.
+          -->
+          <div id="dashboard-metas" class="orcamentos"></div>
+          <!--
+            Contêiner onde os elementos representando o progresso das metas serão renderizados dinamicamente via JavaScript.
+          -->
+        </section>
+        <!--
+          Fim da seção de progresso das metas.
+        -->
 
-      <!-- Progresso das metas -->
-      <section class="painel" aria-label="Progresso das metas" id="painel-metas" hidden>
-        <h3>Progresso das metas</h3>
-        <div id="dashboard-metas" class="orcamentos"></div>
-      </section>
+        <!-- Últimas transações -->
+        <section class="ultimas" aria-label="Últimas transações">
+          <!--
+          Seção que apresenta uma lista das últimas transações registradas pelo usuário, permitindo visualizar rapidamente os movimentos financeiros recentes.
+        -->
+          <h3>Últimas transações</h3>
+          <!--
+            Título da seção, indicando que ela exibirá as últimas transações registradas pelo usuário.
+          -->
+          <ul id="lista-ultimas" class="ultimas__lista">
+            <!--
+            Lista onde os itens representando as últimas transações serão renderizados dinamicamente via JavaScript. Cada item da lista exibirá informações como descrição, valor, data e categoria da transação.
+          -->
+            <li class="ultimas__vazio">
+              <!--
+              Item de lista exibido quando não há transações registradas, informando ao usuário que ainda não há dados para exibir e incentivando-o a adicionar a primeira transação.
+            -->
+              Nenhuma transação registrada ainda. Comece adicionando a primeira!
+            </li>
+            <!--
+              Fim do item de lista de aviso de transações vazias.
+            -->
+          </ul>
+          <!--
+            Fim da lista de últimas transações.
+          -->
+        </section>
+        <!--
+          Fim da seção de últimas transações.
+        -->
+      </main>
+      <!--
+        Fim da área principal do dashboard.
+      -->
+    </div>
+    <!--
+      Fim do contêiner principal da aplicação.
+    -->
 
-      <!-- Últimas transações -->
-      <section class="ultimas" aria-label="Últimas transações">
-        <h3>Últimas transações</h3>
-        <ul id="lista-ultimas" class="ultimas__lista">
-          <li class="ultimas__vazio">Nenhuma transação registrada ainda. Comece adicionando a primeira!</li>
-        </ul>
-      </section>
-    </main>
-
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/storage.js"></script>
-  <script src="js/categorias.js"></script>
-  <script src="js/graficos.js"></script>
-  <script src="js/app.js"></script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!--
+      Inclui a biblioteca Chart.js a partir de um CDN, permitindo a criação de gráficos interativos e responsivos na página.
+    -->
+    <script src="js/utils.js"></script>
+    <!--
+      Inclui o script "utils.js" que provavelmente contém funções utilitárias e helpers usados em diferentes partes da aplicação.
+    -->
+    <script src="js/storage.js"></script>
+    <!--
+      Inclui o script "storage.js" que provavelmente gerencia o armazenamento de dados da aplicação, como transações, metas e configurações do usuário, utilizando localStorage ou outra forma de persistência.
+    -->
+    <script src="js/categorias.js"></script>
+    <!--
+      Inclui o script "categorias.js" que provavelmente gerencia as categorias de despesas e receitas, permitindo ao usuário adicionar, editar e remover categorias personalizadas.
+    -->
+    <script src="js/graficos.js"></script>
+    <!--
+      Inclui o script "graficos.js" que provavelmente contém a lógica para criar e atualizar os gráficos exibidos na página, utilizando a biblioteca Chart.js.
+    -->
+    <script src="js/app.js"></script>
+    <!--
+      Inclui o script "app.js" que provavelmente contém a lógica principal da aplicação, inicializando componentes, carregando dados e gerenciando interações do usuário.
+    -->
+  </body>
+  <!--
+    Fim do corpo do documento HTML.
+  -->
 </html>
+<!--
+  Fim do documento HTML.
+-->
