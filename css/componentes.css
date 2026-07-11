@@ -224,7 +224,7 @@
 }
 
 .tabela {
-  min-width: 560px; /* garante colunas legíveis; abaixo disso, rola */
+  min-width: 640px; /* garante colunas legíveis; abaixo disso, rola */
 }
 
 /* ---------- Card com transição sutil ---------- */
@@ -328,4 +328,69 @@
     flex-direction: column;
     align-items: stretch;
   }
+}
+
+/* =========================================================
+   Fase 3 — contas e cartões
+   ========================================================= */
+
+.secao__titulo {
+  margin-bottom: var(--esp-2);
+}
+
+.cartoes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--esp-2);
+  margin-bottom: var(--esp-4);
+}
+
+.card__topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--esp-1);
+  margin-bottom: var(--esp-1);
+}
+
+.card__tipo {
+  font-size: 0.75rem;
+  color: var(--cor-texto-suave);
+  text-align: right;
+}
+
+.card__detalhe {
+  font-size: 0.85rem;
+  color: var(--cor-texto-suave);
+  margin-top: 4px;
+}
+
+.card__acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+  margin-top: var(--esp-1);
+}
+
+.card--conta { border-top-color: var(--cor-primaria); }
+.card--cartao { border-top-color: var(--cor-alerta); }
+
+/* Barra de uso do limite do cartão */
+.barra {
+  height: 8px;
+  background-color: var(--cor-borda);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: var(--esp-1);
+}
+
+.barra__preenchida {
+  height: 100%;
+  background-color: var(--cor-primaria);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.barra--alerta {
+  background-color: var(--cor-despesa);
 }

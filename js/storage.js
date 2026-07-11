@@ -7,6 +7,7 @@ const STORAGE_CHAVES = {
   transacoes: "fincontrol.transacoes",
   categorias: "fincontrol.categorias",
   contas: "fincontrol.contas",
+  cartoes: "fincontrol.cartoes",
 };
 
 /** Lê uma lista do localStorage (retorna [] se não existir) */
