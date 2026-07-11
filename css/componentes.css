@@ -394,3 +394,163 @@
 .barra--alerta {
   background-color: var(--cor-despesa);
 }
+
+/* =========================================================
+   Fase 4 — metas e orçamento
+   ========================================================= */
+
+.card--meta { border-top-color: var(--cor-receita); }
+
+.card__meta-alvo {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--cor-texto-suave);
+}
+
+/* Barra em estado de atenção (80%+) — o estouro (100%+)
+   reutiliza a .barra--alerta vermelha da Fase 3 */
+.barra--atencao {
+  background-color: var(--cor-alerta);
+}
+
+.barra--concluida {
+  background-color: var(--cor-receita);
+}
+
+/* Botão de aporte rápido */
+.botao--aporte {
+  background-color: var(--cor-receita);
+  font-size: 0.85rem;
+  padding: 4px 10px;
+}
+
+.botao--aporte:hover {
+  background-color: #16604a;
+}
+
+/* Lista de orçamentos */
+.orcamentos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+}
+
+.orcamento {
+  background-color: var(--cor-superficie);
+  border-radius: var(--raio);
+  padding: var(--esp-2) var(--esp-3);
+  box-shadow: var(--sombra);
+}
+
+.orcamento__cabecalho,
+.orcamento__rodape {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--esp-1);
+}
+
+.orcamento__rodape {
+  margin-top: 4px;
+}
+
+/* Dentro de um painel, os orçamentos não precisam de sombra própria */
+.painel .orcamento {
+  box-shadow: none;
+  padding: 0;
+}
+
+/* =========================================================
+   Fase 5 — investimentos (caixinhas CDI)
+   ========================================================= */
+
+.card--investimento { border-top-color: #3d7ea6; }
+
+.cdi-config {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-1);
+  font-size: 0.85rem;
+  color: var(--cor-texto-suave);
+}
+
+.cdi-config input {
+  width: 80px;
+  padding: 4px var(--esp-1);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  background-color: var(--cor-superficie);
+}
+
+.projecao {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: var(--esp-1);
+  padding-top: var(--esp-1);
+  border-top: 1px dashed var(--cor-borda);
+  font-size: 0.85rem;
+  color: var(--cor-texto-suave);
+}
+
+.rendimento {
+  font-weight: 600;
+}
+
+/* =========================================================
+   Fase 6 — configurações, backup e zona de perigo
+   ========================================================= */
+
+.secao__subtitulo {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--cor-texto-suave);
+  margin-bottom: var(--esp-1);
+}
+
+.categorias-listas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--esp-3);
+  margin-top: var(--esp-2);
+}
+
+.lista-categorias li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--esp-1) 0;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.lista-categorias li:last-child {
+  border-bottom: none;
+}
+
+.backup-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-1);
+  margin-top: var(--esp-2);
+}
+
+/* <label> estilizado como botão para o input de arquivo */
+.backup-importar {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.painel--perigo {
+  border: 1px solid var(--cor-despesa);
+}
+
+.botao--perigo {
+  background-color: var(--cor-despesa);
+  margin-top: var(--esp-2);
+}
+
+.botao--perigo:hover {
+  background-color: #8f3332;
+}

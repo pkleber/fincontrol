@@ -1,9 +1,12 @@
 /* =========================================================
-   categorias.js — categorias compartilhadas entre as telas
-   (Fase 6: passarão a ser gerenciadas nas Configurações)
+   categorias.js — categorias do app (Fase 6: dinâmicas)
+   Na primeira execução, as categorias padrão são gravadas
+   no localStorage; depois, a lista vem de lá e pode ser
+   gerenciada na tela de Configurações.
+   Requer: storage.js carregado antes.
    ========================================================= */
 
-const CATEGORIAS = [
+const CATEGORIAS_PADRAO = [
   { id: "cat-alimentacao", nome: "Alimentação", tipo: "despesa" },
   { id: "cat-moradia",     nome: "Moradia",     tipo: "despesa" },
   { id: "cat-transporte",  nome: "Transporte",  tipo: "despesa" },
@@ -14,6 +17,15 @@ const CATEGORIAS = [
   { id: "cat-freela",      nome: "Freelance",   tipo: "receita" },
   { id: "cat-outros-rec",  nome: "Outros",      tipo: "receita" },
 ];
+
+let CATEGORIAS = (function carregarCategorias() {
+  const salvas = lerLista(STORAGE_CHAVES.categorias);
+  if (salvas.length === 0) {
+    salvarLista(STORAGE_CHAVES.categorias, CATEGORIAS_PADRAO);
+    return [...CATEGORIAS_PADRAO];
+  }
+  return salvas;
+})();
 
 /** Retorna o nome de uma categoria pelo id */
 function nomeCategoria(id) {
