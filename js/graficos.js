@@ -10,6 +10,12 @@ const CORES_GRAFICO = [
   "#5c6f7a", "#3d7ea6", "#7a5c8a", "#8a6d3d",
 ];
 
+// Ajusta as cores padrão do Chart.js conforme o tema ativo
+if (typeof Chart !== "undefined" && document.documentElement.dataset.tema === "escuro") {
+  Chart.defaults.color = "#93a6b0";
+  Chart.defaults.borderColor = "#2c3a44";
+}
+
 // Guarda as instâncias criadas para poder destruí-las ao refazer
 const instanciasGraficos = {};
 

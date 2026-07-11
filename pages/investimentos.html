@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FinControl — Investimentos</title>
+  <script src="../js/tema.js"></script>
   <link rel="stylesheet" href="../css/reset.css" />
   <link rel="stylesheet" href="../css/variaveis.css" />
   <link rel="stylesheet" href="../css/layout.css" />
@@ -30,15 +31,75 @@
     <main class="conteudo">
       <header class="conteudo__header">
         <h2>Investimentos</h2>
+        <div class="cdi-config">
+          <label for="config-cdi">CDI (% a.a.)</label>
+          <input type="number" id="config-cdi" min="0" step="0.01" />
+        </div>
       </header>
 
-      <section class="painel painel--construcao" aria-label="Página em construção">
-        <p class="construcao__icone" aria-hidden="true">🚧</p>
-        <h3>Em construção</h3>
-        <p>Esta tela faz parte da <strong>Fase 5</strong> do roadmap e será desenvolvida em breve.</p>
+      <!-- Resumo geral -->
+      <section class="resumo" aria-label="Resumo dos investimentos">
+        <article class="card card--saldo">
+          <h3>Total aplicado</h3>
+          <p class="card__valor" id="total-aplicado">R$ 0,00</p>
+        </article>
+        <article class="card card--receita">
+          <h3>Valor atual estimado</h3>
+          <p class="card__valor" id="total-atual">R$ 0,00</p>
+        </article>
+        <article class="card card--investimento">
+          <h3>Rendimento bruto</h3>
+          <p class="card__valor" id="total-rendimento">R$ 0,00</p>
+        </article>
+      </section>
+
+      <!-- Nova caixinha -->
+      <section class="painel" aria-label="Nova caixinha">
+        <h3>Nova caixinha</h3>
+        <form id="form-caixinha" class="formulario">
+          <div class="formulario__grupo formulario__grupo--largo">
+            <label for="cx-nome">Nome</label>
+            <input type="text" id="cx-nome" placeholder="Ex.: Caixinha Viagem" required />
+          </div>
+
+          <div class="formulario__grupo">
+            <label for="cx-valor">Valor inicial (R$)</label>
+            <input type="number" id="cx-valor" min="0.01" step="0.01" required />
+          </div>
+
+          <div class="formulario__grupo">
+            <label for="cx-percentual">% do CDI</label>
+            <input type="number" id="cx-percentual" min="1" step="1" value="100" required />
+          </div>
+
+          <div class="formulario__grupo">
+            <label for="cx-data">Data da aplicação</label>
+            <input type="date" id="cx-data" required />
+          </div>
+
+          <div class="formulario__acoes">
+            <button type="submit" id="cx-salvar" class="botao">Criar caixinha</button>
+            <button type="button" id="cx-cancelar" class="botao botao--secundario" hidden>Cancelar</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Caixinhas -->
+      <section aria-label="Minhas caixinhas">
+        <h3 class="secao__titulo">Minhas caixinhas</h3>
+        <div id="lista-caixinhas" class="cartoes-grid"></div>
+        <p id="caixinhas-vazio" class="ultimas__vazio" hidden>Nenhuma caixinha criada ainda.</p>
+        <p class="card__detalhe">
+          * Valores brutos estimados por juros compostos em dias úteis (~252/ano),
+          sem descontar IR/IOF e desconsiderando feriados.
+        </p>
       </section>
     </main>
 
   </div>
+
+  <script src="../js/utils.js"></script>
+  <script src="../js/storage.js"></script>
+  <script src="../js/investimentos.js"></script>
 </body>
 </html>

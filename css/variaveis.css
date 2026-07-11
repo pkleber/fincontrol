@@ -32,3 +32,24 @@
   --raio: 10px;
   --sombra: 0 1px 4px rgba(15, 76, 92, 0.10);
 }
+
+/* =========================================================
+   Tema escuro — ativado via <html data-tema="escuro">
+   Só as variáveis mudam; nenhum componente precisa saber
+   qual tema está ativo. Esse é o poder das custom properties!
+   ========================================================= */
+:root[data-tema="escuro"] {
+  --cor-primaria: #14606f;
+  --cor-primaria-escura: #0a3641;
+  --cor-fundo: #121a20;
+  --cor-superficie: #1c2830;
+  --cor-texto: #e4ebef;
+  --cor-texto-suave: #93a6b0;
+  --cor-borda: #2c3a44;
+
+  --cor-receita: #3aa583;
+  --cor-despesa: #d16a69;
+  --cor-alerta: #dfa63f;
+
+  --sombra: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
