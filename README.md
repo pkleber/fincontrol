@@ -2,14 +2,6 @@
 
 Web app de **controle financeiro pessoal**, desenvolvido com HTML, CSS e JavaScript puro como projeto de estudo e uso real.
 
-## Funcionalidades planejadas
-
-- Registro de receitas e despesas
-- Gráficos e relatórios
-- Metas e orçamento mensal
-- Gestão de contas e cartões
-- Investimentos (caixinhas atreladas ao CDI)
-
 ## Como executar
 
 Não há dependências — basta abrir o `index.html` no navegador, ou usar a extensão **Live Server** do VS Code para recarregamento automático.
@@ -26,8 +18,17 @@ fincontrol/
 └── docs/             # planejamento do projeto
 ```
 
+## Funcionalidades
+
+- ✅ Registro de receitas e despesas com categorias personalizáveis
+- ✅ Gráficos (Chart.js) e relatórios com exportação CSV
+- ✅ Contas com saldo automático e cartões com fatura por fechamento
+- ✅ Metas com aportes e orçamento mensal com alertas (80% / 100%)
+- ✅ Caixinhas de investimento atreladas ao CDI (juros compostos por dias úteis)
+- ✅ Modo escuro, backup/restauração em JSON
+
 ## Status do projeto
 
-🟢 **Fase 1 — Fundação + MVP** (em andamento)
+🏁 **Roadmap concluído** — todas as 6 fases do planejamento foram entregues.
 
-O roadmap completo está em [`docs/planejamento.md`](docs/planejamento.md).
+O histórico do planejamento está em [`docs/planejamento.md`](docs/planejamento.md).
