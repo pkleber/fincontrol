@@ -13,6 +13,7 @@ const campoCategoria = document.getElementById("campo-categoria");
 const corpoTabela = document.getElementById("corpo-tabela");
 const tabelaVazia = document.getElementById("tabela-vazia");
 const filtroMes = document.getElementById("filtro-mes");
+const campoPagamento = document.getElementById("campo-pagamento");
 const botaoSalvar = document.getElementById("botao-salvar");
 const botaoCancelar = document.getElementById("botao-cancelar");
 
@@ -31,6 +32,51 @@ function atualizarCategorias() {
     opcao.textContent = c.nome;
     campoCategoria.appendChild(opcao);
   });
+}
+
+/** Preenche o select "Pagar com" com contas e cartões cadastrados */
+function atualizarMeiosPagamento() {
+  const contas = lerLista(STORAGE_CHAVES.contas);
+  const cartoes = lerLista(STORAGE_CHAVES.cartoes);
+
+  campoPagamento.innerHTML = '<option value="">— Não vincular —</option>';
+
+  if (contas.length > 0) {
+    const grupo = document.createElement("optgroup");
+    grupo.label = "Contas";
+    contas.forEach((c) => {
+      const opcao = document.createElement("option");
+      opcao.value = `conta:${c.id}`;
+      opcao.textContent = c.nome;
+      grupo.appendChild(opcao);
+    });
+    campoPagamento.appendChild(grupo);
+  }
+
+  if (cartoes.length > 0) {
+    const grupo = document.createElement("optgroup");
+    grupo.label = "Cartões";
+    cartoes.forEach((c) => {
+      const opcao = document.createElement("option");
+      opcao.value = `cartao:${c.id}`;
+      opcao.textContent = c.nome;
+      grupo.appendChild(opcao);
+    });
+    campoPagamento.appendChild(grupo);
+  }
+}
+
+/** Nome da conta/cartão de uma transação (para a tabela) */
+function nomeMeioPagamento(t) {
+  if (t.contaId) {
+    const conta = lerLista(STORAGE_CHAVES.contas).find((c) => c.id === t.contaId);
+    return conta ? conta.nome : "—";
+  }
+  if (t.cartaoId) {
+    const cartao = lerLista(STORAGE_CHAVES.cartoes).find((c) => c.id === t.cartaoId);
+    return cartao ? `💳 ${cartao.nome}` : "—";
+  }
+  return "—";
 }
 
 /** Renderiza a tabela com as transações do mês selecionado */
@@ -54,6 +100,7 @@ function renderizarTabela() {
       <td>${dataBR}</td>
       <td>${t.descricao}</td>
       <td>${nomeCategoria(t.categoriaId)}</td>
+      <td>${nomeMeioPagamento(t)}</td>
       <td class="tabela__valor ${classeValor}">${sinal} ${formatarMoeda(t.valor)}</td>
       <td class="tabela__acoes">
         <button class="botao botao--editar" data-id="${t.id}" aria-label="Editar ${t.descricao}">✎</button>
@@ -77,6 +124,10 @@ function iniciarEdicao(id) {
   campoData.value = transacao.data;
   campoCategoria.value = transacao.categoriaId;
 
+  if (transacao.contaId) campoPagamento.value = `conta:${transacao.contaId}`;
+  else if (transacao.cartaoId) campoPagamento.value = `cartao:${transacao.cartaoId}`;
+  else campoPagamento.value = "";
+
   botaoSalvar.textContent = "Salvar alterações";
   botaoCancelar.hidden = false;
   campoDescricao.focus();
@@ -96,12 +147,16 @@ function cancelarEdicao() {
 function salvarTransacao(evento) {
   evento.preventDefault();
 
+  const [tipoPagamento, idPagamento] = campoPagamento.value.split(":");
+
   const dados = {
     tipo: campoTipo.value,
     descricao: campoDescricao.value.trim(),
     valor: parseFloat(campoValor.value),
     data: campoData.value,
     categoriaId: campoCategoria.value,
+    contaId: tipoPagamento === "conta" ? idPagamento : null,
+    cartaoId: tipoPagamento === "cartao" ? idPagamento : null,
   };
 
   const transacoes = lerLista(STORAGE_CHAVES.transacoes);
@@ -116,8 +171,6 @@ function salvarTransacao(evento) {
     transacoes.push({
       id: gerarId(),
       ...dados,
-      contaId: null,
-      cartaoId: null,
       recorrente: false,
     });
   }
@@ -164,4 +217,5 @@ corpoTabela.addEventListener("click", (evento) => {
 // ---------- Inicialização ----------
 definirDatasPadrao();
 atualizarCategorias();
+atualizarMeiosPagamento();
 renderizarTabela();

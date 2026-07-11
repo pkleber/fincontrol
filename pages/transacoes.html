@@ -64,6 +64,13 @@
             <select id="campo-categoria" required></select>
           </div>
 
+          <div class="formulario__grupo">
+            <label for="campo-pagamento">Pagar com</label>
+            <select id="campo-pagamento">
+              <option value="">— Não vincular —</option>
+            </select>
+          </div>
+
           <div class="formulario__acoes">
             <button type="submit" id="botao-salvar" class="botao">Adicionar transação</button>
             <button type="button" id="botao-cancelar" class="botao botao--secundario" hidden>Cancelar</button>
@@ -85,6 +92,7 @@
               <th>Data</th>
               <th>Descrição</th>
               <th>Categoria</th>
+              <th>Pago com</th>
               <th class="tabela__valor">Valor</th>
               <th></th>
             </tr>
