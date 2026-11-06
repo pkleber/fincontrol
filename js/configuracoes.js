@@ -146,6 +146,17 @@ function exportarBackup() {
   baixarArquivo(blob, `fincontrol_backup_${hojeISO()}.json`);
 }
 
+/**
+ * Devolve ao localStorage os valores brutos guardados antes da importação.
+ * Primeiro libera o espaço do backup parcial, depois regrava a cópia.
+ */
+function restaurarCopia(copia) {
+  copia.forEach(([chave]) => localStorage.removeItem(chave));
+  copia.forEach(([chave, bruto]) => {
+    if (bruto !== null) localStorage.setItem(chave, bruto);
+  });
+}
+
 /** Restaura um backup, substituindo os dados atuais */
 function importarBackup(evento) {
   const arquivo = evento.target.files[0];
@@ -175,11 +186,21 @@ function importarBackup(evento) {
       "O que não estiver no arquivo (ex.: metas e caixinhas, em backups antigos) será apagado.";
     if (!confirm(mensagem)) return;
 
-    // Substituição completa: limpa tudo e grava só o que veio no backup
-    Object.values(STORAGE_CHAVES).forEach((chave) => localStorage.removeItem(chave));
-    Object.entries(STORAGE_CHAVES).forEach(([nome, chave]) => {
-      if (backup[nome] !== undefined) gravar(chave, backup[nome]);
-    });
+    // Cópia dos dados atuais: se a gravação falhar no meio, nada se perde
+    const copiaAtual = Object.values(STORAGE_CHAVES).map((chave) => [chave, localStorage.getItem(chave)]);
+
+    try {
+      // Substituição completa: limpa tudo e grava só o que veio no backup
+      Object.values(STORAGE_CHAVES).forEach((chave) => localStorage.removeItem(chave));
+      Object.entries(STORAGE_CHAVES).forEach(([nome, chave]) => {
+        if (backup[nome] !== undefined) gravar(chave, backup[nome]);
+      });
+    } catch (erro) {
+      restaurarCopia(copiaAtual);
+      console.error("FinControl: falha ao importar o backup", erro);
+      alert("A importação falhou e foi desfeita: seus dados anteriores foram mantidos.");
+      return;
+    }
 
     alert("Backup restaurado com sucesso!");
     location.reload();

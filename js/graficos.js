@@ -86,6 +86,14 @@ function criarGrafico(canvasId, config, redesenhar) {
   return grafico;
 }
 
+/** Remove o gráfico de um canvas (ex.: período inválido nos relatórios) */
+function limparGrafico(canvasId) {
+  const instancia = instanciasGraficos[canvasId];
+  if (!instancia) return;
+  instancia.grafico.destroy();
+  delete instanciasGraficos[canvasId];
+}
+
 // tema.js avisa quando o tema muda (ex.: modo "sistema" à noite)
 document.addEventListener("fincontrol:tema", () => {
   aplicarCoresPadraoGrafico();

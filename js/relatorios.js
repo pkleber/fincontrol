@@ -17,11 +17,28 @@ function transacoesDoPeriodo() {
   });
 }
 
+/** Limite do período: evita travar a aba com um ano digitado errado (ex.: 9999) */
+const MAX_MESES_RELATORIO = 120; // 10 anos
+const GRAFICOS_RELATORIO = ["grafico-barras", "grafico-linha"];
+
+/** Quantos meses há entre "2026-01" e "2026-06", inclusive (= 6), só com contas */
+function quantidadeDeMeses(mesInicio, mesFim) {
+  const [anoIni, mesIni] = mesInicio.split("-").map(Number);
+  const [anoFim, mesFimNum] = mesFim.split("-").map(Number);
+  return (anoFim - anoIni) * 12 + (mesFimNum - mesIni) + 1;
+}
+
+/** Esconde os gráficos e mostra o aviso de período vazio */
+function mostrarSemPeriodo() {
+  GRAFICOS_RELATORIO.forEach(limparGrafico);
+  avisoVazio.hidden = false;
+}
+
 /** Redesenha os dois gráficos conforme o período */
 function atualizarRelatorios() {
   // Campo de mês apagado: não há período para mostrar
   if (!periodoInicio.value || !periodoFim.value) {
-    avisoVazio.hidden = false;
+    mostrarSemPeriodo();
     return;
   }
 
@@ -30,10 +47,22 @@ function atualizarRelatorios() {
     [periodoInicio.value, periodoFim.value] = [periodoFim.value, periodoInicio.value];
   }
 
+  // Confere o tamanho ANTES de gerar a lista de meses (que travaria a aba)
+  if (quantidadeDeMeses(periodoInicio.value, periodoFim.value) > MAX_MESES_RELATORIO) {
+    alert(`Escolha um período de até ${MAX_MESES_RELATORIO / 12} anos.`);
+    mostrarSemPeriodo();
+    return;
+  }
+
+  const meses = listarMeses(periodoInicio.value, periodoFim.value);
+  if (meses.length === 0) {
+    mostrarSemPeriodo();
+    return;
+  }
+
   const transacoes = transacoesDoPeriodo();
   avisoVazio.hidden = transacoes.length > 0;
 
-  const meses = listarMeses(periodoInicio.value, periodoFim.value);
   const totais = totaisPorMes(transacoes, meses);
 
   graficoReceitasDespesas("grafico-barras", totais);

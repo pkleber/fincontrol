@@ -85,6 +85,17 @@ function fluxosDaCaixinha(caixinha) {
 }
 
 /**
+ * Dias úteis em que um fluxo rende até `diasExtras` dias úteis depois de hoje.
+ * - Fluxo passado: rende de sua data até hoje, mais os dias extras.
+ * - Fluxo futuro: só começa a render na própria data, então os dias úteis
+ *   até lá são descontados dos extras (hoje ele ainda não rendeu nada).
+ */
+function diasRendendo(dataFluxo, hoje, diasExtras) {
+  if (dataFluxo <= hoje) return diasUteisEntre(dataFluxo, hoje) + diasExtras;
+  return Math.max(0, diasExtras - diasUteisEntre(hoje, dataFluxo));
+}
+
+/**
  * Resumo da caixinha hoje e projetado.
  * diasExtras: dias úteis a mais no futuro (0 = hoje).
  */
@@ -94,11 +105,10 @@ function calcularCaixinha(caixinha, diasExtras = 0) {
   const fluxos = fluxosDaCaixinha(caixinha);
 
   const aplicado = fluxos.reduce((soma, f) => soma + f.valor, 0);
-  const atual = fluxos.reduce((soma, f) => {
-    // Aportes com data futura ainda não renderam nada
-    const dias = diasUteisEntre(f.data, hoje) + (f.data <= hoje ? diasExtras : 0);
-    return soma + f.valor * Math.pow(1 + taxa, dias);
-  }, 0);
+  const atual = fluxos.reduce(
+    (soma, f) => soma + f.valor * Math.pow(1 + taxa, diasRendendo(f.data, hoje, diasExtras)),
+    0
+  );
 
   return { aplicado, atual, rendimento: atual - aplicado };
 }
