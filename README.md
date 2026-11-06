@@ -11,7 +11,8 @@ Não há dependências nem build: basta abrir o `index.html` no navegador, ou us
 ## Funcionalidades
 
 ### 📊 Dashboard
-- Receitas, despesas e saldo do mês atual
+- Saldo, receitas e despesas do mês atual em **cores de semáforo**:
+  saldo em **verde**, receitas em **amarelo** e despesas em **vermelho** (saldo negativo fica vermelho)
 - Gráfico de despesas por categoria
 - Progresso das metas (aparece quando há metas cadastradas)
 - Últimas 5 transações
@@ -52,6 +53,8 @@ Não há dependências nem build: basta abrir o `index.html` no navegador, ou us
 
 ### ✨ Interface
 - Layout responsivo: sidebar no desktop e navegação horizontal no celular
+- Sidebar com ícones, animação ao passar o mouse e destaque de cor na página atual
+- Botão de **setinha** para recolher a sidebar só nos ícones (a escolha fica salva entre as páginas)
 - Conteúdo centralizado na tela
 - Campos com animações discretas: entrada suave, anel de foco e destaque de erro
 - Respeita a preferência do sistema por **menos movimento**
@@ -69,6 +72,7 @@ Por isso, exporte um backup de vez em quando pela tela de Configurações.
 | `fincontrol.metas` / `fincontrol.orcamentos` | metas e orçamentos mensais |
 | `fincontrol.caixinhas` | caixinhas de investimento e aportes |
 | `fincontrol.config` | tema e taxa do CDI |
+| `fincontrol.sidebar` | sidebar recolhida ou expandida |
 
 Textos digitados pelo usuário são escapados antes de ir para a tela (proteção contra XSS),
 e as datas usam o **fuso local**, não o UTC.
@@ -86,6 +90,7 @@ fincontrol/
 │   └── componentes.css # cards, formulários, botões, barras
 ├── js/
 │   ├── tema.js         # aplica o tema antes da página renderizar
+│   ├── sidebar.js      # botão de recolher a sidebar + ícones do menu
 │   ├── storage.js      # leitura/escrita no localStorage
 │   ├── utils.js        # moeda, datas locais, escape de HTML
 │   ├── categorias.js
