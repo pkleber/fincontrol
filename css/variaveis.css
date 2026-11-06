@@ -31,9 +31,20 @@
   --esp-3: 1.5rem;   /* 24px */
   --esp-4: 2rem;     /* 32px */
 
+  /* Campos de formulário: cor e anel de foco */
+  --cor-foco: #0f4c5c;
+  --anel-foco: rgba(15, 76, 92, 0.18);
+
+  /* Movimento — curto e suave, para não distrair */
+  --duracao: 0.2s;
+  --curva: cubic-bezier(0.2, 0.8, 0.2, 1);
+
   /* Outros */
   --raio: 10px;
   --sombra: 0 1px 4px rgba(15, 76, 92, 0.10);
+
+  /* Calendário, setas do select e barras de rolagem nativas no tema claro */
+  color-scheme: light;
 }
 
 /* =========================================================
@@ -57,5 +68,12 @@
   --cor-despesa-escura: #b04f4e;
   --cor-investimento: #5b9cc4;
 
+  /* O verde-petróleo some no fundo escuro: foco usa um tom mais claro */
+  --cor-foco: #5fb8c9;
+  --anel-foco: rgba(95, 184, 201, 0.25);
+
   --sombra: 0 1px 4px rgba(0, 0, 0, 0.35);
+
+  /* Faz o navegador desenhar calendário, setas e rolagem no modo escuro */
+  color-scheme: dark;
 }

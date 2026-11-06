@@ -59,6 +59,7 @@
 .ultimas__vazio {
   color: var(--cor-texto-suave);
   text-align: center;
+  padding: var(--esp-2) 0; /* respiro: não cola no painel seguinte */
 }
 
 /* ---------- Painel genérico ---------- */
@@ -103,21 +104,83 @@
 .formulario label {
   font-size: 0.85rem;
   color: var(--cor-texto-suave);
+  transition: color var(--duracao) var(--curva), transform var(--duracao) var(--curva);
 }
 
-.formulario input,
-.formulario select {
+/* Ao focar um campo, o rótulo acende e desliza um pouquinho */
+.formulario__grupo:focus-within label {
+  color: var(--cor-foco);
+  transform: translateX(2px);
+}
+
+/* ---------- Campos: estilo único para TODOS os inputs e selects ----------
+   Antes, só os de .formulario tinham estilo, e nenhum definia `color`:
+   o navegador usava texto preto, ilegível no fundo escuro. */
+input:not([type="file"]):not([type="checkbox"]):not([type="radio"]),
+select {
   padding: var(--esp-1);
   border: 1px solid var(--cor-borda);
   border-radius: var(--raio);
   background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  transition:
+    border-color var(--duracao) var(--curva),
+    box-shadow var(--duracao) var(--curva),
+    background-color var(--duracao) var(--curva);
 }
 
-.formulario input:focus,
-.formulario select:focus {
-  outline: 2px solid var(--cor-primaria);
-  outline-offset: 1px;
+/* Opções do select aberto também seguem o tema */
+select option {
+  background-color: var(--cor-superficie);
+  color: var(--cor-texto);
 }
+
+::placeholder {
+  color: var(--cor-texto-suave);
+  opacity: 1; /* Firefox deixa o placeholder translúcido por padrão */
+}
+
+input:not([type="file"]):hover,
+select:hover {
+  border-color: var(--cor-texto-suave);
+}
+
+/* Foco: borda colorida + anel suave que "cresce" (troca o outline seco) */
+input:not([type="file"]):focus,
+select:focus {
+  outline: none;
+  border-color: var(--cor-foco);
+  background-color: var(--cor-superficie);
+  box-shadow: 0 0 0 3px var(--anel-foco);
+}
+
+/* Campo inválido — só depois que o usuário mexeu nele (não ao abrir a página) */
+input:user-invalid,
+select:user-invalid {
+  border-color: var(--cor-despesa);
+}
+
+/* Entrada dos campos: sobem e aparecem em sequência, uma única vez */
+@keyframes campo-surgir {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.formulario__grupo {
+  animation: campo-surgir 0.35s var(--curva) both;
+}
+
+.formulario__grupo:nth-child(2) { animation-delay: 0.04s; }
+.formulario__grupo:nth-child(3) { animation-delay: 0.08s; }
+.formulario__grupo:nth-child(4) { animation-delay: 0.12s; }
+.formulario__grupo:nth-child(5) { animation-delay: 0.16s; }
+.formulario__grupo:nth-child(n + 6) { animation-delay: 0.2s; }
 
 /* ---------- Botões ---------- */
 .botao {
@@ -312,13 +375,6 @@
   align-items: end;
 }
 
-.filtro-periodo input {
-  padding: var(--esp-1);
-  border: 1px solid var(--cor-borda);
-  border-radius: var(--raio);
-  background-color: var(--cor-fundo);
-}
-
 @media (max-width: 720px) {
   .grafico-container {
     height: 240px;
@@ -474,12 +530,10 @@
   color: var(--cor-texto-suave);
 }
 
+/* Cores, borda e foco vêm do estilo único de campos; aqui só o tamanho */
 .cdi-config input {
   width: 80px;
   padding: 4px var(--esp-1);
-  border: 1px solid var(--cor-borda);
-  border-radius: var(--raio);
-  background-color: var(--cor-superficie);
 }
 
 .projecao {
