@@ -5,6 +5,7 @@ desktop.ini
 
 # Editor
 .vscode/
+.idea/
 
 # Dependências (caso use npm no futuro)
 node_modules/
