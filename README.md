@@ -4,31 +4,98 @@ Web app de **controle financeiro pessoal**, desenvolvido com HTML, CSS e JavaScr
 
 ## Como executar
 
-Não há dependências — basta abrir o `index.html` no navegador, ou usar a extensão **Live Server** do VS Code para recarregamento automático.
+Não há dependências nem build: basta abrir o `index.html` no navegador, ou usar a extensão **Live Server** do VS Code para recarregamento automático.
+
+> Os gráficos usam o **Chart.js** via CDN, então precisam de internet. O resto do app funciona offline.
+
+## Funcionalidades
+
+### 📊 Dashboard
+- Receitas, despesas e saldo do mês atual
+- Gráfico de despesas por categoria
+- Progresso das metas (aparece quando há metas cadastradas)
+- Últimas 5 transações
+
+### 💸 Transações
+- Criar, editar e excluir receitas e despesas
+- Vincular a uma conta ou cartão de crédito
+- Filtro por mês
+
+### 🏦 Contas & Cartões
+- Contas (corrente, poupança, carteira) com saldo calculado a partir das transações
+- Cartões com limite, uso em % e fatura atual calculada pelo dia de fechamento
+
+### 🎯 Metas & Orçamento
+- Metas com barra de progresso, prazo e botão **+ Guardar** para aportes rápidos
+- Sugestão de quanto guardar por mês para bater a meta no prazo
+- Orçamento mensal por categoria de despesa, com alertas visuais:
+  **âmbar** a partir de 80% e **vermelho** a partir de 100% (com o valor estourado)
+
+### 📈 Investimentos (caixinhas CDI)
+- Caixinhas com valor inicial, % do CDI e data da aplicação
+- Aportes adicionais a qualquer momento
+- Rendimento bruto estimado por juros compostos em dias úteis (252/ano)
+- Projeção do saldo em 6 e 12 meses
+- Totais: aplicado, valor atual e rendimento
+
+### 📑 Relatórios
+- Receitas x despesas por mês e evolução do saldo acumulado
+- Filtro por período (padrão: últimos 6 meses)
+- Exportação em **CSV** compatível com o Excel pt-BR
+
+### ⚙️ Configurações
+- Tema **claro**, **escuro** ou **seguir o sistema** (acompanha a troca do sistema em tempo real)
+- Taxa do CDI (compartilhada com a tela de Investimentos)
+- Categorias personalizáveis de receita e despesa
+- **Backup** e **restauração** de todos os dados em JSON
+- Zona de perigo: apagar todos os dados
+
+### ✨ Interface
+- Layout responsivo: sidebar no desktop e navegação horizontal no celular
+- Conteúdo centralizado na tela
+- Campos com animações discretas: entrada suave, anel de foco e destaque de erro
+- Respeita a preferência do sistema por **menos movimento**
+
+## Dados e privacidade
+
+Todos os dados ficam **apenas no navegador** (`localStorage`); nada é enviado a servidores.
+Por isso, exporte um backup de vez em quando pela tela de Configurações.
+
+| Chave | Conteúdo |
+|---|---|
+| `fincontrol.transacoes` | receitas e despesas |
+| `fincontrol.categorias` | categorias personalizadas |
+| `fincontrol.contas` / `fincontrol.cartoes` | contas e cartões |
+| `fincontrol.metas` / `fincontrol.orcamentos` | metas e orçamentos mensais |
+| `fincontrol.caixinhas` | caixinhas de investimento e aportes |
+| `fincontrol.config` | tema e taxa do CDI |
+
+Textos digitados pelo usuário são escapados antes de ir para a tela (proteção contra XSS),
+e as datas usam o **fuso local**, não o UTC.
 
 ## Estrutura
 
 ```
 fincontrol/
-├── index.html        # Dashboard
-├── pages/            # Demais telas
-├── css/              # reset, variáveis, layout, componentes
-├── js/               # módulos JavaScript
-├── assets/icons/     # ícones e imagens
-└── docs/             # planejamento do projeto
+├── index.html          # Dashboard
+├── pages/              # Transações, Contas, Metas, Investimentos, Relatórios, Configurações
+├── css/
+│   ├── reset.css
+│   ├── variaveis.css   # tokens de cor/espaço + tema escuro
+│   ├── layout.css      # sidebar e área de conteúdo
+│   └── componentes.css # cards, formulários, botões, barras
+├── js/
+│   ├── tema.js         # aplica o tema antes da página renderizar
+│   ├── storage.js      # leitura/escrita no localStorage
+│   ├── utils.js        # moeda, datas locais, escape de HTML
+│   ├── categorias.js
+│   ├── graficos.js     # Chart.js com as cores do tema
+│   └── <página>.js     # um script por tela
+└── docs/               # planejamento do projeto
 ```
-
-## Funcionalidades
-
-- ✅ Registro de receitas e despesas com categorias personalizáveis
-- ✅ Gráficos (Chart.js) e relatórios com exportação CSV
-- ✅ Contas com saldo automático e cartões com fatura por fechamento
-- ✅ Metas com aportes e orçamento mensal com alertas (80% / 100%)
-- ✅ Caixinhas de investimento atreladas ao CDI (juros compostos por dias úteis)
-- ✅ Modo escuro, backup/restauração em JSON
 
 ## Status do projeto
 
-🏁 **Roadmap concluído** — todas as 6 fases do planejamento foram entregues.
+🏁 **Roadmap concluído**: todas as 6 fases do planejamento foram entregues.
 
 O histórico do planejamento está em [`docs/planejamento.md`](docs/planejamento.md).
