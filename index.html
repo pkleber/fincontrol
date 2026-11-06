@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FinControl — Dashboard</title>
     <script src="js/tema.js"></script>
+    <script src="js/sidebar.js"></script>
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/variaveis.css" />
     <link rel="stylesheet" href="css/layout.css" />
@@ -36,7 +37,12 @@
         </header>
 
         <!-- Resumo do mês -->
-        <section class="resumo" aria-label="Resumo do mês">
+        <!-- Ordem semáforo: saldo (verde), receitas (amarelo), despesas (vermelho) -->
+        <section class="resumo resumo--semaforo" aria-label="Resumo do mês">
+          <article class="card card--saldo">
+            <h3>Saldo</h3>
+            <p class="card__valor" id="saldo-mes">R$ 0,00</p>
+          </article>
           <article class="card card--receita">
             <h3>Receitas</h3>
             <p class="card__valor" id="total-receitas">R$ 0,00</p>
@@ -44,10 +50,6 @@
           <article class="card card--despesa">
             <h3>Despesas</h3>
             <p class="card__valor" id="total-despesas">R$ 0,00</p>
-          </article>
-          <article class="card card--saldo">
-            <h3>Saldo</h3>
-            <p class="card__valor" id="saldo-mes">R$ 0,00</p>
           </article>
         </section>
 

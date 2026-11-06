@@ -21,6 +21,23 @@
   --cor-despesa-escura: #8f3332;  /* hover de botões vermelhos */
   --cor-investimento: #3d7ea6;    /* azul — caixinhas CDI */
 
+  /* Semáforo do dashboard: borda viva, texto escurecido para contraste */
+  --semaforo-verde: #2e9e4f;
+  --semaforo-amarelo: #f2b705;
+  --semaforo-vermelho: #d93a3a;
+  --semaforo-verde-texto: #1f7a3a;
+  --semaforo-amarelo-texto: #8a6400;
+  --semaforo-vermelho-texto: #b02a2a;
+
+  /* Sidebar: larguras aberta/recolhida */
+  --sidebar-largura: 230px;
+  --sidebar-largura-recolhida: 72px;
+
+  /* Sidebar: item selecionado */
+  --sidebar-ativo-fundo: #ffffff;
+  --sidebar-ativo-texto: #0f4c5c;
+  --sidebar-destaque: #f2b705;
+
   /* Tipografia */
   --fonte-corpo: "Segoe UI", system-ui, -apple-system, sans-serif;
   --fonte-titulo: "Segoe UI Semibold", system-ui, sans-serif;
@@ -67,6 +84,17 @@
   --cor-receita-escura: #2b8467;
   --cor-despesa-escura: #b04f4e;
   --cor-investimento: #5b9cc4;
+
+  --semaforo-verde: #3fbf66;
+  --semaforo-amarelo: #f5c542;
+  --semaforo-vermelho: #ef5f5f;
+  --semaforo-verde-texto: #5fd383;
+  --semaforo-amarelo-texto: #f5c542;
+  --semaforo-vermelho-texto: #f07a7a;
+
+  --sidebar-ativo-fundo: #e4ebef;
+  --sidebar-ativo-texto: #0a3641;
+  --sidebar-destaque: #f5c542;
 
   /* O verde-petróleo some no fundo escuro: foco usa um tom mais claro */
   --cor-foco: #5fb8c9;

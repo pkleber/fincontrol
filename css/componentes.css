@@ -35,6 +35,18 @@
 .card--despesa { border-top-color: var(--cor-despesa); }
 .card--saldo   { border-top-color: var(--cor-primaria); }
 
+/* Dashboard: cards em cores de semáforo */
+.resumo--semaforo .card--saldo   { border-top-color: var(--semaforo-verde); }
+.resumo--semaforo .card--receita { border-top-color: var(--semaforo-amarelo); }
+.resumo--semaforo .card--despesa { border-top-color: var(--semaforo-vermelho); }
+
+.resumo--semaforo .card--saldo .card__valor   { color: var(--semaforo-verde-texto); }
+.resumo--semaforo .card--receita .card__valor { color: var(--semaforo-amarelo-texto); }
+.resumo--semaforo .card--despesa .card__valor { color: var(--semaforo-vermelho-texto); }
+
+/* Saldo negativo continua em vermelho, mesmo no semáforo */
+.resumo--semaforo .card--saldo .card__valor.negativo { color: var(--semaforo-vermelho-texto); }
+
 /* ---------- Últimas transações ---------- */
 .ultimas h3 {
   margin-bottom: var(--esp-2);
