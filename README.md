@@ -49,6 +49,8 @@ Não há dependências nem build: basta abrir o `index.html` no navegador, ou us
 - Taxa do CDI (compartilhada com a tela de Investimentos)
 - Categorias personalizáveis de receita e despesa
 - **Backup** e **restauração** de todos os dados em JSON
+  - o backup é conferido inteiro antes de importar: um arquivo inválido ou adulterado é recusado sem alterar nada
+  - ao exportar, avisa se alguma parte dos dados estiver corrompida
 - Zona de perigo: apagar todos os dados
 
 ### ✨ Interface
@@ -74,8 +76,9 @@ Por isso, exporte um backup de vez em quando pela tela de Configurações.
 | `fincontrol.config` | tema e taxa do CDI |
 | `fincontrol.sidebar` | sidebar recolhida ou expandida |
 
-Textos digitados pelo usuário são escapados antes de ir para a tela (proteção contra XSS),
-e as datas usam o **fuso local**, não o UTC.
+Textos digitados pelo usuário e ids vindos de backups são escapados antes de ir para a tela
+(proteção contra XSS), e os formulários recusam campos vazios ou só com espaços e valores inválidos.
+As datas usam o **fuso local**, não o UTC.
 
 ## Estrutura
 
@@ -92,7 +95,8 @@ fincontrol/
 │   ├── tema.js         # aplica o tema antes da página renderizar
 │   ├── sidebar.js      # botão de recolher a sidebar + ícones do menu
 │   ├── storage.js      # leitura/escrita no localStorage
-│   ├── utils.js        # moeda, datas locais, escape de HTML
+│   ├── utils.js        # moeda, datas locais, escape de HTML, downloads
+│   ├── validacao.js    # confere o backup antes de importar
 │   ├── categorias.js
 │   ├── graficos.js     # Chart.js com as cores do tema
 │   └── <página>.js     # um script por tela
