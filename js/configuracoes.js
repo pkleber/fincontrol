@@ -142,28 +142,38 @@ function importarBackup(evento) {
 
   const leitor = new FileReader();
   leitor.onload = () => {
+    let backup;
     try {
-      const backup = JSON.parse(leitor.result);
-
-      if (backup.app !== "FinControl") {
-        alert("Este arquivo não parece ser um backup do FinControl.");
-        return;
-      }
-
-      if (!confirm("Importar este backup? Os dados atuais serão SUBSTITUÍDOS.")) return;
-
-      Object.entries(STORAGE_CHAVES).forEach(([nome, chave]) => {
-        if (backup[nome] !== undefined) {
-          localStorage.setItem(chave, JSON.stringify(backup[nome]));
-        }
-      });
-
-      alert("Backup restaurado com sucesso!");
-      location.reload();
+      backup = JSON.parse(leitor.result);
     } catch {
       alert("Arquivo inválido: não foi possível ler o JSON.");
+      return;
     }
+
+    // Valida TUDO antes de mexer nos dados atuais
+    const problemas = validarBackup(backup);
+    if (problemas.length > 0) {
+      const lista = problemas.slice(0, 5).join("\n• ");
+      const mais = problemas.length > 5 ? `\n…e mais ${problemas.length - 5} problema(s).` : "";
+      alert(`Backup recusado — nada foi alterado.\n\n• ${lista}${mais}`);
+      return;
+    }
+
+    const mensagem =
+      "Importar este backup?\n\nTODOS os dados atuais serão SUBSTITUÍDOS. " +
+      "O que não estiver no arquivo (ex.: metas e caixinhas, em backups antigos) será apagado.";
+    if (!confirm(mensagem)) return;
+
+    // Substituição completa: limpa tudo e grava só o que veio no backup
+    Object.values(STORAGE_CHAVES).forEach((chave) => localStorage.removeItem(chave));
+    Object.entries(STORAGE_CHAVES).forEach(([nome, chave]) => {
+      if (backup[nome] !== undefined) gravar(chave, backup[nome]);
+    });
+
+    alert("Backup restaurado com sucesso!");
+    location.reload();
   };
+  leitor.onerror = () => alert("Não foi possível ler o arquivo selecionado.");
   leitor.readAsText(arquivo);
   evento.target.value = ""; // permite importar o mesmo arquivo de novo
 }

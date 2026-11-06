@@ -27,26 +27,70 @@ function coresGrafico() {
   ];
 }
 
-// Texto, grades e bordas dos gráficos seguem o tema ativo
-if (typeof Chart !== "undefined") {
-  Chart.defaults.color = corTema("--cor-texto-suave");
+// Tamanhos de texto dos gráficos (px). No celular, um pouco menores.
+const TELA_PEQUENA = window.matchMedia("(max-width: 720px)").matches;
+const FONTE_GRAFICO = TELA_PEQUENA ? 12 : 14;
+const FONTE_LEGENDA = TELA_PEQUENA ? 13 : 15;
+
+/**
+ * Texto, grades e bordas dos gráficos seguem o tema ativo.
+ * Sem isso, o Chart.js usa Helvetica/Arial 12px em cinza claro:
+ * pequeno, com fonte diferente do app e pouco contraste no escuro.
+ */
+function aplicarCoresPadraoGrafico() {
+  if (typeof Chart === "undefined") return;
+  Chart.defaults.color = corTema("--cor-texto");
   Chart.defaults.borderColor = corTema("--cor-borda");
+  Chart.defaults.font.family = corTema("--fonte-corpo");
+  Chart.defaults.font.size = FONTE_GRAFICO;
+
+  // Legenda (Receitas / Despesas): maior, em negrito e com marcador arredondado
+  Chart.defaults.plugins.legend.labels.font = { size: FONTE_LEGENDA, weight: "600" };
+  Chart.defaults.plugins.legend.labels.padding = 16;
+  Chart.defaults.plugins.legend.labels.boxWidth = 14;
+  Chart.defaults.plugins.legend.labels.boxHeight = 14;
+  Chart.defaults.plugins.legend.labels.useBorderRadius = true;
+  Chart.defaults.plugins.legend.labels.borderRadius = 3;
+
+  // Tooltip mais legível
+  Chart.defaults.plugins.tooltip.titleFont = { size: FONTE_GRAFICO, weight: "600" };
+  Chart.defaults.plugins.tooltip.bodyFont = { size: FONTE_GRAFICO };
+  Chart.defaults.plugins.tooltip.padding = 10;
+}
+aplicarCoresPadraoGrafico();
+
+/** Valor curto para os eixos. Ex.: 6000 -> "R$ 6 mil", 1500000 -> "R$ 1,5 mi" */
+function moedaCompacta(valor) {
+  return valor.toLocaleString("pt-BR", {
+    style: "currency", currency: "BRL", notation: "compact", maximumFractionDigits: 1,
+  });
 }
 
-// Guarda as instâncias criadas para poder destruí-las ao refazer
+// Instâncias criadas + como redesenhá-las (para destruir ao refazer
+// e para trocar as cores quando o tema mudar com a página aberta)
 const instanciasGraficos = {};
 
-/** Cria (ou recria) um gráfico em um canvas, destruindo o anterior */
-function criarGrafico(canvasId, config) {
+/**
+ * Cria (ou recria) um gráfico em um canvas, destruindo o anterior.
+ * `redesenhar` refaz o mesmo gráfico lendo de novo as cores do tema.
+ */
+function criarGrafico(canvasId, config, redesenhar) {
   const canvas = document.getElementById(canvasId);
   if (!canvas) return null;
 
   if (instanciasGraficos[canvasId]) {
-    instanciasGraficos[canvasId].destroy();
+    instanciasGraficos[canvasId].grafico.destroy();
   }
-  instanciasGraficos[canvasId] = new Chart(canvas, config);
-  return instanciasGraficos[canvasId];
+  const grafico = new Chart(canvas, config);
+  instanciasGraficos[canvasId] = { grafico, redesenhar };
+  return grafico;
 }
+
+// tema.js avisa quando o tema muda (ex.: modo "sistema" à noite)
+document.addEventListener("fincontrol:tema", () => {
+  aplicarCoresPadraoGrafico();
+  Object.values(instanciasGraficos).forEach(({ redesenhar }) => redesenhar && redesenhar());
+});
 
 /** Agrupa as despesas por categoria -> { labels: [], valores: [] } */
 function agruparDespesasPorCategoria(transacoes) {
@@ -68,8 +112,15 @@ function agruparDespesasPorCategoria(transacoes) {
   };
 }
 
-/** Gera a lista de meses (formato "2026-07") entre dois meses, inclusive */
+const RE_MES_ISO = /^\d{4}-(0[1-9]|1[0-2])$/; // "2026-07"
+
+/**
+ * Gera a lista de meses (formato "2026-07") entre dois meses, inclusive.
+ * Entrada vazia ou inválida retorna [] — antes, um campo de mês apagado
+ * virava NaN e o laço abaixo nunca terminava (travava a aba).
+ */
 function listarMeses(mesInicio, mesFim) {
+  if (!RE_MES_ISO.test(mesInicio) || !RE_MES_ISO.test(mesFim)) return [];
   const meses = [];
   let [ano, mes] = mesInicio.split("-").map(Number);
   const [anoFim, mesFimNum] = mesFim.split("-").map(Number);
@@ -107,6 +158,7 @@ function totaisPorMes(transacoes, meses) {
 /** Pizza (doughnut): despesas por categoria */
 function graficoDespesasPorCategoria(canvasId, transacoes) {
   const { labels, valores } = agruparDespesasPorCategoria(transacoes);
+  const redesenhar = () => graficoDespesasPorCategoria(canvasId, transacoes);
 
   return criarGrafico(canvasId, {
     type: "doughnut",
@@ -126,11 +178,13 @@ function graficoDespesasPorCategoria(canvasId, transacoes) {
         },
       },
     },
-  });
+  }, redesenhar);
 }
 
 /** Barras: receitas x despesas por mês */
 function graficoReceitasDespesas(canvasId, totais) {
+  const redesenhar = () => graficoReceitasDespesas(canvasId, totais);
+
   return criarGrafico(canvasId, {
     type: "bar",
     data: {
@@ -144,7 +198,7 @@ function graficoReceitasDespesas(canvasId, totais) {
       responsive: true,
       maintainAspectRatio: false,
       scales: {
-        y: { ticks: { callback: (v) => formatarMoeda(v) } },
+        y: { ticks: { callback: (v) => moedaCompacta(v) } },
       },
       plugins: {
         tooltip: {
@@ -154,7 +208,7 @@ function graficoReceitasDespesas(canvasId, totais) {
         },
       },
     },
-  });
+  }, redesenhar);
 }
 
 /** Linha: evolução do saldo acumulado no período */
@@ -164,6 +218,8 @@ function graficoEvolucaoSaldo(canvasId, totais) {
     acumulado += t.receitas - t.despesas;
     return acumulado;
   });
+
+  const redesenhar = () => graficoEvolucaoSaldo(canvasId, totais);
 
   return criarGrafico(canvasId, {
     type: "line",
@@ -182,7 +238,7 @@ function graficoEvolucaoSaldo(canvasId, totais) {
       responsive: true,
       maintainAspectRatio: false,
       scales: {
-        y: { ticks: { callback: (v) => formatarMoeda(v) } },
+        y: { ticks: { callback: (v) => moedaCompacta(v) } },
       },
       plugins: {
         tooltip: {
@@ -192,5 +248,5 @@ function graficoEvolucaoSaldo(canvasId, totais) {
         },
       },
     },
-  });
+  }, redesenhar);
 }

@@ -14,18 +14,41 @@ const STORAGE_CHAVES = {
   config: "fincontrol.config", // objeto (tema, cdiAnual), não lista
 };
 
-/** Lê uma lista do localStorage (retorna [] se não existir) */
+/**
+ * Lê uma lista do localStorage.
+ * Retorna [] se não existir, se o JSON estiver corrompido ou se o
+ * valor salvo não for uma lista — assim nenhuma página quebra.
+ */
 function lerLista(chave) {
   try {
-    return JSON.parse(localStorage.getItem(chave)) || [];
+    const valor = JSON.parse(localStorage.getItem(chave));
+    return Array.isArray(valor) ? valor : [];
   } catch {
     return [];
   }
 }
 
+/**
+ * Grava no localStorage avisando o usuário se não couber (cota cheia).
+ * Relança o erro para interromper quem chamou: o formulário não é
+ * limpo e a tela não finge que salvou.
+ */
+function gravar(chave, valor) {
+  try {
+    localStorage.setItem(chave, JSON.stringify(valor));
+  } catch (erro) {
+    console.error(`FinControl: falha ao salvar "${chave}"`, erro);
+    alert(
+      "Não foi possível salvar: o armazenamento do navegador está cheio ou bloqueado.\n" +
+      "Exporte um backup em Configurações e libere espaço."
+    );
+    throw erro;
+  }
+}
+
 /** Salva uma lista no localStorage */
 function salvarLista(chave, lista) {
-  localStorage.setItem(chave, JSON.stringify(lista));
+  gravar(chave, lista);
 }
 
 /** Lê o objeto de configurações (retorna {} se não existir ou estiver corrompido) */
@@ -40,5 +63,5 @@ function lerConfig() {
 
 /** Salva o objeto de configurações */
 function salvarConfig(config) {
-  localStorage.setItem(STORAGE_CHAVES.config, JSON.stringify(config));
+  gravar(STORAGE_CHAVES.config, config);
 }

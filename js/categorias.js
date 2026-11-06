@@ -19,12 +19,13 @@ const CATEGORIAS_PADRAO = [
 ];
 
 let CATEGORIAS = (function carregarCategorias() {
-  const salvas = lerLista(STORAGE_CHAVES.categorias);
-  if (salvas.length === 0) {
+  // Só é "primeira execução" se a chave NÃO existe. Uma lista vazia é
+  // escolha do usuário (excluiu todas) e deve ser respeitada.
+  if (localStorage.getItem(STORAGE_CHAVES.categorias) === null) {
     salvarLista(STORAGE_CHAVES.categorias, CATEGORIAS_PADRAO);
     return [...CATEGORIAS_PADRAO];
   }
-  return salvas;
+  return lerLista(STORAGE_CHAVES.categorias);
 })();
 
 /** Retorna o nome de uma categoria pelo id */

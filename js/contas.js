@@ -50,10 +50,25 @@ function dataISO(ano, mes, dia) {
   return `${ano}-${String(mes + 1).padStart(2, "0")}-${String(diaFinal).padStart(2, "0")}`;
 }
 
+/** Dia seguinte a uma data ISO. Ex.: "2026-01-31" -> "2026-02-01" */
+function diaSeguinte(iso) {
+  const [ano, mes, dia] = iso.split("-").map(Number);
+  const data = new Date(ano, mes - 1, dia + 1);
+  return dataISO(data.getFullYear(), data.getMonth(), data.getDate());
+}
+
+/** Data de fechamento do cartão num mês (mes: 0-11, aceita -1 e 12) */
+function fechamentoNoMes(ano, mes, diaFechamento) {
+  const referencia = new Date(ano, mes, 1); // normaliza -1/12 para o ano certo
+  return dataISO(referencia.getFullYear(), referencia.getMonth(), diaFechamento);
+}
+
 /**
  * Período da fatura ABERTA do cartão hoje.
- * A fatura fecha no dia `diaFechamento`; compras depois disso
- * entram na fatura seguinte.
+ * A fatura fecha no dia `diaFechamento` (ou no último dia, em meses
+ * mais curtos); compras depois disso entram na fatura seguinte.
+ * O início é sempre o dia seguinte ao fechamento anterior — assim
+ * faturas consecutivas nunca se sobrepõem (ex.: fechamento dia 31).
  * Retorna { inicio, fim } em ISO (ambos inclusivos).
  */
 function periodoFaturaAtual(cartao) {
@@ -61,23 +76,20 @@ function periodoFaturaAtual(cartao) {
   const ano = hoje.getFullYear();
   const mes = hoje.getMonth(); // 0-11
   const fech = cartao.diaFechamento;
+  const fechEsteMes = fechamentoNoMes(ano, mes, fech);
 
-  if (hoje.getDate() <= fech) {
+  if (hoje.getDate() <= Number(fechEsteMes.slice(8))) {
     // Ainda estamos dentro da fatura que fecha neste mês
-    const mesAnterior = mes === 0 ? 11 : mes - 1;
-    const anoAnterior = mes === 0 ? ano - 1 : ano;
     return {
-      inicio: dataISO(anoAnterior, mesAnterior, fech + 1),
-      fim: dataISO(ano, mes, fech),
+      inicio: diaSeguinte(fechamentoNoMes(ano, mes - 1, fech)),
+      fim: fechEsteMes,
     };
   }
 
   // Fatura deste mês já fechou: a aberta vai até o fechamento do mês que vem
-  const mesSeguinte = mes === 11 ? 0 : mes + 1;
-  const anoSeguinte = mes === 11 ? ano + 1 : ano;
   return {
-    inicio: dataISO(ano, mes, fech + 1),
-    fim: dataISO(anoSeguinte, mesSeguinte, fech),
+    inicio: diaSeguinte(fechEsteMes),
+    fim: fechamentoNoMes(ano, mes + 1, fech),
   };
 }
 

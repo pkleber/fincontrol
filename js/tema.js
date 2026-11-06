@@ -11,7 +11,12 @@ function aplicarTema(tema) {
     tema === "escuro" ||
     (tema === "sistema" && window.matchMedia("(prefers-color-scheme: dark)").matches);
 
-  document.documentElement.dataset.tema = escuro ? "escuro" : "claro";
+  const novo = escuro ? "escuro" : "claro";
+  const mudou = document.documentElement.dataset.tema !== novo;
+  document.documentElement.dataset.tema = novo;
+
+  // Avisa quem desenha com cores fixas (gráficos) para se redesenhar
+  if (mudou) document.dispatchEvent(new CustomEvent("fincontrol:tema", { detail: novo }));
 }
 
 /** Tema salvo nas configurações (padrão: claro) */

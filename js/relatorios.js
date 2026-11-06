@@ -19,6 +19,12 @@ function transacoesDoPeriodo() {
 
 /** Redesenha os dois gráficos conforme o período */
 function atualizarRelatorios() {
+  // Campo de mês apagado: não há período para mostrar
+  if (!periodoInicio.value || !periodoFim.value) {
+    avisoVazio.hidden = false;
+    return;
+  }
+
   // Garante que o período é válido (início <= fim)
   if (periodoInicio.value > periodoFim.value) {
     [periodoInicio.value, periodoFim.value] = [periodoFim.value, periodoInicio.value];
@@ -35,7 +41,23 @@ function atualizarRelatorios() {
 }
 
 /** Gera e baixa um CSV com as transações do período */
+/**
+ * Prepara um texto para uma célula CSV entre aspas.
+ * - aspas internas são duplicadas (padrão CSV);
+ * - textos começando com = + - @ viram texto puro (prefixo '),
+ *   senão o Excel os executaria como fórmula (CSV injection).
+ */
+function celulaCSV(texto) {
+  const seguro = /^[=+\-@\t\r]/.test(texto) ? `'${texto}` : texto;
+  return `"${seguro.replaceAll('"', '""')}"`;
+}
+
 function exportarCSV() {
+  if (!periodoInicio.value || !periodoFim.value) {
+    alert("Escolha o mês inicial e o final do período.");
+    return;
+  }
+
   const transacoes = transacoesDoPeriodo()
     .sort((a, b) => a.data.localeCompare(b.data));
 
@@ -48,10 +70,8 @@ function exportarCSV() {
   const linhas = ["Data;Tipo;Descrição;Categoria;Valor"];
   transacoes.forEach((t) => {
     const valor = t.valor.toFixed(2).replace(".", ",");
-    // Aspas protegem contra ";" digitado pelo usuário; aspas internas são duplicadas (padrão CSV)
-    const descricao = t.descricao.replaceAll('"', '""');
-    const categoria = nomeCategoria(t.categoriaId).replaceAll('"', '""');
-    linhas.push(`${t.data};${t.tipo};"${descricao}";"${categoria}";${valor}`);
+    // Aspas protegem contra ";" digitado pelo usuário
+    linhas.push(`${t.data};${t.tipo};${celulaCSV(t.descricao)};${celulaCSV(nomeCategoria(t.categoriaId))};${valor}`);
   });
 
   // \ufeff (BOM) faz o Excel reconhecer os acentos (UTF-8)
