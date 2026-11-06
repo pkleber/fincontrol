@@ -103,8 +103,8 @@ function renderizarTabela() {
       <td>${escaparHtml(nomeMeioPagamento(t))}</td>
       <td class="tabela__valor ${classeValor}">${sinal} ${formatarMoeda(t.valor)}</td>
       <td class="tabela__acoes">
-        <button class="botao botao--editar" data-id="${t.id}" aria-label="Editar ${escaparHtml(t.descricao)}">✎</button>
-        <button class="botao botao--excluir" data-id="${t.id}" aria-label="Excluir ${escaparHtml(t.descricao)}">✕</button>
+        <button class="botao botao--editar" data-id="${escaparHtml(t.id)}" aria-label="Editar ${escaparHtml(t.descricao)}">✎</button>
+        <button class="botao botao--excluir" data-id="${escaparHtml(t.id)}" aria-label="Excluir ${escaparHtml(t.descricao)}">✕</button>
       </td>
     `;
     corpoTabela.appendChild(linha);
@@ -154,10 +154,16 @@ function salvarTransacao(evento) {
     descricao: campoDescricao.value.trim(),
     valor: parseFloat(campoValor.value),
     data: campoData.value,
-    categoriaId: campoCategoria.value,
+    categoriaId: campoCategoria.value || null, // sem categorias do tipo → null, não ""
     contaId: tipoPagamento === "conta" ? idPagamento : null,
     cartaoId: tipoPagamento === "cartao" ? idPagamento : null,
   };
+
+  // "required" aceita "   "; depois do trim viraria descrição vazia
+  if (!dados.descricao || !(dados.valor > 0) || !dados.data) {
+    alert("Preencha descrição, valor (maior que zero) e data.");
+    return;
+  }
 
   const transacoes = lerLista(STORAGE_CHAVES.transacoes);
 

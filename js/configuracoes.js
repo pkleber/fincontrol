@@ -61,7 +61,7 @@ function renderizarCategorias() {
     const item = document.createElement("li");
     item.innerHTML = `
       <span>${escaparHtml(cat.nome)}</span>
-      <button class="botao botao--excluir" data-acao="excluir-categoria" data-id="${cat.id}"
+      <button class="botao botao--excluir" data-acao="excluir-categoria" data-id="${escaparHtml(cat.id)}"
               aria-label="Excluir categoria ${escaparHtml(cat.nome)}">✕</button>
     `;
     (cat.tipo === "despesa" ? listaCatDespesa : listaCatReceita).appendChild(item);
@@ -119,20 +119,31 @@ function excluirCategoria(id) {
 function exportarBackup() {
   const backup = { app: "FinControl", versao: 1, geradoEm: new Date().toISOString() };
 
+  const corrompidas = [];
   Object.entries(STORAGE_CHAVES).forEach(([nome, chave]) => {
     const bruto = localStorage.getItem(chave);
-    if (bruto !== null) backup[nome] = JSON.parse(bruto);
+    if (bruto === null) return;
+    try {
+      backup[nome] = JSON.parse(bruto);
+    } catch (erro) {
+      console.error(`FinControl: dados corrompidos em "${chave}"`, erro);
+      corrompidas.push(nome);
+    }
   });
+
+  // Não gera um backup incompleto sem avisar
+  if (corrompidas.length > 0) {
+    const continuar = confirm(
+      `Não foi possível ler: ${corrompidas.join(", ")} (dados corrompidos).\n` +
+      "Exportar o backup sem essas partes?"
+    );
+    if (!continuar) return;
+  }
 
   const blob = new Blob([JSON.stringify(backup, null, 2)], {
     type: "application/json",
   });
-
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = `fincontrol_backup_${hojeISO()}.json`;
-  link.click();
-  URL.revokeObjectURL(link.href);
+  baixarArquivo(blob, `fincontrol_backup_${hojeISO()}.json`);
 }
 
 /** Restaura um backup, substituindo os dados atuais */

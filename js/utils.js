@@ -63,6 +63,21 @@ function converterValor(texto) {
   return /^\d+(\.\d+)?$/.test(normalizado) ? parseFloat(normalizado) : NaN;
 }
 
+/** Tempo para o navegador iniciar o download antes de liberar o link */
+const ATRASO_LIBERAR_DOWNLOAD_MS = 1000;
+
+/** Baixa um Blob como arquivo. O link só é liberado depois do download começar. */
+function baixarArquivo(blob, nomeArquivo) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = nomeArquivo;
+  document.body.appendChild(link); // alguns navegadores exigem o link no DOM
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), ATRASO_LIBERAR_DOWNLOAD_MS);
+}
+
 /** Pede um valor positivo via prompt. Retorna o número ou null se cancelado/inválido. */
 function pedirValor(mensagem) {
   const resposta = prompt(mensagem);

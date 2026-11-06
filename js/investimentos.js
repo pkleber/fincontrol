@@ -156,9 +156,9 @@ function renderizarCaixinhas(caixinhas) {
       </p>
       ${htmlProjecao(caixinha)}
       <div class="card__acoes">
-        <button class="botao botao--aporte" data-acao="aportar-caixinha" data-id="${caixinha.id}" aria-label="Fazer aporte em ${nome}">+ Aporte</button>
-        <button class="botao botao--editar" data-acao="editar-caixinha" data-id="${caixinha.id}" aria-label="Editar ${nome}">✎</button>
-        <button class="botao botao--excluir" data-acao="excluir-caixinha" data-id="${caixinha.id}" aria-label="Excluir ${nome}">✕</button>
+        <button class="botao botao--aporte" data-acao="aportar-caixinha" data-id="${escaparHtml(caixinha.id)}" aria-label="Fazer aporte em ${nome}">+ Aporte</button>
+        <button class="botao botao--editar" data-acao="editar-caixinha" data-id="${escaparHtml(caixinha.id)}" aria-label="Editar ${nome}">✎</button>
+        <button class="botao botao--excluir" data-acao="excluir-caixinha" data-id="${escaparHtml(caixinha.id)}" aria-label="Excluir ${nome}">✕</button>
       </div>
     `;
     listaCaixinhas.appendChild(card);

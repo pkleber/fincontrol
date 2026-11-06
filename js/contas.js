@@ -147,8 +147,8 @@ function renderizarContas() {
       <p class="card__valor ${saldo < 0 ? "negativo" : ""}">${formatarMoeda(saldo)}</p>
       <p class="card__detalhe">Saldo inicial: ${formatarMoeda(conta.saldoInicial)}</p>
       <div class="card__acoes">
-        <button class="botao botao--editar" data-acao="editar-conta" data-id="${conta.id}" aria-label="Editar ${escaparHtml(conta.nome)}">✎</button>
-        <button class="botao botao--excluir" data-acao="excluir-conta" data-id="${conta.id}" aria-label="Excluir ${escaparHtml(conta.nome)}">✕</button>
+        <button class="botao botao--editar" data-acao="editar-conta" data-id="${escaparHtml(conta.id)}" aria-label="Editar ${escaparHtml(conta.nome)}">✎</button>
+        <button class="botao botao--excluir" data-acao="excluir-conta" data-id="${escaparHtml(conta.id)}" aria-label="Excluir ${escaparHtml(conta.nome)}">✕</button>
       </div>
     `;
     listaContas.appendChild(card);
@@ -204,8 +204,8 @@ function renderizarCartoes() {
       </p>
 
       <div class="card__acoes">
-        <button class="botao botao--editar" data-acao="editar-cartao" data-id="${cartao.id}" aria-label="Editar ${escaparHtml(cartao.nome)}">✎</button>
-        <button class="botao botao--excluir" data-acao="excluir-cartao" data-id="${cartao.id}" aria-label="Excluir ${escaparHtml(cartao.nome)}">✕</button>
+        <button class="botao botao--editar" data-acao="editar-cartao" data-id="${escaparHtml(cartao.id)}" aria-label="Editar ${escaparHtml(cartao.nome)}">✎</button>
+        <button class="botao botao--excluir" data-acao="excluir-cartao" data-id="${escaparHtml(cartao.id)}" aria-label="Excluir ${escaparHtml(cartao.nome)}">✕</button>
       </div>
     `;
     listaCartoes.appendChild(card);
@@ -222,6 +222,11 @@ function salvarConta(evento) {
     tipo: contaTipo.value,
     saldoInicial: parseFloat(contaSaldo.value),
   };
+
+  if (!dados.nome || !Number.isFinite(dados.saldoInicial)) {
+    alert("Preencha o nome da conta e um saldo inicial válido.");
+    return;
+  }
 
   const contas = lerLista(STORAGE_CHAVES.contas);
 
@@ -296,6 +301,13 @@ function salvarCartao(evento) {
     diaVencimento: parseInt(cartaoVencimento.value, 10),
     contaId: cartaoConta.value || null,
   };
+
+  const diaValido = (dia) => Number.isInteger(dia) && dia >= 1 && dia <= 31;
+  if (!dados.nome || !(dados.limite >= 0) ||
+      !diaValido(dados.diaFechamento) || !diaValido(dados.diaVencimento)) {
+    alert("Preencha nome, limite (zero ou mais) e dias de fechamento/vencimento entre 1 e 31.");
+    return;
+  }
 
   const cartoes = lerLista(STORAGE_CHAVES.cartoes);
 

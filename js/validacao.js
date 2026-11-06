@@ -9,6 +9,8 @@
 const validarBackup = (() => {
   const RE_DATA = /^\d{4}-\d{2}-\d{2}$/; // "2026-07-08"
   const RE_MES = /^\d{4}-\d{2}$/;       // "2026-07"
+  // Ids vão para atributos HTML (data-id): só caracteres inofensivos
+  const RE_ID = /^[A-Za-z0-9_-]{1,64}$/; // "cat-moradia", "lz3k9a1b2c"
   const TIPOS_TRANSACAO = ["receita", "despesa"];
   const TEMAS = ["claro", "escuro", "sistema"];
 
@@ -22,25 +24,29 @@ const validarBackup = (() => {
   const diaDoMes = (v) => Number.isInteger(v) && v >= 1 && v <= 31;
   const opcional = (regra) => (v) => v === undefined || v === null || regra(v);
   const umDe = (opcoes) => (v) => opcoes.includes(v);
+  const id = (v) => typeof v === "string" && RE_ID.test(v);
+  // Vínculo opcional (categoria/conta/cartão). "" é aceito porque versões
+  // antigas do app salvavam transações sem categoria assim.
+  const vinculo = (v) => v === undefined || v === null || v === "" || id(v);
 
   const aporteValido = (a) => a && data(a.data) && positivo(a.valor);
 
   /** Campos obrigatórios de cada tipo de registro (nome do campo → regra) */
   const ESQUEMAS = {
     transacoes: {
-      id: texto, tipo: umDe(TIPOS_TRANSACAO), descricao: texto, valor: positivo, data,
-      categoriaId: opcional(texto), contaId: opcional(texto), cartaoId: opcional(texto),
+      id, tipo: umDe(TIPOS_TRANSACAO), descricao: texto, valor: positivo, data,
+      categoriaId: vinculo, contaId: vinculo, cartaoId: vinculo,
     },
-    categorias: { id: texto, nome: texto, tipo: umDe(TIPOS_TRANSACAO) },
-    contas: { id: texto, nome: texto, tipo: texto, saldoInicial: numero },
+    categorias: { id, nome: texto, tipo: umDe(TIPOS_TRANSACAO) },
+    contas: { id, nome: texto, tipo: texto, saldoInicial: numero },
     cartoes: {
-      id: texto, nome: texto, limite: naoNegativo,
-      diaFechamento: diaDoMes, diaVencimento: diaDoMes, contaId: opcional(texto),
+      id, nome: texto, limite: naoNegativo,
+      diaFechamento: diaDoMes, diaVencimento: diaDoMes, contaId: vinculo,
     },
-    metas: { id: texto, nome: texto, valorAlvo: positivo, valorAtual: naoNegativo, prazo: data },
-    orcamentos: { id: texto, categoriaId: texto, mes, limite: positivo },
+    metas: { id, nome: texto, valorAlvo: positivo, valorAtual: naoNegativo, prazo: data },
+    orcamentos: { id, categoriaId: id, mes, limite: positivo },
     caixinhas: {
-      id: texto, nome: texto, valorAplicado: positivo, percentualCDI: positivo, dataAplicacao: data,
+      id, nome: texto, valorAplicado: positivo, percentualCDI: positivo, dataAplicacao: data,
       aportes: opcional((lista) => Array.isArray(lista) && lista.every(aporteValido)),
     },
   };

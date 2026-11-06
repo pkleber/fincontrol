@@ -71,11 +71,19 @@ function adicionarIcones(nav) {
     link.textContent = "";
     if (SIDEBAR_ICONES[pagina]) link.append(criarSvg(SIDEBAR_ICONES[pagina], "sidebar__icone"));
     link.append(rotulo);
-    link.title = texto; // dica ao passar o mouse quando recolhida
+  });
+}
+
+/** Dica com o nome da página: só faz sentido quando o texto está escondido */
+function atualizarDicasLinks(recolhida) {
+  document.querySelectorAll(".sidebar__nav a").forEach((link) => {
+    if (recolhida) link.title = link.textContent.trim();
+    else link.removeAttribute("title");
   });
 }
 
 function atualizarBotao(botao, recolhida) {
+  atualizarDicasLinks(recolhida);
   botao.setAttribute("aria-expanded", String(!recolhida));
   botao.setAttribute("aria-label", recolhida ? "Expandir menu" : "Recolher menu");
   botao.title = recolhida ? "Expandir menu" : "Recolher menu";

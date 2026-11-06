@@ -79,11 +79,7 @@ function exportarCSV() {
     type: "text/csv;charset=utf-8",
   });
 
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = `fincontrol_${periodoInicio.value}_a_${periodoFim.value}.csv`;
-  link.click();
-  URL.revokeObjectURL(link.href);
+  baixarArquivo(blob, `fincontrol_${periodoInicio.value}_a_${periodoFim.value}.csv`);
 }
 
 /** Período padrão: últimos 6 meses */

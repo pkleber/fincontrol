@@ -21,8 +21,21 @@ const CATEGORIAS_PADRAO = [
 let CATEGORIAS = (function carregarCategorias() {
   // Só é "primeira execução" se a chave NÃO existe. Uma lista vazia é
   // escolha do usuário (excluiu todas) e deve ser respeitada.
-  if (localStorage.getItem(STORAGE_CHAVES.categorias) === null) {
-    salvarLista(STORAGE_CHAVES.categorias, CATEGORIAS_PADRAO);
+  let existe;
+  try {
+    existe = localStorage.getItem(STORAGE_CHAVES.categorias) !== null;
+  } catch (erro) {
+    // Armazenamento bloqueado: usa as padrão só em memória, sem quebrar a página
+    console.error("FinControl: localStorage indisponível", erro);
+    return [...CATEGORIAS_PADRAO];
+  }
+
+  if (!existe) {
+    try {
+      salvarLista(STORAGE_CHAVES.categorias, CATEGORIAS_PADRAO);
+    } catch {
+      // gravar() já avisou o usuário; segue com as padrão em memória
+    }
     return [...CATEGORIAS_PADRAO];
   }
   return lerLista(STORAGE_CHAVES.categorias);

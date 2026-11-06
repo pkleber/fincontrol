@@ -112,9 +112,9 @@ function renderizarMetas() {
       ${barraProgresso(percentual, percentual >= 100 ? "barra--concluida" : "", `Progresso de ${meta.nome}`)}
       <p class="card__detalhe">${percentual}% · ${situacaoMeta(meta)}</p>
       <div class="card__acoes">
-        <button class="botao botao--aporte" data-acao="aportar-meta" data-id="${meta.id}" aria-label="Guardar dinheiro em ${nome}">+ Guardar</button>
-        <button class="botao botao--editar" data-acao="editar-meta" data-id="${meta.id}" aria-label="Editar ${nome}">✎</button>
-        <button class="botao botao--excluir" data-acao="excluir-meta" data-id="${meta.id}" aria-label="Excluir ${nome}">✕</button>
+        <button class="botao botao--aporte" data-acao="aportar-meta" data-id="${escaparHtml(meta.id)}" aria-label="Guardar dinheiro em ${nome}">+ Guardar</button>
+        <button class="botao botao--editar" data-acao="editar-meta" data-id="${escaparHtml(meta.id)}" aria-label="Editar ${nome}">✎</button>
+        <button class="botao botao--excluir" data-acao="excluir-meta" data-id="${escaparHtml(meta.id)}" aria-label="Excluir ${nome}">✕</button>
       </div>
     `;
     listaMetas.appendChild(card);
@@ -239,7 +239,7 @@ function renderizarOrcamentos() {
         ${barraProgresso(o.percentual, classeBarraOrcamento(o.percentual), `Orçamento de ${nomeCategoria(o.categoriaId)}`)}
         <div class="orcamento__rodape card__detalhe">
           <span>${o.percentual}% usado · ${rodape}</span>
-          <button class="botao botao--excluir" data-acao="excluir-orcamento" data-id="${o.id}" aria-label="Excluir orçamento de ${nome}">✕</button>
+          <button class="botao botao--excluir" data-acao="excluir-orcamento" data-id="${escaparHtml(o.id)}" aria-label="Excluir orçamento de ${nome}">✕</button>
         </div>
       `;
       listaOrcamentos.appendChild(item);
