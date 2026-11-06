@@ -17,6 +17,9 @@
   --cor-receita: #1f7a5c;         /* verde receita */
   --cor-despesa: #b3403f;         /* vermelho despesa */
   --cor-alerta: #c98a1b;          /* âmbar — orçamento perto do limite */
+  --cor-receita-escura: #16604a;  /* hover de botões verdes */
+  --cor-despesa-escura: #8f3332;  /* hover de botões vermelhos */
+  --cor-investimento: #3d7ea6;    /* azul — caixinhas CDI */
 
   /* Tipografia */
   --fonte-corpo: "Segoe UI", system-ui, -apple-system, sans-serif;
@@ -50,6 +53,9 @@
   --cor-receita: #3aa583;
   --cor-despesa: #d16a69;
   --cor-alerta: #dfa63f;
+  --cor-receita-escura: #2b8467;
+  --cor-despesa-escura: #b04f4e;
+  --cor-investimento: #5b9cc4;
 
   --sombra: 0 1px 4px rgba(0, 0, 0, 0.35);
 }

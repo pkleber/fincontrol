@@ -129,14 +129,14 @@ function renderizarContas() {
     card.className = "card card--conta";
     card.innerHTML = `
       <div class="card__topo">
-        <h4>${conta.nome}</h4>
-        <span class="card__tipo">${NOMES_TIPO[conta.tipo] || conta.tipo}</span>
+        <h4>${escaparHtml(conta.nome)}</h4>
+        <span class="card__tipo">${escaparHtml(NOMES_TIPO[conta.tipo] || conta.tipo)}</span>
       </div>
       <p class="card__valor ${saldo < 0 ? "negativo" : ""}">${formatarMoeda(saldo)}</p>
       <p class="card__detalhe">Saldo inicial: ${formatarMoeda(conta.saldoInicial)}</p>
       <div class="card__acoes">
-        <button class="botao botao--editar" data-acao="editar-conta" data-id="${conta.id}" aria-label="Editar ${conta.nome}">✎</button>
-        <button class="botao botao--excluir" data-acao="excluir-conta" data-id="${conta.id}" aria-label="Excluir ${conta.nome}">✕</button>
+        <button class="botao botao--editar" data-acao="editar-conta" data-id="${conta.id}" aria-label="Editar ${escaparHtml(conta.nome)}">✎</button>
+        <button class="botao botao--excluir" data-acao="excluir-conta" data-id="${conta.id}" aria-label="Excluir ${escaparHtml(conta.nome)}">✕</button>
       </div>
     `;
     listaContas.appendChild(card);
@@ -173,7 +173,7 @@ function renderizarCartoes() {
     card.className = "card card--cartao";
     card.innerHTML = `
       <div class="card__topo">
-        <h4>${cartao.nome}</h4>
+        <h4>${escaparHtml(cartao.nome)}</h4>
         <span class="card__tipo">Fecha dia ${cartao.diaFechamento} · vence dia ${cartao.diaVencimento}</span>
       </div>
 
@@ -188,12 +188,12 @@ function renderizarCartoes() {
       </div>
       <p class="card__detalhe">
         ${usoPercentual}% do limite de ${formatarMoeda(cartao.limite)}
-        ${contaVinculada ? ` · paga com ${contaVinculada.nome}` : ""}
+        ${contaVinculada ? ` · paga com ${escaparHtml(contaVinculada.nome)}` : ""}
       </p>
 
       <div class="card__acoes">
-        <button class="botao botao--editar" data-acao="editar-cartao" data-id="${cartao.id}" aria-label="Editar ${cartao.nome}">✎</button>
-        <button class="botao botao--excluir" data-acao="excluir-cartao" data-id="${cartao.id}" aria-label="Excluir ${cartao.nome}">✕</button>
+        <button class="botao botao--editar" data-acao="editar-cartao" data-id="${cartao.id}" aria-label="Editar ${escaparHtml(cartao.nome)}">✎</button>
+        <button class="botao botao--excluir" data-acao="excluir-cartao" data-id="${cartao.id}" aria-label="Excluir ${escaparHtml(cartao.nome)}">✕</button>
       </div>
     `;
     listaCartoes.appendChild(card);

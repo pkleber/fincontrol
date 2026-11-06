@@ -48,8 +48,10 @@ function exportarCSV() {
   const linhas = ["Data;Tipo;Descrição;Categoria;Valor"];
   transacoes.forEach((t) => {
     const valor = t.valor.toFixed(2).replace(".", ",");
-    // Aspas na descrição protegem contra ";" digitado pelo usuário
-    linhas.push(`${t.data};${t.tipo};"${t.descricao}";${nomeCategoria(t.categoriaId)};${valor}`);
+    // Aspas protegem contra ";" digitado pelo usuário; aspas internas são duplicadas (padrão CSV)
+    const descricao = t.descricao.replaceAll('"', '""');
+    const categoria = nomeCategoria(t.categoriaId).replaceAll('"', '""');
+    linhas.push(`${t.data};${t.tipo};"${descricao}";"${categoria}";${valor}`);
   });
 
   // \ufeff (BOM) faz o Excel reconhecer os acentos (UTF-8)
@@ -67,7 +69,7 @@ function exportarCSV() {
 /** Período padrão: últimos 6 meses */
 function definirPeriodoPadrao() {
   const hoje = new Date();
-  const fim = hoje.toISOString().slice(0, 7);
+  const fim = mesAtualISO(); // fuso local
 
   const inicioData = new Date(hoje.getFullYear(), hoje.getMonth() - 5, 1);
   const inicio = `${inicioData.getFullYear()}-${String(inicioData.getMonth() + 1).padStart(2, "0")}`;

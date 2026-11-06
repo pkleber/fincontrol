@@ -92,19 +92,19 @@ function renderizarTabela() {
   transacoes.forEach((t) => {
     const linha = document.createElement("tr");
 
-    const dataBR = new Date(t.data + "T12:00:00").toLocaleDateString("pt-BR");
+    const dataBR = formatarDataBR(t.data);
     const classeValor = t.tipo === "receita" ? "valor--receita" : "valor--despesa";
     const sinal = t.tipo === "receita" ? "+" : "−";
 
     linha.innerHTML = `
       <td>${dataBR}</td>
-      <td>${t.descricao}</td>
-      <td>${nomeCategoria(t.categoriaId)}</td>
-      <td>${nomeMeioPagamento(t)}</td>
+      <td>${escaparHtml(t.descricao)}</td>
+      <td>${escaparHtml(nomeCategoria(t.categoriaId))}</td>
+      <td>${escaparHtml(nomeMeioPagamento(t))}</td>
       <td class="tabela__valor ${classeValor}">${sinal} ${formatarMoeda(t.valor)}</td>
       <td class="tabela__acoes">
-        <button class="botao botao--editar" data-id="${t.id}" aria-label="Editar ${t.descricao}">✎</button>
-        <button class="botao botao--excluir" data-id="${t.id}" aria-label="Excluir ${t.descricao}">✕</button>
+        <button class="botao botao--editar" data-id="${t.id}" aria-label="Editar ${escaparHtml(t.descricao)}">✎</button>
+        <button class="botao botao--excluir" data-id="${t.id}" aria-label="Excluir ${escaparHtml(t.descricao)}">✕</button>
       </td>
     `;
     corpoTabela.appendChild(linha);
@@ -190,7 +190,7 @@ function excluirTransacao(id) {
 
 /** Define a data de hoje no formulário e o mês atual no filtro */
 function definirDatasPadrao() {
-  const hoje = new Date().toISOString().slice(0, 10); // "2026-07-08"
+  const hoje = hojeISO(); // "2026-07-08" (fuso local)
   campoData.value = hoje;
   if (!filtroMes.value) filtroMes.value = hoje.slice(0, 7); // "2026-07"
 }

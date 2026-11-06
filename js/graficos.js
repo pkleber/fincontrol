@@ -4,16 +4,33 @@
    Requer: Chart.js carregado via CDN antes deste arquivo.
    ========================================================= */
 
-// Paleta dos gráficos, alinhada às variáveis do tema
-const CORES_GRAFICO = [
-  "#0f4c5c", "#1f7a5c", "#c98a1b", "#b3403f",
-  "#5c6f7a", "#3d7ea6", "#7a5c8a", "#8a6d3d",
-];
+/** Lê uma variável CSS do tema ativo. Ex.: corTema("--cor-receita") */
+function corTema(variavel) {
+  return getComputedStyle(document.documentElement).getPropertyValue(variavel).trim();
+}
 
-// Ajusta as cores padrão do Chart.js conforme o tema ativo
-if (typeof Chart !== "undefined" && document.documentElement.dataset.tema === "escuro") {
-  Chart.defaults.color = "#93a6b0";
-  Chart.defaults.borderColor = "#2c3a44";
+/** Mesma cor com transparência (aceita "#rrggbb") */
+function comTransparencia(hex, alfa) {
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+  return `rgba(${r}, ${g}, ${b}, ${alfa})`;
+}
+
+/**
+ * Paleta dos gráficos, lida das variáveis do tema na hora de desenhar.
+ * Assim, claro e escuro usam as mesmas cores do resto da interface.
+ */
+function coresGrafico() {
+  return [
+    corTema("--cor-primaria"), corTema("--cor-receita"), corTema("--cor-alerta"),
+    corTema("--cor-despesa"), corTema("--cor-texto-suave"), corTema("--cor-investimento"),
+    "#7a5c8a", "#8a6d3d",
+  ];
+}
+
+// Texto, grades e bordas dos gráficos seguem o tema ativo
+if (typeof Chart !== "undefined") {
+  Chart.defaults.color = corTema("--cor-texto-suave");
+  Chart.defaults.borderColor = corTema("--cor-borda");
 }
 
 // Guarda as instâncias criadas para poder destruí-las ao refazer
@@ -95,7 +112,7 @@ function graficoDespesasPorCategoria(canvasId, transacoes) {
     type: "doughnut",
     data: {
       labels,
-      datasets: [{ data: valores, backgroundColor: CORES_GRAFICO, borderWidth: 2 }],
+      datasets: [{ data: valores, backgroundColor: coresGrafico(), borderColor: corTema("--cor-superficie"), borderWidth: 2 }],
     },
     options: {
       responsive: true,
@@ -119,8 +136,8 @@ function graficoReceitasDespesas(canvasId, totais) {
     data: {
       labels: totais.map((t) => rotuloMes(t.mes)),
       datasets: [
-        { label: "Receitas", data: totais.map((t) => t.receitas), backgroundColor: "#1f7a5c" },
-        { label: "Despesas", data: totais.map((t) => t.despesas), backgroundColor: "#b3403f" },
+        { label: "Receitas", data: totais.map((t) => t.receitas), backgroundColor: corTema("--cor-receita") },
+        { label: "Despesas", data: totais.map((t) => t.despesas), backgroundColor: corTema("--cor-despesa") },
       ],
     },
     options: {
@@ -155,8 +172,8 @@ function graficoEvolucaoSaldo(canvasId, totais) {
       datasets: [{
         label: "Saldo acumulado",
         data: saldos,
-        borderColor: "#0f4c5c",
-        backgroundColor: "rgba(15, 76, 92, 0.10)",
+        borderColor: corTema("--cor-investimento"),
+        backgroundColor: comTransparencia(corTema("--cor-investimento"), 0.15),
         fill: true,
         tension: 0.3,
       }],

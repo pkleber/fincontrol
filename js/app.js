@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const mesEl = document.getElementById("mes-atual");
   if (mesEl) mesEl.textContent = mesAtualExtenso();
 
-  const mesAtual = new Date().toISOString().slice(0, 7); // "2026-07"
+  const mesAtual = mesAtualISO(); // "2026-07" (fuso local)
   const transacoes = lerLista(STORAGE_CHAVES.transacoes);
   const doMes = transacoes.filter((t) => t.data.startsWith(mesAtual));
 
@@ -39,6 +39,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  renderizarMetasDashboard();
+
   // Últimas 5 transações
   const lista = document.getElementById("lista-ultimas");
   const ultimas = [...transacoes]
@@ -51,10 +53,49 @@ document.addEventListener("DOMContentLoaded", () => {
       const item = document.createElement("li");
       const sinal = t.tipo === "receita" ? "+" : "−";
       const classe = t.tipo === "receita" ? "valor--receita" : "valor--despesa";
-      item.innerHTML = `<span>${t.descricao}</span>
+      item.innerHTML = `<span>${escaparHtml(t.descricao)}</span>
         <span class="${classe}">${sinal} ${formatarMoeda(t.valor)}</span>`;
       item.classList.add("ultimas__item");
       lista.appendChild(item);
     });
   }
 });
+
+/** Painel "Progresso das metas": aparece só quando há metas cadastradas */
+function renderizarMetasDashboard() {
+  const painel = document.getElementById("painel-metas");
+  const container = document.getElementById("dashboard-metas");
+  if (!painel || !container) return;
+
+  const metas = lerLista(STORAGE_CHAVES.metas)
+    .slice()
+    .sort((a, b) => a.prazo.localeCompare(b.prazo));
+
+  painel.hidden = metas.length === 0;
+  container.innerHTML = "";
+
+  metas.forEach((meta) => {
+    const percentual = meta.valorAlvo > 0
+      ? Math.round((meta.valorAtual / meta.valorAlvo) * 100)
+      : 0;
+    const nome = escaparHtml(meta.nome);
+    const item = document.createElement("article");
+    item.className = "orcamento";
+    item.innerHTML = `
+      <div class="orcamento__cabecalho">
+        <strong>${nome}</strong>
+        <span>${formatarMoeda(meta.valorAtual)} de ${formatarMoeda(meta.valorAlvo)}</span>
+      </div>
+      <div class="barra" role="progressbar" aria-valuenow="${percentual}"
+           aria-valuemin="0" aria-valuemax="100" aria-label="Progresso de ${nome}: ${percentual}%">
+        <div class="barra__preenchida ${percentual >= 100 ? "barra--concluida" : ""}"
+             style="width: ${Math.min(100, percentual)}%"></div>
+      </div>
+      <div class="orcamento__rodape card__detalhe">
+        <span>${percentual}%</span>
+        <span>até ${formatarDataBR(meta.prazo)}</span>
+      </div>
+    `;
+    container.appendChild(item);
+  });
+}

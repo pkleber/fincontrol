@@ -425,7 +425,7 @@
 }
 
 .botao--aporte:hover {
-  background-color: #16604a;
+  background-color: var(--cor-receita-escura);
 }
 
 /* Lista de orçamentos */
@@ -464,7 +464,7 @@
    Fase 5 — investimentos (caixinhas CDI)
    ========================================================= */
 
-.card--investimento { border-top-color: #3d7ea6; }
+.card--investimento { border-top-color: var(--cor-investimento); }
 
 .cdi-config {
   display: flex;
@@ -552,5 +552,5 @@
 }
 
 .botao--perigo:hover {
-  background-color: #8f3332;
+  background-color: var(--cor-despesa-escura);
 }

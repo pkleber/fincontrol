@@ -60,9 +60,9 @@ function renderizarCategorias() {
   categorias.forEach((cat) => {
     const item = document.createElement("li");
     item.innerHTML = `
-      <span>${cat.nome}</span>
+      <span>${escaparHtml(cat.nome)}</span>
       <button class="botao botao--excluir" data-acao="excluir-categoria" data-id="${cat.id}"
-              aria-label="Excluir categoria ${cat.nome}">✕</button>
+              aria-label="Excluir categoria ${escaparHtml(cat.nome)}">✕</button>
     `;
     (cat.tipo === "despesa" ? listaCatDespesa : listaCatReceita).appendChild(item);
   });
@@ -130,7 +130,7 @@ function exportarBackup() {
 
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
-  link.download = `fincontrol_backup_${new Date().toISOString().slice(0, 10)}.json`;
+  link.download = `fincontrol_backup_${hojeISO()}.json`;
   link.click();
   URL.revokeObjectURL(link.href);
 }
