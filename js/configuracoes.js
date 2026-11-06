@@ -25,23 +25,24 @@ function salvarTema() {
   config.tema = configTema.value;
   salvarConfig(config);
 
-  // Reaplica na hora, sem precisar recarregar a página
-  const escuro =
-    config.tema === "escuro" ||
-    (config.tema === "sistema" &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches);
-  document.documentElement.dataset.tema = escuro ? "escuro" : "claro";
+  // Reaplica na hora, sem precisar recarregar a página (função do tema.js)
+  aplicarTema(config.tema);
 }
 
 // ---------- CDI ----------
 
 function carregarCdiGeral() {
-  configCdiGeral.value = lerConfig().cdiAnual;
+  const cdi = lerConfig().cdiAnual;
+  configCdiGeral.value = typeof cdi === "number" ? cdi : "";
 }
 
 function salvarCdiGeral() {
   const valor = parseFloat(configCdiGeral.value);
-  if (isNaN(valor) || valor < 0) return;
+  if (isNaN(valor) || valor < 0) {
+    alert("Informe uma taxa de CDI válida (número maior ou igual a zero).");
+    carregarCdiGeral(); // volta ao último valor salvo
+    return;
+  }
 
   const config = lerConfig();
   config.cdiAnual = valor;
@@ -72,6 +73,10 @@ function adicionarCategoria(evento) {
 
   const categorias = lerLista(STORAGE_CHAVES.categorias);
   const nome = catNome.value.trim();
+  if (!nome) {
+    alert("Informe o nome da categoria.");
+    return;
+  }
 
   const duplicada = categorias.some(
     (c) => c.tipo === catTipo.value && c.nome.toLowerCase() === nome.toLowerCase()
