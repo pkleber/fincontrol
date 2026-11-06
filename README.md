@@ -36,12 +36,13 @@ Não há dependências nem build: basta abrir o `index.html` no navegador, ou us
 - Caixinhas com valor inicial, % do CDI e data da aplicação
 - Aportes adicionais a qualquer momento
 - Rendimento bruto estimado por juros compostos em dias úteis (252/ano)
+- Aplicações e aportes com data futura só começam a render na própria data
 - Projeção do saldo em 6 e 12 meses
 - Totais: aplicado, valor atual e rendimento
 
 ### 📑 Relatórios
 - Receitas x despesas por mês e evolução do saldo acumulado
-- Filtro por período (padrão: últimos 6 meses)
+- Filtro por período (padrão: últimos 6 meses, até 10 anos)
 - Exportação em **CSV** compatível com o Excel pt-BR
 
 ### ⚙️ Configurações
@@ -50,6 +51,7 @@ Não há dependências nem build: basta abrir o `index.html` no navegador, ou us
 - Categorias personalizáveis de receita e despesa
 - **Backup** e **restauração** de todos os dados em JSON
   - o backup é conferido inteiro antes de importar: um arquivo inválido ou adulterado é recusado sem alterar nada
+  - se a gravação falhar no meio (ex.: armazenamento cheio), a importação é desfeita e os dados anteriores são mantidos
   - ao exportar, avisa se alguma parte dos dados estiver corrompida
 - Zona de perigo: apagar todos os dados
 
