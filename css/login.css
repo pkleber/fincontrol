@@ -79,6 +79,9 @@ body.login {
   left: 0; right: 0; bottom: 0;
   width: 100%;
   height: 55vh;
+  transform-origin: 50% 100%;
+  /* depois de desenhado, o gráfico "respira": sobe e desce de leve */
+  animation: grafico-respirar 7s 3s ease-in-out infinite alternate;
 }
 
 .cena__linha {
@@ -95,7 +98,37 @@ body.login {
 .cena__area {
   fill: rgba(242, 183, 5, 0.07);
   opacity: 0;
-  animation: surgir 1.4s 1.8s ease forwards;
+  animation:
+    surgir 1.4s 1.8s ease forwards,
+    area-pulsar 5s 3.2s ease-in-out infinite alternate;
+}
+
+/* Brilho que percorre a linha sem parar, depois que ela termina de se desenhar */
+.cena__brilho {
+  fill: none;
+  stroke: #fff6d6;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 0.06 1;
+  stroke-dashoffset: 0.06;
+  filter: drop-shadow(0 0 8px var(--login-ouro));
+  animation: brilho-correr 4.5s 2.9s linear infinite both;
+}
+
+@keyframes grafico-respirar {
+  from { transform: scaleY(1); }
+  to   { transform: scaleY(1.05); }
+}
+
+@keyframes area-pulsar {
+  from { fill: rgba(242, 183, 5, 0.07); }
+  to   { fill: rgba(242, 183, 5, 0.14); }
+}
+
+@keyframes brilho-correr {
+  from { stroke-dashoffset: 0.06; }
+  to   { stroke-dashoffset: -1; }
 }
 
 @keyframes linha-desenhar {
@@ -616,6 +649,8 @@ body.login {
 
   .cena__linha { animation: none; stroke-dashoffset: 0; }
   .cena__area { animation: none; opacity: 1; }
+  .cena__grafico { animation: none; }
+  .cena__brilho { display: none; }
 
   .login__chamada > *,
   .cartao-login {
