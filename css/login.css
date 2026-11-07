@@ -79,9 +79,8 @@ body.login {
   left: 0; right: 0; bottom: 0;
   width: 100%;
   height: 55vh;
-  transform-origin: 50% 100%;
-  /* depois de desenhado, o gráfico "respira": sobe e desce de leve */
-  animation: grafico-respirar 7s 3s ease-in-out infinite alternate;
+  /* depois de desenhado, o gráfico flutua devagar, sem deformar a linha */
+  animation: grafico-flutuar 14s 3s ease-in-out infinite alternate;
 }
 
 .cena__linha {
@@ -100,7 +99,7 @@ body.login {
   opacity: 0;
   animation:
     surgir 1.4s 1.8s ease forwards,
-    area-pulsar 5s 3.2s ease-in-out infinite alternate;
+    area-pulsar 10s 3.2s ease-in-out infinite alternate;
 }
 
 /* Brilho que percorre a linha sem parar, depois que ela termina de se desenhar */
@@ -113,22 +112,27 @@ body.login {
   stroke-dasharray: 0.06 1;
   stroke-dashoffset: 0.06;
   filter: drop-shadow(0 0 8px var(--login-ouro));
-  animation: brilho-correr 4.5s 2.9s linear infinite both;
+  opacity: 0;
+  animation: brilho-correr 11s 3s ease-in-out infinite;
 }
 
-@keyframes grafico-respirar {
-  from { transform: scaleY(1); }
-  to   { transform: scaleY(1.05); }
+@keyframes grafico-flutuar {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-8px); }
 }
 
 @keyframes area-pulsar {
-  from { fill: rgba(242, 183, 5, 0.07); }
-  to   { fill: rgba(242, 183, 5, 0.14); }
+  from { opacity: 1; }
+  to   { opacity: 0.7; }
 }
 
+/* Passa pela linha em ~6 s, some suavemente e descansa antes da próxima volta */
 @keyframes brilho-correr {
-  from { stroke-dashoffset: 0.06; }
-  to   { stroke-dashoffset: -1; }
+  0%   { stroke-dashoffset: 0.06; opacity: 0; }
+  8%   { opacity: 1; }
+  48%  { opacity: 1; }
+  55%  { stroke-dashoffset: -1; opacity: 0; }
+  100% { stroke-dashoffset: -1; opacity: 0; }
 }
 
 @keyframes linha-desenhar {
