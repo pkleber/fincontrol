@@ -4,11 +4,19 @@ Web app de **controle financeiro pessoal**, desenvolvido com HTML, CSS e JavaScr
 
 ## Como executar
 
-Não há dependências nem build: basta abrir o `index.html` no navegador, ou usar a extensão **Live Server** do VS Code para recarregamento automático.
+Não há dependências nem build: basta abrir o `index.html` no navegador (sem login, ele leva para `login.html`), ou usar a extensão **Live Server** do VS Code para recarregamento automático.
 
 > Os gráficos usam o **Chart.js** via CDN, então precisam de internet. O resto do app funciona offline.
 
 ## Funcionalidades
+
+### 🔐 Login e conta gratuita
+- Tela de **login/cadastro animada** (`login.html`): gráfico de alta que se desenha, moedas subindo e cartão com abas
+- Cadastro pede só **nome, e-mail e senha** (mín. 8 caracteres, com medidor de força)
+- Opção **manter conectado** (30 dias); sem ela, a sessão vale só para a aba (até 12h)
+- Após entrar, abre a **tela de boas-vindas**: tour completo no primeiro acesso e uma saudação curta nos seguintes
+- Botão **Sair** no pé da sidebar
+- Cada conta tem seus próprios dados; a primeira conta criada herda os dados que já existiam no navegador
 
 ### 📊 Dashboard
 - Saldo, receitas e despesas do mês atual em **cores de semáforo**:
@@ -63,19 +71,51 @@ Não há dependências nem build: basta abrir o `index.html` no navegador, ou us
 - Campos com animações discretas: entrada suave, anel de foco e destaque de erro
 - Respeita a preferência do sistema por **menos movimento**
 
+## Segurança
+
+- **Senhas**: nunca são guardadas. Fica só um hash **PBKDF2-SHA256** (600 mil iterações, sal aleatório por conta), comparado em tempo constante
+- **Força bruta**: após 5 senhas erradas o login bloqueia por 30s, dobrando a cada novo erro (máx. 15 min). A mensagem de erro é sempre a mesma, para não revelar quais e-mails têm conta
+- **Páginas protegidas**: sem sessão válida, qualquer página redireciona para o login antes de mostrar dados
+- **Content-Security-Policy** em todas as páginas: só roda script do próprio app e do jsDelivr (Chart.js, com verificação de integridade SRI); bloqueia scripts injetados, plugins e `<base>`
+- **XSS**: todo texto do usuário é escapado antes de ir para o HTML; ids do backup são validados
+- **Backup**: validado por inteiro antes de importar, limitado a 5 MB, importação reversível
+- **CSV**: células que começam com `=`, `+`, `-` ou `@` são neutralizadas (CSV injection)
+
+> ⚠️ **Limite honesto:** o FinControl não tem servidor. O login separa perfis e protege contra
+> quem só abre o app, mas os dados ficam no `localStorage` **sem criptografia** — quem tiver
+> acesso ao navegador com DevTools consegue lê-los. Não use em computador compartilhado com
+> pessoas em quem você não confia.
+
+### HTTPS / certificado
+Hoje o app roda localmente (`file://` ou Live Server), então não há certificado envolvido.
+Ao publicar, use um host com **HTTPS automático** (GitHub Pages, Netlify, Vercel) e marque
+**Enforce HTTPS**. Em produção, prefira enviar a CSP e os cabeçalhos
+`Strict-Transport-Security`, `X-Content-Type-Options: nosniff` e `frame-ancestors 'none'`
+pelo servidor (a tag `<meta>` não aceita `frame-ancestors`).
+
+### Testes
+```bash
+node --test tests/auth.test.js
+```
+
 ## Dados e privacidade
 
 Todos os dados ficam **apenas no navegador** (`localStorage`); nada é enviado a servidores.
 Por isso, exporte um backup de vez em quando pela tela de Configurações.
 
+Os dados de cada conta usam o prefixo `fincontrol.u.<id>.`:
+
 | Chave | Conteúdo |
 |---|---|
-| `fincontrol.transacoes` | receitas e despesas |
-| `fincontrol.categorias` | categorias personalizadas |
-| `fincontrol.contas` / `fincontrol.cartoes` | contas e cartões |
-| `fincontrol.metas` / `fincontrol.orcamentos` | metas e orçamentos mensais |
-| `fincontrol.caixinhas` | caixinhas de investimento e aportes |
-| `fincontrol.config` | tema e taxa do CDI |
+| `fincontrol.usuarios` | contas (nome, e-mail, sal e hash da senha) |
+| `fincontrol.sessao` | sessão "manter conectado" (sem ela, fica no `sessionStorage`) |
+| `fincontrol.tentativas` | contador de senhas erradas (bloqueio temporário) |
+| `fincontrol.u.<id>.transacoes` | receitas e despesas |
+| `fincontrol.u.<id>.categorias` | categorias personalizadas |
+| `fincontrol.u.<id>.contas` / `.cartoes` | contas e cartões |
+| `fincontrol.u.<id>.metas` / `.orcamentos` | metas e orçamentos mensais |
+| `fincontrol.u.<id>.caixinhas` | caixinhas de investimento e aportes |
+| `fincontrol.u.<id>.config` | tema, taxa do CDI e nome |
 | `fincontrol.sidebar` | sidebar recolhida ou expandida |
 
 Textos digitados pelo usuário e ids vindos de backups são escapados antes de ir para a tela
