@@ -139,6 +139,7 @@ function salvarMeta(evento) {
   }
 
   const metas = lerLista(STORAGE_CHAVES.metas);
+  const anterior = metaEmEdicao ? metas.find((m) => m.id === metaEmEdicao) : null;
   const atualizadas = metaEmEdicao
     ? metas.map((m) => (m.id === metaEmEdicao ? { ...m, ...dados } : m))
     : [...metas, { id: gerarId(), ...dados }];
@@ -146,6 +147,11 @@ function salvarMeta(evento) {
   salvarLista(STORAGE_CHAVES.metas, atualizadas);
   cancelarEdicaoMeta();
   renderizarMetas();
+
+  // Só comemora a virada: a meta editada acabou de ser atingida
+  if (anterior && !metaAtingida(anterior) && metaAtingida(dados)) {
+    celebrarMeta({ ...anterior, ...dados });
+  }
 }
 
 function iniciarEdicaoMeta(id) {
@@ -188,11 +194,12 @@ function aportarMeta(id) {
   const valor = pedirValor(`Quanto você guardou para "${meta.nome}"? (R$)`);
   if (valor === null) return;
 
-  const atualizadas = metas.map((m) =>
-    m.id === id ? { ...m, valorAtual: Math.round((m.valorAtual + valor) * 100) / 100 } : m
-  );
+  const atualizada = { ...meta, valorAtual: Math.round((meta.valorAtual + valor) * 100) / 100 };
+  const atualizadas = metas.map((m) => (m.id === id ? atualizada : m));
   salvarLista(STORAGE_CHAVES.metas, atualizadas);
   renderizarMetas();
+
+  if (!metaAtingida(meta) && metaAtingida(atualizada)) celebrarMeta(atualizada);
 }
 
 // ---------- Orçamento ----------

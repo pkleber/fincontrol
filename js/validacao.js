@@ -25,6 +25,8 @@ const validarBackup = (() => {
   const opcional = (regra) => (v) => v === undefined || v === null || regra(v);
   const umDe = (opcoes) => (v) => opcoes.includes(v);
   const id = (v) => typeof v === "string" && RE_ID.test(v);
+  // Nome da saudação: texto curto (NOME_MAX vem do utils.js)
+  const nomeUsuario = (v) => typeof v === "string" && v.length <= NOME_MAX;
   // Vínculo opcional (categoria/conta/cartão). "" é aceito porque versões
   // antigas do app salvavam transações sem categoria assim.
   const vinculo = (v) => v === undefined || v === null || v === "" || id(v);
@@ -87,8 +89,9 @@ const validarBackup = (() => {
     if (config !== undefined) {
       const configValida =
         config && typeof config === "object" && !Array.isArray(config) &&
-        opcional(umDe(TEMAS))(config.tema) && opcional(naoNegativo)(config.cdiAnual);
-      if (!configValida) problemas.push('"config" tem tema ou CDI inválido.');
+        opcional(umDe(TEMAS))(config.tema) && opcional(naoNegativo)(config.cdiAnual) &&
+        opcional(nomeUsuario)(config.nome);
+      if (!configValida) problemas.push('"config" tem tema, CDI ou nome inválido.');
     }
 
     return problemas;

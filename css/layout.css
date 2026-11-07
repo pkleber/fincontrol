@@ -251,6 +251,15 @@
   margin-bottom: var(--esp-3);
 }
 
+.conteudo__saudacao {
+  font-size: 1.05rem;
+  color: var(--cor-texto-suave);
+}
+
+.conteudo__saudacao:empty {
+  display: none;
+}
+
 .conteudo__mes {
   color: var(--cor-texto-suave);
   text-transform: capitalize;

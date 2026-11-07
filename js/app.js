@@ -2,7 +2,18 @@
    app.js — inicialização do Dashboard
    ========================================================= */
 
+/** "Boa tarde, Ana!" — ou só "Boa tarde!" se o nome não foi informado */
+function renderizarSaudacao() {
+  const el = document.getElementById("saudacao");
+  if (!el) return;
+  const nome = normalizarNome(lerConfig().nome);
+  const saudacao = saudacaoPorHorario();
+  el.textContent = nome ? `${saudacao}, ${nome}!` : `${saudacao}!`;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  renderizarSaudacao();
+
   // Exibe o mês atual no cabeçalho
   const mesEl = document.getElementById("mes-atual");
   if (mesEl) mesEl.textContent = mesAtualExtenso();

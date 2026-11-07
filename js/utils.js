@@ -89,3 +89,19 @@ function pedirValor(mensagem) {
   }
   return valor;
 }
+
+/** Tamanho máximo do nome do usuário (saudação do Dashboard) */
+const NOME_MAX = 40;
+
+/** Limpa o nome digitado: tira espaços extras e corta em NOME_MAX caracteres */
+function normalizarNome(texto) {
+  return String(texto ?? "").trim().replace(/\s+/g, " ").slice(0, NOME_MAX);
+}
+
+/** Saudação conforme a hora local: 5h–11h dia, 12h–17h tarde, resto noite */
+function saudacaoPorHorario(data = new Date()) {
+  const hora = data.getHours();
+  if (hora >= 5 && hora < 12) return "Bom dia";
+  if (hora >= 12 && hora < 18) return "Boa tarde";
+  return "Boa noite";
+}

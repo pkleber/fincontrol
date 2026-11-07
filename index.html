@@ -36,7 +36,10 @@
       <!-- Conteúdo principal -->
       <main class="conteudo">
         <header class="conteudo__header">
-          <h2>Dashboard</h2>
+          <div class="conteudo__titulo">
+            <p class="conteudo__saudacao" id="saudacao"><!-- preenchido via JS --></p>
+            <h2>Dashboard</h2>
+          </div>
           <p class="conteudo__mes" id="mes-atual"><!-- preenchido via JS --></p>
         </header>
 
@@ -44,15 +47,42 @@
         <!-- Ordem semáforo: saldo (verde), receitas (amarelo), despesas (vermelho) -->
         <section class="resumo resumo--semaforo" aria-label="Resumo do mês">
           <article class="card card--saldo">
-            <h3>Saldo</h3>
+            <div class="card__titulo">
+              <h3>Saldo</h3>
+              <button type="button" class="info" aria-label="O que é saldo?"
+                      aria-describedby="info-saldo">
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 11v6M12 7.5v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </button>
+              <span role="tooltip" id="info-saldo" class="info__texto">
+                Receitas menos despesas do mês atual. Fica vermelho se for negativo.
+              </span>
+            </div>
             <p class="card__valor" id="saldo-mes">R$ 0,00</p>
           </article>
           <article class="card card--receita">
-            <h3>Receitas</h3>
+            <div class="card__titulo">
+              <h3>Receitas</h3>
+              <button type="button" class="info" aria-label="O que é receitas?"
+                      aria-describedby="info-receitas">
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 11v6M12 7.5v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </button>
+              <span role="tooltip" id="info-receitas" class="info__texto">
+                Soma de todas as entradas registradas neste mês.
+              </span>
+            </div>
             <p class="card__valor" id="total-receitas">R$ 0,00</p>
           </article>
           <article class="card card--despesa">
-            <h3>Despesas</h3>
+            <div class="card__titulo">
+              <h3>Despesas</h3>
+              <button type="button" class="info" aria-label="O que é despesas?"
+                      aria-describedby="info-despesas">
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 11v6M12 7.5v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </button>
+              <span role="tooltip" id="info-despesas" class="info__texto">
+                Soma de todos os gastos registrados neste mês, incluindo os do cartão.
+              </span>
+            </div>
             <p class="card__valor" id="total-despesas">R$ 0,00</p>
           </article>
         </section>
@@ -91,6 +121,49 @@
       </main>
     </div>
 
+    <!-- Boas-vindas: aparece só no primeiro acesso (js/boas-vindas.js) -->
+    <dialog id="boas-vindas" class="boas-vindas" aria-labelledby="boas-vindas-titulo">
+      <form method="dialog" class="boas-vindas__caixa">
+        <p class="boas-vindas__marca">Fin<span>Control</span></p>
+        <h2 id="boas-vindas-titulo">Boas-vindas ao FinControl!</h2>
+        <p class="boas-vindas__intro">
+          Seu controle financeiro pessoal, simples e direto no navegador.
+          Veja o que dá para fazer:
+        </p>
+
+        <ul class="boas-vindas__lista">
+          <li><span aria-hidden="true">💸</span>
+            <div><strong>Transações</strong> — registre receitas e despesas por conta ou cartão.</div></li>
+          <li><span aria-hidden="true">🏦</span>
+            <div><strong>Contas &amp; Cartões</strong> — saldos, limites e fatura atual.</div></li>
+          <li><span aria-hidden="true">🎯</span>
+            <div><strong>Metas &amp; Orçamento</strong> — objetivos e limites por categoria.</div></li>
+          <li><span aria-hidden="true">📈</span>
+            <div><strong>Investimentos</strong> — caixinhas CDI com rendimento estimado.</div></li>
+          <li><span aria-hidden="true">📑</span>
+            <div><strong>Relatórios</strong> — evolução mês a mês e exportação em CSV.</div></li>
+        </ul>
+
+        <p class="boas-vindas__aviso">
+          🔒 Seus dados ficam só neste navegador. Exporte um backup de vez em
+          quando em <strong>Configurações</strong>.
+        </p>
+
+        <div class="boas-vindas__nome">
+          <label for="boas-vindas-nome">Como podemos te chamar? <span>(opcional)</span></label>
+          <input type="text" id="boas-vindas-nome" maxlength="40"
+                 autocomplete="given-name" placeholder="Seu nome" />
+        </div>
+
+        <div class="boas-vindas__acoes">
+          <button type="submit" class="botao botao--secundario">Explorar o dashboard</button>
+          <a href="pages/transacoes.html" id="boas-vindas-comecar" class="botao">
+            Adicionar a primeira transação
+          </a>
+        </div>
+      </form>
+    </dialog>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"
             integrity="sha384-dug+JxfBvklEQdJ4AYuBBAIScUz0bVN73xpy273gcAwHjb3qI0fXmuYNaNfdyYJG"
             crossorigin="anonymous"></script>
@@ -99,5 +172,6 @@
     <script src="js/categorias.js"></script>
     <script src="js/graficos.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/boas-vindas.js"></script>
   </body>
 </html>

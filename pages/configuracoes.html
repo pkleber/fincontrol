@@ -45,6 +45,11 @@
           <h3>Aparência</h3>
           <div class="formulario">
             <div class="formulario__grupo">
+              <label for="config-nome">Seu nome</label>
+              <input type="text" id="config-nome" maxlength="40"
+                     autocomplete="given-name" placeholder="Usado na saudação do Dashboard" />
+            </div>
+            <div class="formulario__grupo">
               <label for="config-tema">Tema</label>
               <select id="config-tema">
                 <option value="claro">Claro</option>
@@ -53,6 +58,9 @@
               </select>
             </div>
           </div>
+          <button type="button" id="botao-boas-vindas" class="botao botao--secundario">
+            Rever tela de boas-vindas
+          </button>
         </section>
 
         <!-- Investimentos -->

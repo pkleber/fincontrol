@@ -3,6 +3,7 @@
    ========================================================= */
 
 // ---------- Elementos ----------
+const configNome = document.getElementById("config-nome");
 const configTema = document.getElementById("config-tema");
 const configCdiGeral = document.getElementById("config-cdi-geral");
 const formCategoria = document.getElementById("form-categoria");
@@ -27,6 +28,24 @@ function salvarTema() {
 
   // Reaplica na hora, sem precisar recarregar a página (função do tema.js)
   aplicarTema(config.tema);
+}
+
+// ---------- Nome (saudação do Dashboard) ----------
+
+function carregarNome() {
+  configNome.value = normalizarNome(lerConfig().nome);
+}
+
+/** Salva o nome; campo vazio remove o nome e a saudação fica genérica */
+function salvarNome() {
+  const nome = normalizarNome(configNome.value);
+  const { nome: _anterior, ...semNome } = lerConfig();
+  try {
+    salvarConfig(nome ? { ...semNome, nome } : semNome);
+  } catch {
+    return; // gravar() já avisou o usuário
+  }
+  configNome.value = nome;
 }
 
 // ---------- CDI ----------
@@ -158,9 +177,17 @@ function restaurarCopia(copia) {
 }
 
 /** Restaura um backup, substituindo os dados atuais */
+/** Maior backup aceito: o localStorage inteiro tem ~5 MB, mais que isso não caberia */
+const BACKUP_MAX_BYTES = 5 * 1024 * 1024;
+
 function importarBackup(evento) {
   const arquivo = evento.target.files[0];
   if (!arquivo) return;
+  if (arquivo.size > BACKUP_MAX_BYTES) {
+    alert("Arquivo grande demais para ser um backup do FinControl (máximo 5 MB).");
+    evento.target.value = "";
+    return;
+  }
 
   const leitor = new FileReader();
   leitor.onload = () => {
@@ -213,7 +240,7 @@ function importarBackup(evento) {
 // ---------- Zona de perigo ----------
 
 function limparTudo() {
-  if (!confirm("Apagar TODOS os dados do FinControl? Esta ação não tem volta.")) return;
+  if (!confirm("Apagar TODOS os dados da sua conta no FinControl? Esta ação não tem volta.")) return;
 
   const confirmacao = prompt('Para confirmar, digite APAGAR (em maiúsculas):');
   if (confirmacao !== "APAGAR") {
@@ -226,7 +253,19 @@ function limparTudo() {
   location.reload();
 }
 
+/** Reexibe a tela de boas-vindas: desmarca o "visto" e volta ao Dashboard */
+function reverBoasVindas() {
+  try {
+    salvarConfig({ ...lerConfig(), boasVindasVista: false });
+  } catch {
+    return; // gravar() já avisou o usuário
+  }
+  location.href = "../index.html";
+}
+
 // ---------- Eventos ----------
+document.getElementById("botao-boas-vindas").addEventListener("click", reverBoasVindas);
+configNome.addEventListener("change", salvarNome);
 configTema.addEventListener("change", salvarTema);
 configCdiGeral.addEventListener("change", salvarCdiGeral);
 formCategoria.addEventListener("submit", adicionarCategoria);
@@ -240,6 +279,7 @@ document.addEventListener("click", (evento) => {
 });
 
 // ---------- Inicialização ----------
+carregarNome();
 carregarTema();
 carregarCdiGeral();
 renderizarCategorias();

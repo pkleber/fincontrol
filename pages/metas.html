@@ -112,9 +112,25 @@
 
   </div>
 
+  <!-- Comemoração ao atingir uma meta (js/celebracao.js) -->
+  <dialog id="celebracao" class="celebracao" aria-labelledby="celebracao-titulo"
+          aria-describedby="celebracao-meta celebracao-mensagem">
+    <form method="dialog" class="celebracao__caixa">
+      <p class="celebracao__emoji" aria-hidden="true">🎉</p>
+      <h2 id="celebracao-titulo">Parabéns!</h2>
+      <p id="celebracao-meta" class="celebracao__meta"></p>
+      <p id="celebracao-mensagem" class="celebracao__mensagem"></p>
+      <div class="celebracao__acoes">
+        <button type="button" id="celebracao-nova" class="botao botao--secundario">Criar nova meta</button>
+        <button type="submit" class="botao" autofocus>Continuar</button>
+      </div>
+    </form>
+  </dialog>
+
   <script src="../js/utils.js"></script>
   <script src="../js/storage.js"></script>
   <script src="../js/categorias.js"></script>
+  <script src="../js/celebracao.js"></script>
   <script src="../js/metas.js"></script>
 </body>
 </html>

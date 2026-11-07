@@ -620,3 +620,295 @@ select:user-invalid {
 .botao--perigo:hover {
   background-color: var(--cor-despesa-escura);
 }
+
+/* =========================================================
+   Boas-vindas — diálogo do primeiro acesso (js/boas-vindas.js)
+   ========================================================= */
+.boas-vindas,
+.celebracao {
+  width: min(560px, calc(100% - 2 * var(--esp-2)));
+  max-height: calc(100% - 2 * var(--esp-2));
+  margin: auto;
+  padding: 0;
+  border: none;
+  border-radius: calc(var(--raio) * 1.6);
+  background-color: var(--cor-superficie);
+  color: var(--cor-texto);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+  overflow: auto;
+}
+
+.boas-vindas[open],
+.celebracao[open] {
+  animation: boas-vindas-entrada 0.35s var(--curva);
+}
+
+.boas-vindas::backdrop,
+.celebracao::backdrop {
+  background-color: rgba(10, 54, 65, 0.55);
+  backdrop-filter: blur(3px);
+}
+
+.boas-vindas__caixa {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+  padding: var(--esp-4) var(--esp-4) var(--esp-3);
+  border-top: 6px solid var(--cor-primaria);
+}
+
+.boas-vindas__marca {
+  font-family: var(--fonte-titulo);
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  color: var(--cor-texto-suave);
+}
+
+.boas-vindas__marca {
+  font-weight: 700;
+}
+
+.boas-vindas__marca span {
+  font-weight: 400;
+  color: var(--cor-primaria);
+}
+
+.boas-vindas h2 {
+  font-family: var(--fonte-titulo);
+  font-size: 1.6rem;
+  line-height: 1.2;
+  color: var(--cor-texto);
+}
+
+.boas-vindas__intro {
+  color: var(--cor-texto-suave);
+}
+
+.boas-vindas__lista {
+  display: grid;
+  gap: var(--esp-1);
+}
+
+.boas-vindas__lista li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-2);
+  padding: var(--esp-1) var(--esp-2);
+  border-radius: var(--raio);
+  background-color: var(--cor-fundo);
+}
+
+.boas-vindas__lista li > span {
+  font-size: 1.25rem;
+  line-height: 1.4;
+}
+
+.boas-vindas__aviso {
+  padding: var(--esp-1) var(--esp-2);
+  border-left: 3px solid var(--cor-alerta);
+  font-size: 0.9rem;
+  color: var(--cor-texto-suave);
+}
+
+.boas-vindas__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--esp-1);
+}
+
+.boas-vindas__acoes .botao {
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
+}
+
+.boas-vindas__acoes .botao:focus-visible {
+  outline: 2px solid var(--cor-foco);
+  outline-offset: 2px;
+}
+
+@keyframes boas-vindas-entrada {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (max-width: 480px) {
+  .boas-vindas__caixa { padding: var(--esp-3) var(--esp-2) var(--esp-2); }
+  .boas-vindas__acoes .botao { flex: 1 1 100%; }
+}
+
+/* Retorno após login: só saudação e botões (sem tour nem campo de nome) */
+.boas-vindas--retorno .boas-vindas__lista,
+.boas-vindas--retorno .boas-vindas__aviso,
+.boas-vindas--retorno .boas-vindas__nome {
+  display: none;
+}
+
+/* Campo de nome dentro das boas-vindas */
+.boas-vindas__nome {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.boas-vindas__nome label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.boas-vindas__nome label span {
+  font-weight: 400;
+  color: var(--cor-texto-suave);
+}
+
+.boas-vindas__nome input {
+  padding: var(--esp-1) var(--esp-2);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  background-color: var(--cor-superficie);
+  color: var(--cor-texto);
+}
+
+.boas-vindas__nome input:focus {
+  outline: none;
+  border-color: var(--cor-foco);
+  box-shadow: 0 0 0 3px var(--anel-foco);
+}
+
+/* =========================================================
+   Ícone de informação dos cards do Dashboard
+   O texto aparece no hover, no foco (teclado) e no toque.
+   ========================================================= */
+.card {
+  position: relative;
+}
+
+/* Card com dica aberta fica por cima dos painéis vizinhos */
+.card:hover,
+.card:focus-within {
+  z-index: 2;
+}
+
+.card__titulo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: var(--esp-1);
+}
+
+.card__titulo h3 {
+  margin-bottom: 0;
+}
+
+.info {
+  display: inline-flex;
+  padding: 2px;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: var(--cor-texto-suave);
+  cursor: help;
+  transition: color var(--duracao) var(--curva);
+}
+
+.info:hover,
+.info:focus-visible {
+  color: var(--cor-primaria);
+}
+
+:root[data-tema="escuro"] .info:hover,
+:root[data-tema="escuro"] .info:focus-visible {
+  color: var(--cor-foco);
+}
+
+.info:focus-visible {
+  outline: 2px solid var(--cor-foco);
+  outline-offset: 1px;
+}
+
+.info__texto {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  padding: var(--esp-1) 12px;
+  border-radius: var(--raio);
+  background-color: var(--cor-texto);
+  color: var(--cor-superficie);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity var(--duracao) var(--curva),
+              transform var(--duracao) var(--curva),
+              visibility var(--duracao);
+  pointer-events: none;
+}
+
+.info:hover + .info__texto,
+.info:focus + .info__texto {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+/* =========================================================
+   Comemoração de meta atingida (js/celebracao.js)
+   Base do diálogo compartilhada com .boas-vindas
+   ========================================================= */
+.celebracao {
+  width: min(420px, calc(100% - 2 * var(--esp-2)));
+}
+
+.celebracao__caixa {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--esp-1);
+  padding: var(--esp-4) var(--esp-3) var(--esp-3);
+  border-top: 6px solid var(--cor-receita);
+  text-align: center;
+}
+
+.celebracao__emoji {
+  font-size: 3rem;
+  line-height: 1;
+  animation: celebracao-pulo 0.6s var(--curva) 0.15s both;
+}
+
+.celebracao h2 {
+  font-family: var(--fonte-titulo);
+  font-size: 1.5rem;
+  color: var(--cor-receita);
+}
+
+.celebracao__meta {
+  font-weight: 600;
+}
+
+.celebracao__mensagem {
+  color: var(--cor-texto-suave);
+}
+
+.celebracao__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--esp-1);
+  margin-top: var(--esp-2);
+}
+
+.celebracao__acoes .botao:focus-visible {
+  outline: 2px solid var(--cor-foco);
+  outline-offset: 2px;
+}
+
+@keyframes celebracao-pulo {
+  0%   { transform: scale(0.4) rotate(-15deg); opacity: 0; }
+  60%  { transform: scale(1.15) rotate(8deg); opacity: 1; }
+  100% { transform: none; }
+}
