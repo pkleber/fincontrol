@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="pt-BR" data-publica>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FinControl — Entrar</title>
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'" />
+    <meta name="referrer" content="no-referrer" />
+    <script src="js/auth.js"></script>
+    <script src="js/tema.js"></script>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/variaveis.css" />
+    <link rel="stylesheet" href="css/login.css" />
+  </head>
+  <body class="login">
+    <!-- Cenário animado (decorativo) -->
+    <div class="cena" aria-hidden="true">
+      <span class="cena__orbe cena__orbe--1"></span>
+      <span class="cena__orbe cena__orbe--2"></span>
+      <span class="cena__orbe cena__orbe--3"></span>
+
+      <svg class="cena__grafico" viewBox="0 0 1200 400" preserveAspectRatio="none">
+        <path class="cena__area" d="M0 360 L120 330 L240 345 L360 290 L480 300 L600 240 L720 255 L840 190 L960 200 L1080 120 L1200 90 L1200 400 L0 400 Z" />
+        <path class="cena__linha" pathLength="1" d="M0 360 L120 330 L240 345 L360 290 L480 300 L600 240 L720 255 L840 190 L960 200 L1080 120 L1200 90" />
+      </svg>
+
+      <div class="cena__moedas">
+        <span>R$</span><span>R$</span><span>R$</span><span>R$</span><span>R$</span>
+        <span>R$</span><span>R$</span><span>R$</span><span>R$</span><span>R$</span>
+      </div>
+    </div>
+
+    <main class="login__palco">
+      <section class="login__chamada" aria-labelledby="chamada-titulo">
+        <p class="login__marca">Fin<span>Control</span></p>
+        <h1 id="chamada-titulo">Seu dinheiro,<br /><em>sob controle.</em></h1>
+        <p class="login__subtitulo">
+          Receitas, cartões, metas e caixinhas num só lugar.
+          Grátis, sem cartão de crédito e em menos de um minuto.
+        </p>
+        <ul class="login__selos">
+          <li>🔒 Senha guardada só como hash</li>
+          <li>💾 Dados só no seu navegador</li>
+          <li>✨ 100% gratuito</li>
+        </ul>
+      </section>
+
+      <section class="cartao-login" id="cartao-login" aria-label="Acesso à conta">
+        <div class="abas" role="tablist" aria-label="Entrar ou criar conta">
+          <button type="button" role="tab" id="aba-entrar" class="abas__aba"
+                  aria-selected="true" aria-controls="painel-entrar">Entrar</button>
+          <button type="button" role="tab" id="aba-criar" class="abas__aba"
+                  aria-selected="false" aria-controls="painel-criar" tabindex="-1">Criar conta grátis</button>
+          <span class="abas__indicador" aria-hidden="true"></span>
+        </div>
+
+        <div class="paineis">
+          <!-- Entrar -->
+          <form id="painel-entrar" class="painel-login" role="tabpanel"
+                aria-labelledby="aba-entrar" novalidate>
+            <h2 class="painel-login__titulo">Que bom te ver!</h2>
+
+            <div class="campo-login">
+              <input type="email" id="entrar-email" name="email" placeholder=" "
+                     autocomplete="username" maxlength="254" required />
+              <label for="entrar-email">E-mail</label>
+            </div>
+
+            <div class="campo-login">
+              <input type="password" id="entrar-senha" name="senha" placeholder=" "
+                     autocomplete="current-password" maxlength="128" required />
+              <label for="entrar-senha">Senha</label>
+              <button type="button" class="campo-login__olho" data-alternar="entrar-senha"
+                      aria-label="Mostrar senha" aria-pressed="false">👁</button>
+            </div>
+
+            <label class="lembrar">
+              <input type="checkbox" id="entrar-lembrar" /> Manter conectado neste aparelho
+            </label>
+
+            <p class="mensagem-login" id="entrar-mensagem" role="alert"></p>
+
+            <button type="submit" class="botao-login">
+              <span class="botao-login__texto">Entrar</span>
+              <span class="botao-login__giro" aria-hidden="true"></span>
+            </button>
+
+            <p class="painel-login__troca">
+              Ainda não tem conta? <button type="button" class="link-login" data-ir="criar">Crie grátis</button>
+            </p>
+          </form>
+
+          <!-- Criar conta -->
+          <form id="painel-criar" class="painel-login" role="tabpanel"
+                aria-labelledby="aba-criar" novalidate hidden>
+            <h2 class="painel-login__titulo">Comece em 30 segundos</h2>
+
+            <div class="campo-login">
+              <input type="text" id="criar-nome" name="nome" placeholder=" "
+                     autocomplete="given-name" maxlength="40" required />
+              <label for="criar-nome">Como podemos te chamar?</label>
+            </div>
+
+            <div class="campo-login">
+              <input type="email" id="criar-email" name="email" placeholder=" "
+                     autocomplete="username" maxlength="254" required />
+              <label for="criar-email">E-mail</label>
+            </div>
+
+            <div class="campo-login">
+              <input type="password" id="criar-senha" name="senha" placeholder=" "
+                     autocomplete="new-password" minlength="8" maxlength="128" required
+                     aria-describedby="forca-texto" />
+              <label for="criar-senha">Senha (mín. 8 caracteres)</label>
+              <button type="button" class="campo-login__olho" data-alternar="criar-senha"
+                      aria-label="Mostrar senha" aria-pressed="false">👁</button>
+            </div>
+
+            <div class="forca" data-nivel="0">
+              <span class="forca__barra"><span class="forca__preenchida"></span></span>
+              <span class="forca__texto" id="forca-texto">Use letras, números e símbolos</span>
+            </div>
+
+            <label class="lembrar">
+              <input type="checkbox" id="criar-lembrar" /> Manter conectado neste aparelho
+            </label>
+
+            <p class="mensagem-login" id="criar-mensagem" role="alert"></p>
+
+            <button type="submit" class="botao-login">
+              <span class="botao-login__texto">Criar minha conta</span>
+              <span class="botao-login__giro" aria-hidden="true"></span>
+            </button>
+
+            <p class="painel-login__nota">
+              Só nome, e-mail e senha. Sem cartão, sem telefone, sem pegadinha.
+            </p>
+          </form>
+        </div>
+
+        <!-- Sucesso: aparece por um instante antes de ir ao Dashboard -->
+        <div class="sucesso-login" aria-hidden="true">
+          <svg viewBox="0 0 52 52" class="sucesso-login__check">
+            <circle cx="26" cy="26" r="24" pathLength="1" />
+            <path d="M15 27l7 7 15-15" pathLength="1" />
+          </svg>
+          <p id="sucesso-texto">Tudo certo!</p>
+        </div>
+      </section>
+    </main>
+
+    <script src="js/login.js"></script>
+  </body>
+</html>

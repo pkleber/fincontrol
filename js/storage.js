@@ -3,16 +3,18 @@
    Todas as leituras/escritas de dados passam por aqui.
    ========================================================= */
 
-const STORAGE_CHAVES = {
-  transacoes: "fincontrol.transacoes",
-  categorias: "fincontrol.categorias",
-  contas: "fincontrol.contas",
-  cartoes: "fincontrol.cartoes",
-  metas: "fincontrol.metas",
-  orcamentos: "fincontrol.orcamentos",
-  caixinhas: "fincontrol.caixinhas",
-  config: "fincontrol.config", // objeto (tema, cdiAnual), não lista
-};
+// Cada conta tem suas próprias chaves (ex.: "fincontrol.u.<id>.transacoes").
+// O id vem da sessão aberta pelo auth.js, carregado antes de tudo.
+const STORAGE_CHAVES = Object.freeze({
+  transacoes: AUTH.chaveDados("transacoes"),
+  categorias: AUTH.chaveDados("categorias"),
+  contas: AUTH.chaveDados("contas"),
+  cartoes: AUTH.chaveDados("cartoes"),
+  metas: AUTH.chaveDados("metas"),
+  orcamentos: AUTH.chaveDados("orcamentos"),
+  caixinhas: AUTH.chaveDados("caixinhas"),
+  config: AUTH.chaveDados("config"), // objeto (tema, cdiAnual, nome), não lista
+});
 
 /**
  * Lê uma lista do localStorage.

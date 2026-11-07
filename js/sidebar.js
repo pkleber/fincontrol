@@ -23,6 +23,7 @@ const SIDEBAR_ICONES = {
 };
 
 const SETA_SVG = '<path d="M15 6l-6 6 6 6"/>';
+const SAIR_SVG = '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/>';
 
 function sidebarEstaRecolhida() {
   try {
@@ -106,6 +107,25 @@ function criarBotaoRecolher(sidebar) {
   sidebar.prepend(botao);
 }
 
+/** Botão "Sair" no pé da sidebar: encerra a sessão (auth.js) e volta ao login */
+function criarBotaoSair(sidebar) {
+  if (typeof AUTH === "undefined") return;
+  const usuario = AUTH.usuarioAtual();
+
+  const botao = document.createElement("button");
+  botao.type = "button";
+  botao.className = "sidebar__sair";
+  botao.title = usuario ? `Sair da conta ${usuario.email}` : "Sair";
+
+  const rotulo = document.createElement("span");
+  rotulo.className = "sidebar__texto";
+  rotulo.textContent = "Sair";
+
+  botao.append(criarSvg(SAIR_SVG, "sidebar__icone"), rotulo);
+  botao.addEventListener("click", () => AUTH.sair());
+  sidebar.append(botao);
+}
+
 aplicarEstadoSidebar(sidebarEstaRecolhida());
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -115,4 +135,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   adicionarIcones(nav);
   criarBotaoRecolher(sidebar);
+  criarBotaoSair(sidebar);
 });

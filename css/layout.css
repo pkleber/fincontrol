@@ -150,8 +150,53 @@
   transition: transform var(--duracao) var(--curva);
 }
 
+/* ---------- Botão Sair (inserido pelo sidebar.js) ---------- */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar__sair {
+  margin-top: auto; /* empurra para o pé da sidebar */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: var(--esp-1) var(--esp-2);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--raio);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: pointer;
+  opacity: 0.85;
+  transition:
+    background-color var(--duracao) var(--curva),
+    opacity var(--duracao) var(--curva);
+}
+
+.sidebar__sair:hover {
+  background-color: rgba(255, 255, 255, 0.14);
+  opacity: 1;
+}
+
+.sidebar__sair:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
 /* ---------- Estado recolhido (só no desktop) ---------- */
 @media (min-width: 721px) {
+  /* Sidebar acompanha a rolagem: o "Sair" fica sempre visível no pé */
+  .sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    align-self: start;
+  }
+
   :root[data-sidebar="recolhida"] .app {
     grid-template-columns: var(--sidebar-largura-recolhida) 1fr;
   }
@@ -168,7 +213,8 @@
     display: none; /* sobra só "Fin" */
   }
 
-  :root[data-sidebar="recolhida"] .sidebar__nav a {
+  :root[data-sidebar="recolhida"] .sidebar__nav a,
+  :root[data-sidebar="recolhida"] .sidebar__sair {
     justify-content: center;
     padding-inline: 0;
   }
@@ -231,6 +277,16 @@
   .sidebar__logo {
     margin-bottom: var(--esp-2);
     font-size: 1.2rem;
+  }
+
+  /* Na barra do topo, "Sair" vira um botão compacto no canto */
+  .sidebar__sair {
+    position: absolute;
+    top: var(--esp-2);
+    right: var(--esp-2);
+    width: auto;
+    margin-top: 0;
+    padding: 4px var(--esp-1);
   }
 
   /* Navegação horizontal com rolagem — overflow na prática! */

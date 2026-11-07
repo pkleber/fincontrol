@@ -1,7 +1,7 @@
 /* =========================================================
    tema.js — aplica o tema salvo ANTES da página renderizar
    (por isso é o único script incluído no <head>)
-   Não depende do storage.js: precisa ser autossuficiente.
+   Não depende do storage.js; usa o auth.js (carregado antes) para achar a conta.
    Expõe aplicarTema(tema) para a tela de Configurações.
    ========================================================= */
 
@@ -19,10 +19,15 @@ function aplicarTema(tema) {
   if (mudou) document.dispatchEvent(new CustomEvent("fincontrol:tema", { detail: novo }));
 }
 
-/** Tema salvo nas configurações (padrão: claro) */
+/**
+ * Tema salvo nas configurações da conta logada (padrão: claro).
+ * Sem conta logada (tela de login), segue o sistema operacional.
+ */
 function temaSalvo() {
+  const logado = typeof AUTH !== "undefined" && AUTH.usuarioAtual();
+  if (!logado) return "sistema";
   try {
-    const config = JSON.parse(localStorage.getItem("fincontrol.config")) || {};
+    const config = JSON.parse(localStorage.getItem(AUTH.chaveDados("config"))) || {};
     return config.tema || "claro";
   } catch {
     return "claro";
