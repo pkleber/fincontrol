@@ -1,4 +1,4 @@
-/* Testes do js/auth.js — rodar com: node --test tests/
+/* Testes do js/auth.js — rodar com: node --test tests/auth.test.js
    Carrega o script num contexto isolado com localStorage/sessionStorage
    falsos, simulando uma página do app ou a página de login. */
 const { test } = require("node:test");
