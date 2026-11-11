@@ -58,6 +58,7 @@
       <!-- Receitas x Despesas -->
       <section class="painel" aria-label="Receitas e despesas por mês">
         <h3>Receitas × Despesas por mês</h3>
+        <p class="grafico__dica">Passe o mouse (ou toque) em um mês para ver os valores; clique para ver os detalhes.</p>
         <div class="grafico-container">
           <canvas id="grafico-barras"></canvas>
         </div>
@@ -66,8 +67,40 @@
       <!-- Evolução do saldo -->
       <section class="painel" aria-label="Evolução do saldo">
         <h3>Evolução do saldo no período</h3>
+        <p class="grafico__dica">Passe o mouse (ou toque) em um mês para ver os valores; clique para ver os detalhes.</p>
         <div class="grafico-container">
           <canvas id="grafico-linha"></canvas>
+        </div>
+      </section>
+
+      <!-- Detalhes do mês selecionado no gráfico -->
+      <section class="painel detalhe-mes" id="detalhe-mes" aria-labelledby="detalhe-titulo" hidden>
+        <div class="painel__cabecalho">
+          <h3 id="detalhe-titulo">Detalhes do mês</h3>
+          <div class="formulario__grupo">
+            <label for="detalhe-seletor">Mês</label>
+            <select id="detalhe-seletor"></select>
+          </div>
+        </div>
+
+        <div class="resumo detalhe-mes__resumo" id="detalhe-resumo" aria-live="polite"></div>
+
+        <div class="detalhe-mes__colunas">
+          <div>
+            <h4 class="secao__subtitulo">Despesas por categoria</h4>
+            <ul class="detalhe-categorias" id="detalhe-categorias"></ul>
+          </div>
+          <div>
+            <h4 class="secao__subtitulo">Transações do mês</h4>
+            <div class="tabela-container">
+              <table class="tabela">
+                <thead>
+                  <tr><th>Data</th><th>Descrição</th><th>Categoria</th><th class="tabela__valor">Valor</th></tr>
+                </thead>
+                <tbody id="detalhe-transacoes"></tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -84,6 +117,7 @@
   <script src="../js/utils.js"></script>
   <script src="../js/storage.js"></script>
   <script src="../js/categorias.js"></script>
+  <script src="../js/relatorio-detalhes.js"></script>
   <script src="../js/graficos.js"></script>
   <script src="../js/relatorios.js"></script>
 </body>

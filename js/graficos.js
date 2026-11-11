@@ -189,29 +189,106 @@ function graficoDespesasPorCategoria(canvasId, transacoes) {
   }, redesenhar);
 }
 
-/** Barras: receitas x despesas por mês */
-function graficoReceitasDespesas(canvasId, totais) {
-  const redesenhar = () => graficoReceitasDespesas(canvasId, totais);
+
+/** Formata "2026-07" como "julho de 2026" (título dos tooltips e do painel) */
+function mesPorExtenso(mes) {
+  const [ano, m] = mes.split("-").map(Number);
+  return new Date(ano, m - 1, 1).toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
+}
+
+/** "+R$ 1.200,00" / "−R$ 300,00" — sinal explícito para variações */
+function moedaComSinal(valor) {
+  const sinal = valor > 0 ? "+" : valor < 0 ? "−" : "";
+  return `${sinal}${formatarMoeda(Math.abs(valor))}`;
+}
+
+// Opacidade das barras/pontos que NÃO são o mês selecionado
+const ALFA_FORA_DE_FOCO = 0.35;
+const RAIO_PONTO = 4;
+const RAIO_PONTO_SELECIONADO = 8;
+const DICA_CLIQUE = "Clique para ver os detalhes";
+
+/**
+ * Opções de interação compartilhadas pelos gráficos de relatório.
+ * - tooltip por mês (mode "index"): basta passar o mouse na coluna;
+ * - clique em qualquer ponto da coluna seleciona o mês;
+ * - cursor de "mãozinha" quando há algo clicável.
+ */
+function interacaoPorMes(totais, aoSelecionarMes) {
+  const indiceDoEvento = (evento, grafico) => {
+    const [elemento] = grafico.getElementsAtEventForMode(evento, "index", { intersect: false }, false);
+    return elemento ? elemento.index : null;
+  };
+
+  return {
+    interaction: { mode: "index", intersect: false },
+    onClick: (evento, _elementos, grafico) => {
+      const indice = indiceDoEvento(evento, grafico);
+      if (indice !== null && aoSelecionarMes) aoSelecionarMes(totais[indice].mes);
+    },
+    onHover: (evento, _elementos, grafico) => {
+      const clicavel = aoSelecionarMes && indiceDoEvento(evento, grafico) !== null;
+      grafico.canvas.style.cursor = clicavel ? "pointer" : "default";
+    },
+  };
+}
+
+/** Cor cheia no mês selecionado e esmaecida nos outros (sem seleção: todas cheias) */
+function corComFoco(cor, indiceSelecionado) {
+  return (ctx) => {
+    const selecionado = indiceSelecionado();
+    if (selecionado === null || ctx.dataIndex === selecionado) return cor;
+    return comTransparencia(cor, ALFA_FORA_DE_FOCO);
+  };
+}
+
+/** Linhas extras do tooltip das barras: saldo, economia, maior gasto, nº de transações */
+function rodapeMes(detalhe) {
+  if (!detalhe) return [];
+  const linhas = [`Saldo do mês: ${moedaComSinal(detalhe.saldo)}`];
+  if (detalhe.taxaEconomia !== null) linhas.push(`Economia: ${detalhe.taxaEconomia}% da receita`);
+  const [maior] = detalhe.categoriasDespesa;
+  if (maior) linhas.push(`Maior gasto: ${maior.nome} (${formatarMoeda(maior.valor)})`);
+  linhas.push(`${detalhe.quantidade} transaç${detalhe.quantidade === 1 ? "ão" : "ões"}`);
+  return linhas;
+}
+
+/**
+ * Barras: receitas x despesas por mês.
+ * @param {object[]} totais  saída de totaisPorMes
+ * @param {{ detalhes?: object[], indiceSelecionado?: () => number|null,
+ *           aoSelecionarMes?: (mes: string) => void }} opcoes
+ */
+function graficoReceitasDespesas(canvasId, totais, opcoes = {}) {
+  const { detalhes = [], indiceSelecionado = () => null, aoSelecionarMes } = opcoes;
+  const redesenhar = () => graficoReceitasDespesas(canvasId, totais, opcoes);
 
   return criarGrafico(canvasId, {
     type: "bar",
     data: {
       labels: totais.map((t) => rotuloMes(t.mes)),
       datasets: [
-        { label: "Receitas", data: totais.map((t) => t.receitas), backgroundColor: corTema("--cor-receita") },
-        { label: "Despesas", data: totais.map((t) => t.despesas), backgroundColor: corTema("--cor-despesa") },
+        { label: "Receitas", data: totais.map((t) => t.receitas), backgroundColor: corComFoco(corTema("--cor-receita"), indiceSelecionado), borderRadius: 4 },
+        { label: "Despesas", data: totais.map((t) => t.despesas), backgroundColor: corComFoco(corTema("--cor-despesa"), indiceSelecionado), borderRadius: 4 },
       ],
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      ...interacaoPorMes(totais, aoSelecionarMes),
       scales: {
         y: { ticks: { callback: (v) => moedaCompacta(v) } },
       },
       plugins: {
         tooltip: {
+          footerFont: { size: FONTE_GRAFICO, weight: "400" },
           callbacks: {
+            title: ([item]) => mesPorExtenso(totais[item.dataIndex].mes),
             label: (ctx) => ` ${ctx.dataset.label}: ${formatarMoeda(ctx.parsed.y)}`,
+            footer: ([item]) => [
+              ...rodapeMes(detalhes[item.dataIndex]),
+              ...(aoSelecionarMes ? ["", DICA_CLIQUE] : []),
+            ],
           },
         },
       },
@@ -219,15 +296,20 @@ function graficoReceitasDespesas(canvasId, totais) {
   }, redesenhar);
 }
 
-/** Linha: evolução do saldo acumulado no período */
-function graficoEvolucaoSaldo(canvasId, totais) {
-  let acumulado = 0;
-  const saldos = totais.map((t) => {
-    acumulado += t.receitas - t.despesas;
-    return acumulado;
-  });
+/**
+ * Linha: evolução do saldo acumulado no período.
+ * Tooltip mostra também o resultado do mês e a variação do saldo.
+ */
+function graficoEvolucaoSaldo(canvasId, totais, opcoes = {}) {
+  const { indiceSelecionado = () => null, aoSelecionarMes } = opcoes;
+  const resultados = totais.map((t) => t.receitas - t.despesas);
+  const saldos = resultados.reduce(
+    (lista, resultado) => [...lista, (lista.at(-1) ?? 0) + resultado], [],
+  );
 
-  const redesenhar = () => graficoEvolucaoSaldo(canvasId, totais);
+  const redesenhar = () => graficoEvolucaoSaldo(canvasId, totais, opcoes);
+  const cor = corTema("--cor-investimento");
+  const raio = (ctx) => (ctx.dataIndex === indiceSelecionado() ? RAIO_PONTO_SELECIONADO : RAIO_PONTO);
 
   return criarGrafico(canvasId, {
     type: "line",
@@ -236,8 +318,13 @@ function graficoEvolucaoSaldo(canvasId, totais) {
       datasets: [{
         label: "Saldo acumulado",
         data: saldos,
-        borderColor: corTema("--cor-investimento"),
-        backgroundColor: comTransparencia(corTema("--cor-investimento"), 0.15),
+        borderColor: cor,
+        backgroundColor: comTransparencia(cor, 0.15),
+        pointBackgroundColor: cor,
+        pointBorderColor: corTema("--cor-superficie"),
+        pointBorderWidth: 2,
+        pointRadius: raio,
+        pointHoverRadius: RAIO_PONTO_SELECIONADO,
         fill: true,
         tension: 0.3,
       }],
@@ -245,16 +332,33 @@ function graficoEvolucaoSaldo(canvasId, totais) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      ...interacaoPorMes(totais, aoSelecionarMes),
       scales: {
         y: { ticks: { callback: (v) => moedaCompacta(v) } },
       },
       plugins: {
         tooltip: {
+          footerFont: { size: FONTE_GRAFICO, weight: "400" },
           callbacks: {
-            label: (ctx) => ` Saldo: ${formatarMoeda(ctx.parsed.y)}`,
+            title: ([item]) => mesPorExtenso(totais[item.dataIndex].mes),
+            label: (ctx) => ` Saldo acumulado: ${formatarMoeda(ctx.parsed.y)}`,
+            afterLabel: (ctx) => {
+              const t = totais[ctx.dataIndex];
+              return [
+                ` Resultado do mês: ${moedaComSinal(resultados[ctx.dataIndex])}`,
+                ` (receitas ${formatarMoeda(t.receitas)} − despesas ${formatarMoeda(t.despesas)})`,
+              ];
+            },
+            footer: () => (aoSelecionarMes ? ["", DICA_CLIQUE] : []),
           },
         },
       },
     },
   }, redesenhar);
+}
+
+/** Redesenha só o destaque (mês selecionado), sem repetir a animação de entrada */
+function atualizarDestaqueGrafico(canvasId) {
+  const instancia = instanciasGraficos[canvasId];
+  if (instancia) instancia.grafico.update("none");
 }

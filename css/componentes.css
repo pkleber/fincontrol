@@ -313,7 +313,8 @@ select:user-invalid {
 }
 
 /* Saldo negativo fica em vermelho (aplicado via JS) */
-.card__valor.negativo {
+.card__valor.negativo,
+.card__valor .negativo {
   color: var(--cor-despesa);
 }
 
@@ -387,9 +388,73 @@ select:user-invalid {
   align-items: end;
 }
 
+/* Dica de interação abaixo do título de cada gráfico */
+.grafico__dica {
+  margin: calc(var(--esp-1) * -1) 0 var(--esp-2);
+  font-size: 0.85rem;
+  color: var(--cor-texto-suave);
+}
+
+/* Painel "Detalhes do mês" (clique no gráfico) */
+.detalhe-mes__resumo {
+  margin-bottom: var(--esp-3);
+}
+
+.detalhe-mes__resumo .card {
+  padding: var(--esp-2);
+  box-shadow: none;
+  border: 1px solid var(--cor-borda);
+  border-top-width: 4px;
+}
+
+.detalhe-mes__resumo .card__valor {
+  font-size: 1.3rem;
+}
+
+.detalhe-mes__colunas {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) 2fr;
+  gap: var(--esp-3);
+}
+
+.detalhe-categorias {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+}
+
+.detalhe-categorias__linha {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--esp-1);
+}
+
+.variacao {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: var(--cor-texto-suave);
+}
+
+.detalhe-categorias__linha .variacao {
+  display: inline;
+}
+
+.variacao--boa { color: var(--cor-receita); font-weight: 600; }
+.variacao--ruim { color: var(--cor-despesa); font-weight: 600; }
+
 @media (max-width: 720px) {
   .grafico-container {
     height: 240px;
+  }
+
+  .detalhe-mes__colunas {
+    grid-template-columns: 1fr;
+  }
+
+  /* 4 cards em 2×2, sem um card sozinho na última linha */
+  .detalhe-mes__resumo {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .filtro-periodo {
