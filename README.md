@@ -50,6 +50,10 @@ Não há dependências nem build: basta abrir o `index.html` no navegador (sem l
 
 ### 📑 Relatórios
 - Receitas x despesas por mês e evolução do saldo acumulado
+- Gráficos **interativos**: ao passar o mouse, cada mês mostra saldo, % de economia,
+  maior gasto e nº de transações
+- Clique em um mês (ou escolha no seletor) para abrir os **detalhes do mês**:
+  comparação com o mês anterior, despesas por categoria e lista de transações
 - Filtro por período (padrão: últimos 6 meses, até 10 anos)
 - Exportação em **CSV** compatível com o Excel pt-BR
 
@@ -95,7 +99,7 @@ pelo servidor (a tag `<meta>` não aceita `frame-ancestors`).
 
 ### Testes
 ```bash
-node --test tests/auth.test.js
+node --test tests/*.test.js
 ```
 
 ## Dados e privacidade
@@ -141,6 +145,7 @@ fincontrol/
 │   ├── validacao.js    # confere o backup antes de importar
 │   ├── categorias.js
 │   ├── graficos.js     # Chart.js com as cores do tema
+│   ├── relatorio-detalhes.js # cálculos do detalhamento mensal
 │   └── <página>.js     # um script por tela
 └── docs/               # planejamento do projeto
 ```
